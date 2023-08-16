@@ -87,10 +87,10 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -99,11 +99,11 @@ export default function Login() {
               로그인
             </Button>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   비밀번호 찾기
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Link
                   href=""

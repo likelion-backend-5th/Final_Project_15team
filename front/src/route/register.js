@@ -67,18 +67,18 @@ export default function Register() {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
+                  autoComplete="name"
+                  name="name"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="Name"
+                  label="이름"
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -87,16 +87,36 @@ export default function Register() {
                   name="lastName"
                   autoComplete="family-name"
                 />
+              </Grid> */}
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="id"
+                  label="아이디"
+                  name="id"
+                  autoComplete="id"
+                />
+                <Button
+                  variant="contained"
+                  style={{ float: "right", marginTop: "0.4rem" }}>
+                  중복확인
+                </Button>
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="아이디"
-                  name="email"
-                  autoComplete="email"
+                  id="nickname"
+                  label="닉네임"
+                  name="nickname"
+                  autoComplete="nickname"
                 />
+                <Button
+                  variant="contained"
+                  style={{ float: "right", marginTop: "0.4rem" }}>
+                  중복확인
+                </Button>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -110,13 +130,46 @@ export default function Register() {
                 />
               </Grid>
               <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="checkPassword"
+                  label="비밀번호 확인"
+                  type="checkPassword"
+                  id="checkPassword"
+                  autoComplete="checkPassword"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="phone"
+                  label="전화번호"
+                  type="phone"
+                  id="phone"
+                  autoComplete="phone"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="email"
+                  label="이메일"
+                  type="email"
+                  id="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
                   label="개인정보 제공에 동의합니다."
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               type="submit"
@@ -125,13 +178,13 @@ export default function Register() {
               sx={{ mt: 3, mb: 2 }}>
               회원가입
             </Button>
-            <Grid container justifyContent="flex-end">
+            {/* <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="#" variant="body2">
                   이미 계정이 있다면?
                 </Link>
               </Grid>
-            </Grid>
+            </Grid> */}
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
