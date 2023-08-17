@@ -1,8 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Paper,
@@ -35,6 +36,18 @@ let TopWrap = styled.div`
 
 function Mypage() {
   let navigate = useNavigate();
+  const [follower, setFollower] = useState(11);
+  const [following, setFollowing] = useState(9);
+  const [scrap, setScrap] = useState(13);
+  const [data, setData] = useState([]);
+  // useEffect로 피드 데이터 불러오기
+  useEffect(() => {
+    axios.get("http://localhost:3000/sns").then((res) => {
+      console.log(res.data);
+      setData(res.data);
+    });
+  }, []);
+
   return (
     <>
       <HomeIcon
@@ -58,11 +71,11 @@ function Mypage() {
               <th>스크랩</th>
             </tr>
             <tr>
-              <td>10</td>
+              <td>{follower}</td>
               <td></td>
-              <td>10</td>
+              <td>{following}</td>
               <td></td>
-              <td>10</td>
+              <td>{scrap}</td>
             </tr>
           </FFS>
           <SettingsIcon
@@ -85,59 +98,29 @@ function Mypage() {
                 // maxWidth: 360,
                 bgcolor: "background.paper",
               }}>
-              <ListItem alignItems="flex-start">
-                <ListItemText
-                  primary="Brunch this weekend?"
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        sx={{ display: "inline" }}
-                        component="span"
-                        variant="body2"
-                        color="text.primary">
-                        Ali Connors
-                      </Typography>
-                      {" — I'll be in your neighborhood doing errands this…"}
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start">
-                <ListItemText
-                  primary="Summer BBQ"
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        sx={{ display: "inline" }}
-                        component="span"
-                        variant="body2"
-                        color="text.primary">
-                        to Scott, Alex, Jennifer
-                      </Typography>
-                      {" — Wish I could come, but I'm out of town this…"}
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start">
-                <ListItemText
-                  primary="Oui Oui"
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        sx={{ display: "inline" }}
-                        component="span"
-                        variant="body2"
-                        color="text.primary">
-                        Sandra Adams
-                      </Typography>
-                      {" — Do you have Paris recommendations? Have you ever…"}
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
+              {data.map(function (i, b) {
+                return (
+                  <>
+                    <ListItem alignItems="flex-start">
+                      <ListItemText
+                        primary={i.title}
+                        secondary={
+                          <React.Fragment>
+                            <Typography
+                              sx={{ display: "inline" }}
+                              component="span"
+                              variant="body2"
+                              color="text.primary">
+                              {i.content}
+                            </Typography>
+                          </React.Fragment>
+                        }
+                      />
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                  </>
+                );
+              })}
             </List>
           </Box>
         </Paper>
