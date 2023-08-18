@@ -7,7 +7,7 @@ import Register from "./route/register.js";
 import Mainpage from "./route/mainpage.js";
 import Mypage from "./route/mypage.js";
 import MypageSet from "./route/mypageset.js";
-import Follows from "./route/follows.js";
+import Follower from "./route/follower.js";
 import Scrap from "./route/scrap.js";
 import ScrapView from "./route/scrapview.js";
 import ChatList from "./route/chatlist.js";
@@ -17,6 +17,7 @@ import FeedDetail from "./route/feeddetail.js";
 import CreateFeed from "./route/createfeed.js";
 import UpdateFeed from "./route/updatefeed.js";
 import SearchPage from "./route/searchpage.js";
+import Following from "./route/following.js";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
         <Route path="/register" element={<Register></Register>} />
         <Route path="/mypage" element={<Mypage></Mypage>} />
         <Route path="/mypageset" element={<MypageSet></MypageSet>} />
-        <Route path="/follows" element={<Follows></Follows>} />
+        <Route path="/follower" element={<Follower></Follower>} />
+        <Route path="/following" element={<Following></Following>} />
         <Route path="/scrap" element={<Scrap></Scrap>} />
         <Route path="/scrapview" element={<ScrapView></ScrapView>} />
         <Route path="/chatlist" element={<ChatList></ChatList>} />

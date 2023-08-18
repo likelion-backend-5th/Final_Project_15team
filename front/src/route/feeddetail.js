@@ -1,14 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 
-import * as React from "react";
-import { Button, Menu, MenuItem } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Button, Menu, MenuItem, Box, Paper } from "@mui/material";
 
-import HomeIcon from "@mui/icons-material/Home";
-import SettingsIcon from "@mui/icons-material/Settings";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ContentCutIcon from "@mui/icons-material/ContentCut";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+
+import Appbars from "../components/appbars";
 
 let WholeWrap = styled.div``;
 let TopWrap = styled.div`
@@ -40,37 +40,44 @@ function FeedDetail() {
   };
   return (
     <>
+      <Appbars></Appbars>
       <WholeWrap>
-        <TopWrap>
-          <ProfileImg>a</ProfileImg>
-          이름
-          <MoreHorizIcon
-            id="basic-button"
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}></MoreHorizIcon>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}>
-            <MenuItem onClick={handleClose}>수정하기</MenuItem>
-            <MenuItem onClick={handleClose}>삭제하기</MenuItem>
-          </Menu>
-        </TopWrap>
-        <ContentWrap>
-          <Title>제목:굵은글씨</Title>
-          <Content>내용</Content>
-          <Hashtag>#해시태그</Hashtag>
-        </ContentWrap>
-        <BottomWrap>
-          <ThumbUpOffAltIcon></ThumbUpOffAltIcon>
-          <ContentCutIcon></ContentCutIcon>
-        </BottomWrap>
+        <Box style={{ display: "flex" }}>
+          <Paper
+            elevation={3}
+            style={{ width: "50%", margin: "1.2rem", marginRight: "0.4rem" }}>
+            <TopWrap>
+              <ProfileImg>a</ProfileImg>
+              이름
+              <MoreHorizIcon
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}></MoreHorizIcon>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}>
+                <MenuItem onClick={handleClose}>수정하기</MenuItem>
+                <MenuItem onClick={handleClose}>삭제하기</MenuItem>
+              </Menu>
+            </TopWrap>
+            <ContentWrap>
+              <Title>제목:굵은글씨</Title>
+              <Content>내용</Content>
+              <Hashtag>#해시태그</Hashtag>
+            </ContentWrap>
+            <BottomWrap>
+              <ThumbUpOffAltIcon></ThumbUpOffAltIcon>
+              <ContentCutIcon></ContentCutIcon>
+            </BottomWrap>
+          </Paper>
+        </Box>
       </WholeWrap>
     </>
   );

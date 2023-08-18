@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Paper,
@@ -15,10 +15,9 @@ import {
   Button,
 } from "@mui/material";
 
-import HomeIcon from "@mui/icons-material/Home";
-import SettingsIcon from "@mui/icons-material/Settings";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+
+import Appbars from "../components/appbars";
 
 let WholeWrap = styled.div``;
 let TopWrap = styled.div`
@@ -54,25 +53,32 @@ let ChatDate = styled.div``;
 function ChatPage() {
   return (
     <>
+      <Appbars></Appbars>
       <WholeWrap>
-        <TopWrap>채팅 제목</TopWrap>
-        <ContentWrap>
-          <LeftChat>
-            <ProfileImg></ProfileImg>
-            <ChatContent>안녕안녕</ChatContent>
-            <ChatDate>23.08.08</ChatDate>
-          </LeftChat>
-          <RightChat>
-            <ChatContent>안녕</ChatContent>
-            <ChatDate>23.08.08</ChatDate>
-            <ProfileImg></ProfileImg>
-          </RightChat>
-        </ContentWrap>
-        <BottomWrap>
-          <AddIcon></AddIcon>
-          <TextInput>채팅내용</TextInput>
-          <Button variant="contained">보내기</Button>
-        </BottomWrap>
+        <Box style={{ display: "flex" }}>
+          <Paper
+            elevation={3}
+            style={{ width: "50%", margin: "1.2rem", marginRight: "0.4rem" }}>
+            <TopWrap>채팅 제목</TopWrap>
+            <ContentWrap>
+              <LeftChat>
+                <ProfileImg></ProfileImg>
+                <ChatContent>안녕안녕</ChatContent>
+                <ChatDate>23.08.08</ChatDate>
+              </LeftChat>
+              <RightChat>
+                <ChatContent>안녕</ChatContent>
+                <ChatDate>23.08.08</ChatDate>
+                <ProfileImg></ProfileImg>
+              </RightChat>
+            </ContentWrap>
+            <BottomWrap>
+              <AddIcon></AddIcon>
+              <TextInput>채팅내용</TextInput>
+              <Button variant="contained">보내기</Button>
+            </BottomWrap>
+          </Paper>
+        </Box>
       </WholeWrap>
     </>
   );

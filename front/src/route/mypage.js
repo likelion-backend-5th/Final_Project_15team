@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import Appbars from "../components/appbars";
+
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -12,9 +14,9 @@ import {
   ListItemText,
   Divider,
   Typography,
+  IconButton,
 } from "@mui/material";
 
-import HomeIcon from "@mui/icons-material/Home";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 let WholeWrap = styled.div`
@@ -50,39 +52,58 @@ function Mypage() {
 
   return (
     <>
-      <HomeIcon
-        style={{
-          color: "white",
-          fontSize: "2.8rem",
-          background: "blue",
-          margin: "0.8rem",
-          padding: "0.4rem",
-          borderRadius: "0.4rem",
-        }}></HomeIcon>
+      <Appbars />
       <WholeWrap>
         <TopWrap>
           <ProfileImg>프사</ProfileImg>
           <FFS>
-            <tr>
-              <th>팔로워</th>
+            <tr style={{ fontSize: "1.6rem", textAlign: "center" }}>
+              <th>
+                <IconButton
+                  onClick={() => {
+                    navigate("/follower");
+                  }}>
+                  팔로워
+                </IconButton>
+              </th>
               <th>|</th>
-              <th>팔로잉</th>
+              <th>
+                <IconButton
+                  onClick={() => {
+                    navigate("/following");
+                  }}>
+                  팔로잉
+                </IconButton>
+              </th>
               <th>|</th>
-              <th>스크랩</th>
+              <th>
+                <IconButton
+                  onClick={() => {
+                    navigate("/scrap");
+                  }}>
+                  스크랩
+                </IconButton>
+              </th>
             </tr>
-            <tr>
+            <tr style={{ fontSize: "1.6rem", textAlign: "center" }}>
               <td>{follower}</td>
-              <td></td>
+              <td>|</td>
               <td>{following}</td>
-              <td></td>
+              <td>|</td>
               <td>{scrap}</td>
             </tr>
           </FFS>
-          <SettingsIcon
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
             onClick={() => {
               navigate("/mypageset");
             }}
-            style={{ flex: "1", fontSize: "2rem" }}></SettingsIcon>
+            color="inherit">
+            <SettingsIcon></SettingsIcon>
+          </IconButton>
         </TopWrap>
         <Paper elevation={3} style={{ padding: "0.8rem", margin: "0.8rem" }}>
           <Box
@@ -102,20 +123,7 @@ function Mypage() {
                 return (
                   <>
                     <ListItem alignItems="flex-start">
-                      <ListItemText
-                        primary={i.title}
-                        secondary={
-                          <React.Fragment>
-                            <Typography
-                              sx={{ display: "inline" }}
-                              component="span"
-                              variant="body2"
-                              color="text.primary">
-                              {i.content}
-                            </Typography>
-                          </React.Fragment>
-                        }
-                      />
+                      <ListItemText primary={i.title} />
                     </ListItem>
                     <Divider variant="inset" component="li" />
                   </>

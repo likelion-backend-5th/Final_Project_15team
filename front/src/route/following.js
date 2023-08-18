@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import axios from "axios";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Paper,
@@ -23,12 +23,15 @@ let Title = styled.div`
   padding: 1.2rem;
 `;
 
-function Scrap() {
-  const [data, setData] = useState([]);
+function Following() {
+  let [follow, setFollow] = useState([]);
+  let [follower, setFollower] = useState([]);
+
   useEffect(() => {
     axios.get("http://localhost:3000/sns").then((res) => {
       console.log(res.data);
-      setData(res.data);
+      setFollow(res.data);
+      setFollower(res.data);
     });
   }, []);
   return (
@@ -37,15 +40,21 @@ function Scrap() {
       <Box style={{ display: "flex" }}>
         <Paper
           elevation={3}
-          style={{ width: "50%", margin: "1.2rem", marginRight: "0.4rem" }}>
-          <Title>스크랩</Title>
+          style={{ width: "50%", margin: "1rem", marginLeft: "0.4rem" }}>
+          <Title>팔로잉</Title>
           <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-            {data.map(function (i, b) {
+            {follower.map(function (i, b) {
               return (
                 <>
                   <ListItem alignItems="flex-start">
-                    <ListItemText primary={i.title} />
+                    <ListItemAvatar>
+                      <Avatar
+                        alt="Remy Sharp"
+                        src="/static/images/avatar/1.jpg"
+                      />
+                    </ListItemAvatar>
+                    <ListItemText primary={i.nickname} />
                   </ListItem>
                   <Divider variant="inset" component="li" />
                 </>
@@ -57,5 +66,4 @@ function Scrap() {
     </>
   );
 }
-
-export default Scrap;
+export default Following;

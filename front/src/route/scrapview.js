@@ -1,10 +1,23 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 
-import HomeIcon from "@mui/icons-material/Home";
-import SettingsIcon from "@mui/icons-material/Settings";
+import {
+  Box,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+  Divider,
+  Typography,
+} from "@mui/material";
+
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ContentCutIcon from "@mui/icons-material/ContentCut";
+
+import Appbars from "../components/appbars";
 
 let WholeWrap = styled.div``;
 let TopWrap = styled.div`
@@ -28,20 +41,27 @@ let Hashtag = styled.div``;
 function ScrapView() {
   return (
     <>
+      <Appbars></Appbars>
       <WholeWrap>
-        <TopWrap>
-          <ProfileImg>a</ProfileImg>
-          이름
-        </TopWrap>
-        <ContentWrap>
-          <Title>제목:굵은글씨</Title>
-          <Content>내용</Content>
-          <Hashtag>#해시태그</Hashtag>
-        </ContentWrap>
-        <BottomWrap>
-          <ThumbUpOffAltIcon></ThumbUpOffAltIcon>
-          <ContentCutIcon></ContentCutIcon>
-        </BottomWrap>
+        <Box style={{ display: "flex" }}>
+          <Paper
+            elevation={3}
+            style={{ width: "50%", margin: "1.2rem", marginRight: "0.4rem" }}>
+            <TopWrap>
+              <ProfileImg>a</ProfileImg>
+              이름
+            </TopWrap>
+            <ContentWrap>
+              <Title>제목:굵은글씨</Title>
+              <Content>내용</Content>
+              <Hashtag>#해시태그</Hashtag>
+            </ContentWrap>
+            <BottomWrap>
+              <ThumbUpOffAltIcon></ThumbUpOffAltIcon>
+              <ContentCutIcon></ContentCutIcon>
+            </BottomWrap>
+          </Paper>
+        </Box>
       </WholeWrap>
     </>
   );
