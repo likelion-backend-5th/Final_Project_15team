@@ -1,8 +1,11 @@
 package com.example.Final_Project_mutso.service;
 
 import com.example.Final_Project_mutso.dto.YoutubeVideoDto;
+import com.example.Final_Project_mutso.entity.MusicEntity;
+import com.example.Final_Project_mutso.entity.MusicPlayList;
+import com.example.Final_Project_mutso.repository.MusicRepository;
+import com.example.Final_Project_mutso.repository.PlayListRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequest;
@@ -13,9 +16,11 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.*;
+import com.google.api.services.youtube.model.ChannelContentDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.*;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +37,9 @@ public class YoutubeVideoService {
     private static final String YOUTUBE_APIKEY = "AIzaSyAj95x7jyV6YJCg1owyMqMoRTN-PHe15-E";
 
     private static YouTube youtube;
+    private static List<MusicEntity> playList;
+    private final MusicRepository musicRepository;
+    private final PlayListRepository playListRepository;
 
     static {
         youtube = new YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpRequestInitializer() {
@@ -39,9 +47,10 @@ public class YoutubeVideoService {
             }
         }).setApplicationName("youtube-cmdline-search-sample").build();
     }
-    public static List<YoutubeVideoDto> search(String searchQuery, int maxSearch){
+    public List<YoutubeVideoDto> search(String searchQuery, int maxSearch){
         log.info("Starting Youtube Search... " + searchQuery);
         List<YoutubeVideoDto> rvalue = new ArrayList<YoutubeVideoDto>();
+        playList = new ArrayList<>();
 
         try{
             if(youtube != null){
@@ -63,11 +72,31 @@ public class YoutubeVideoService {
 
                 if(searchResultList != null){
                     for(SearchResult searches : searchResultList){
-                        YoutubeVideoDto dto = new YoutubeVideoDto();
-                        dto.setTitle(searches.getSnippet().getTitle());
-                        dto.setImageUrlPath(searches.getSnippet().getThumbnails().getDefault().getUrl());
-                        dto.setVideoId(GOOGLE_YOUTUBE_URL + searches.getId().getVideoId());
-                        rvalue.add(dto);
+                        MusicEntity entity = new MusicEntity();
+                        entity.setMusicName(searches.getSnippet().getTitle());
+                        entity.setImageUrl(searches.getSnippet().getThumbnails().getDefault().getUrl());
+                        entity.setMusicId(GOOGLE_YOUTUBE_URL + searches.getId().getVideoId());
+                        entity.setArtist(searches.getSnippet().getChannelTitle());
+
+                        VideoListResponse videoListResponse = youtube.videos().list("contentDetails")
+                                        .setKey(apiKey).setId(searches.getId().getVideoId()).execute();
+                        List<Video> videoList = videoListResponse.getItems();
+                        if (!videoList.isEmpty()) {
+                            String duration = videoList.get(0).getContentDetails().getDuration();
+                            Duration videoDuration = Duration.parse(duration);
+
+                            long minutes = videoDuration.toMinutes();
+                            long seconds = videoDuration.minusMinutes(minutes).getSeconds();
+
+                            String formattedDuration = String.format("%d:%02d", minutes, seconds);
+
+                            entity.setMusicTime(formattedDuration);
+
+                        }
+                        musicRepository.save(entity);
+                        playList.add(entity);
+
+                        rvalue.add(YoutubeVideoDto.fromEntity(entity));
                         log.info("title : " + searches.getSnippet().getTitle());
                     }
                 }
@@ -82,6 +111,17 @@ public class YoutubeVideoService {
             t.printStackTrace();
         }
         return rvalue;
+
+    }
+
+    public MusicPlayList addPlayList(int musicId) {
+        MusicPlayList musicPlayList = new MusicPlayList();
+        musicPlayList.getPlayList().add(playList.get(2));
+        musicPlayList.getPlayList().add(playList.get(1));
+        musicPlayList.getPlayList().add(playList.get(3));
+
+        playListRepository.save(musicPlayList);
+        return musicPlayList;
 
     }
 }

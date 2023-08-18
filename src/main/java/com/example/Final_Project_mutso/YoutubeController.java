@@ -1,16 +1,13 @@
 package com.example.Final_Project_mutso;
 
 import com.example.Final_Project_mutso.dto.YoutubeVideoDto;
+import com.example.Final_Project_mutso.entity.MusicPlayList;
 import com.example.Final_Project_mutso.service.YoutubeVideoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +28,13 @@ public class YoutubeController {
         String result = new ObjectMapper().writeValueAsString(searchList);
         System.out.println(result);
         return result;
+    }
+
+    @GetMapping("/search/{musicId}/addplaylist")
+    public MusicPlayList addPlayList(
+            @PathVariable(value = "musicId") int musicId
+    ){
+        return service.addPlayList(musicId);
     }
 
 }
