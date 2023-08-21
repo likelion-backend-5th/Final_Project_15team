@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>feed</title>
+</head>
+<body>
+<div class="body" th:unless="${feedList.isEmpty()}"
+     th:each="feed: ${feedList}">
+    <div class="num">[[${feed.id}]]</div>
+    <div>[[${feed.user}]]</div>
+    <div>[[${feed.title}]]</div>
+    <div>[[${feed.content}]]</div>
+    <hr>
+</div>
+<a th:href="@{/feed/addView}">등록</a>
+</body>
+</html>
