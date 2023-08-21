@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
+import axios from "axios";
 
 import React, { useState, useEffect } from "react";
 import {
@@ -51,6 +52,13 @@ let ChatContent = styled.div``;
 let ChatDate = styled.div``;
 
 function ChatPage() {
+  const [chat, setChat] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:3000/sns").then((res) => {
+      console.log(res.data);
+      setChat(res.data);
+    });
+  }, []);
   return (
     <>
       <Appbars></Appbars>
@@ -58,19 +66,30 @@ function ChatPage() {
         <Box style={{ display: "flex" }}>
           <Paper
             elevation={3}
-            style={{ width: "50%", margin: "1.2rem", marginRight: "0.4rem" }}>
+            style={{
+              width: "50%",
+              margin: "1.2rem",
+              marginRight: "0.4rem",
+              padding: "1.2rem",
+            }}>
             <TopWrap>채팅 제목</TopWrap>
             <ContentWrap>
-              <LeftChat>
-                <ProfileImg></ProfileImg>
-                <ChatContent>안녕안녕</ChatContent>
-                <ChatDate>23.08.08</ChatDate>
-              </LeftChat>
-              <RightChat>
-                <ChatContent>안녕</ChatContent>
-                <ChatDate>23.08.08</ChatDate>
-                <ProfileImg></ProfileImg>
-              </RightChat>
+              {chat.map(function (i, b) {
+                return (
+                  <>
+                    <LeftChat>
+                      <ProfileImg></ProfileImg>
+                      <ChatContent>{i.chat}</ChatContent>
+                      <ChatDate>{i.date}</ChatDate>
+                    </LeftChat>
+                    <RightChat>
+                      <ChatContent>{i.chat}</ChatContent>
+                      <ChatDate>{i.date}</ChatDate>
+                      <ProfileImg></ProfileImg>
+                    </RightChat>
+                  </>
+                );
+              })}
             </ContentWrap>
             <BottomWrap>
               <AddIcon></AddIcon>

@@ -2,7 +2,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 
 import React, { useState, useEffect } from "react";
-import { Button, Menu, MenuItem, Box, Paper } from "@mui/material";
+import {
+  Button,
+  Menu,
+  MenuItem,
+  Box,
+  Paper,
+  Divider,
+  ListItem,
+} from "@mui/material";
 
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ContentCutIcon from "@mui/icons-material/ContentCut";
@@ -13,15 +21,18 @@ import Appbars from "../components/appbars";
 let WholeWrap = styled.div``;
 let TopWrap = styled.div`
   display: flex;
+  padding: 0.4rem;
 `;
 let ContentWrap = styled.div``;
-let BottomWrap = styled.div``;
+let BottomWrap = styled.div`
+  padding: 0.4rem;
+`;
 
 let ProfileImg = styled.div`
   background: grey;
   border-radius: 2rem;
-  width: 4rem;
-  height: 4rem;
+  width: 2rem;
+  height: 2rem;
 `;
 let Title = styled.div`
   font-size: 2rem;
@@ -68,9 +79,37 @@ function FeedDetail() {
               </Menu>
             </TopWrap>
             <ContentWrap>
-              <Title>제목:굵은글씨</Title>
-              <Content>내용</Content>
-              <Hashtag>#해시태그</Hashtag>
+              <Paper
+                elevation={3}
+                style={{
+                  margin: "0.4rem",
+                  padding: "0.8rem",
+                }}>
+                <Title>제목:굵은글씨</Title>
+              </Paper>
+              <Paper
+                elevation={3}
+                style={{
+                  margin: "0.4rem",
+                  padding: "0.8rem",
+                }}>
+                <Content>
+                  동해물과백두산이마르고닳도록하느님이보우하사우리나라만세
+                  동해물과백두산이마르고닳도록하느님이보우하사우리나라만세
+                  동해물과백두산이마르고닳도록하느님이보우하사우리나라만세
+                  동해물과백두산이마르고닳도록하느님이보우하사우리나라만세
+                  동해물과백두산이마르고닳도록하느님이보우하사우리나라만세
+                  동해물과백두산이마르고닳도록하느님이보우하사우리나라만세
+                </Content>
+              </Paper>
+              <Paper
+                elevation={3}
+                style={{
+                  margin: "0.4rem",
+                  padding: "0.8rem",
+                }}>
+                <Hashtag>#해시태그</Hashtag>
+              </Paper>
             </ContentWrap>
             <BottomWrap>
               <ThumbUpOffAltIcon></ThumbUpOffAltIcon>

@@ -34,6 +34,7 @@ let FFS = styled.div`
 `;
 let TopWrap = styled.div`
   display: flex;
+  padding: 1.2rem;
 `;
 
 function Mypage() {
@@ -54,83 +55,85 @@ function Mypage() {
     <>
       <Appbars />
       <WholeWrap>
-        <TopWrap>
-          <ProfileImg>프사</ProfileImg>
-          <FFS>
-            <tr style={{ fontSize: "1.6rem", textAlign: "center" }}>
-              <th>
-                <IconButton
-                  onClick={() => {
-                    navigate("/follower");
-                  }}>
-                  팔로워
-                </IconButton>
-              </th>
-              <th>|</th>
-              <th>
-                <IconButton
-                  onClick={() => {
-                    navigate("/following");
-                  }}>
-                  팔로잉
-                </IconButton>
-              </th>
-              <th>|</th>
-              <th>
-                <IconButton
-                  onClick={() => {
-                    navigate("/scrap");
-                  }}>
-                  스크랩
-                </IconButton>
-              </th>
-            </tr>
-            <tr style={{ fontSize: "1.6rem", textAlign: "center" }}>
-              <td>{follower}</td>
-              <td>|</td>
-              <td>{following}</td>
-              <td>|</td>
-              <td>{scrap}</td>
-            </tr>
-          </FFS>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={() => {
-              navigate("/mypageset");
-            }}
-            color="inherit">
-            <SettingsIcon></SettingsIcon>
-          </IconButton>
-        </TopWrap>
         <Paper elevation={3} style={{ padding: "0.8rem", margin: "0.8rem" }}>
-          <Box
-            sx={{
-              flexWrap: "wrap",
-              "& > :not(style)": {
-                m: 1,
-              },
-            }}>
-            <List
+          <TopWrap>
+            <ProfileImg>프사</ProfileImg>
+            <FFS>
+              <tr style={{ fontSize: "1.6rem", textAlign: "center" }}>
+                <th>
+                  <IconButton
+                    onClick={() => {
+                      navigate("/follower");
+                    }}>
+                    팔로워
+                  </IconButton>
+                </th>
+                <th>|</th>
+                <th>
+                  <IconButton
+                    onClick={() => {
+                      navigate("/following");
+                    }}>
+                    팔로잉
+                  </IconButton>
+                </th>
+                <th>|</th>
+                <th>
+                  <IconButton
+                    onClick={() => {
+                      navigate("/scrap");
+                    }}>
+                    스크랩
+                  </IconButton>
+                </th>
+              </tr>
+              <tr style={{ fontSize: "1.6rem", textAlign: "center" }}>
+                <td>{follower}</td>
+                <td>|</td>
+                <td>{following}</td>
+                <td>|</td>
+                <td>{scrap}</td>
+              </tr>
+            </FFS>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={() => {
+                navigate("/mypageset");
+              }}
+              color="inherit">
+              <SettingsIcon></SettingsIcon>
+            </IconButton>
+          </TopWrap>
+          <Paper elevation={3} style={{ padding: "0.8rem", margin: "0.8rem" }}>
+            <Box
               sx={{
-                width: "100%",
-                // maxWidth: 360,
-                bgcolor: "background.paper",
+                flexWrap: "wrap",
+                "& > :not(style)": {
+                  m: 1,
+                },
               }}>
-              {data.map(function (i, b) {
-                return (
-                  <>
-                    <ListItem alignItems="flex-start">
-                      <ListItemText primary={i.title} />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                  </>
-                );
-              })}
-            </List>
-          </Box>
+              <List
+                sx={{
+                  width: "100%",
+                  // maxWidth: 360,
+                  bgcolor: "background.paper",
+                }}>
+                {data.map(function (i, b) {
+                  return (
+                    <>
+                      <ListItem alignItems="flex-start">
+                        <ListItemText primary={i.title} />
+                      </ListItem>
+                      <Divider variant="inset" component="li" />
+                    </>
+                  );
+                })}
+              </List>
+            </Box>
+          </Paper>
         </Paper>
       </WholeWrap>
     </>

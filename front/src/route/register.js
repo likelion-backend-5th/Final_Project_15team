@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Link,
   Grid,
   Box,
@@ -32,18 +32,59 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function Register() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  let navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [checkpassword, setCheckpassword] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+
+  const OCName = (e) => {
+    setName(e.target.value);
+  };
+  const OCId = (e) => {
+    setId(e.target.value);
+  };
+  const OCPassword = (e) => {
+    setPassword(e.target.value);
+  };
+  const OCCPassword = (e) => {
+    setCheckpassword(e.target.value);
+  };
+  const OCNickname = (e) => {
+    setNickname(e.target.value);
+  };
+  const OCPhone = (e) => {
+    setPhone(e.target.value);
+  };
+  const OCEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let body = {
+      name: name,
+      id: id,
+      password: password,
+      nickname: nickname,
+      phone: phone,
+      email: email,
+    };
+    axios
+      .post("http://localhost:3000/sns", body)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e.res);
+        return "필수 데이터 채웠나요?";
+      });
   };
 
   return (
@@ -78,18 +119,11 @@ export default function Register() {
                   id="Name"
                   label="이름"
                   autoFocus
+                  value={name}
+                  onChange={OCName}
                 />
               </Grid>
-              {/* <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid> */}
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -98,6 +132,8 @@ export default function Register() {
                   label="아이디"
                   name="id"
                   autoComplete="id"
+                  value={id}
+                  onChange={OCId}
                 />
                 <Button
                   variant="contained"
@@ -113,6 +149,8 @@ export default function Register() {
                   label="닉네임"
                   name="nickname"
                   autoComplete="nickname"
+                  value={nickname}
+                  onChange={OCNickname}
                 />
                 <Button
                   variant="contained"
@@ -129,6 +167,8 @@ export default function Register() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  value={password}
+                  onChange={OCPassword}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -140,7 +180,22 @@ export default function Register() {
                   type="checkPassword"
                   id="checkPassword"
                   autoComplete="checkPassword"
+                  value={checkpassword}
+                  onChange={OCCPassword}
                 />
+                {password === "" ? null : (
+                  <>
+                    {password !== checkpassword ? (
+                      <div style={{ color: "red" }}>
+                        비밀번호가 일치하지않습니다.
+                      </div>
+                    ) : (
+                      <div style={{ color: "blue" }}>
+                        비밀번호가 일치합니다.
+                      </div>
+                    )}
+                  </>
+                )}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -151,6 +206,8 @@ export default function Register() {
                   type="phone"
                   id="phone"
                   autoComplete="phone"
+                  value={phone}
+                  onChange={OCPhone}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -162,16 +219,10 @@ export default function Register() {
                   type="email"
                   id="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={OCEmail}
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="개인정보 제공에 동의합니다."
-                />
-              </Grid> */}
             </Grid>
             <Button
               type="submit"
@@ -180,13 +231,6 @@ export default function Register() {
               sx={{ mt: 3, mb: 2 }}>
               회원가입
             </Button>
-            {/* <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  이미 계정이 있다면?
-                </Link>
-              </Grid>
-            </Grid> */}
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

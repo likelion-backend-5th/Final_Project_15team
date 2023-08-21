@@ -66,7 +66,12 @@ function ChatList() {
         <Box style={{ display: "flex" }}>
           <Paper
             elevation={3}
-            style={{ width: "50%", margin: "1.2rem", marginRight: "0.4rem" }}>
+            style={{
+              width: "50%",
+              margin: "1.2rem",
+              marginRight: "0.4rem",
+              padding: " 1.2rem",
+            }}>
             <TopWrap>
               채팅
               <Icons>
