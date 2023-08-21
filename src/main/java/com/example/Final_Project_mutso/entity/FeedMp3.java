@@ -17,9 +17,9 @@ public class FeedMp3 {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-//    @ManyToOne
-//    @JoinColumn(name = "music_id")
-//    private Music music;
+    @ManyToOne
+    @JoinColumn(name = "music_id")
+    private MusicEntity music;
 
     public FeedMp3() {
 

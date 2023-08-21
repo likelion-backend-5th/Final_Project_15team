@@ -14,7 +14,9 @@ public class MusicPlayList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany
     private List<MusicEntity> playList = new ArrayList<>();
