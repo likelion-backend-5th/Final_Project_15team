@@ -3,7 +3,6 @@ package com.example.Final_Project_mutso.service;
 import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.repository.FeedRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -41,12 +40,12 @@ public class FeedService {
     }
 
 
-    public FeedDto readFeed(Long id) {
+    public Feed readFeed(Long id) {
         Optional<Feed> optionalFeed
                 = feedRepository.findById(id);
         if (optionalFeed.isPresent()) {
             Feed feed = optionalFeed.get();
-            return FeedDto.fromEntity(feed);
+            return feed;
         }
         return null;
     }
@@ -64,7 +63,7 @@ public class FeedService {
         }
     }
 
-    public void deleteFeed(Long id, FeedDto feedDto) {
+    public void deleteFeed(Long id) {
         Optional<Feed> optionalFeed = feedRepository.findById(id);
         if (optionalFeed.isPresent()) {
             feedRepository.deleteById(id);
