@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 
 import React, { useState, useEffect } from "react";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Paper } from "@mui/material";
 import axios from "axios";
 
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
@@ -18,12 +18,6 @@ let FeedWrap = styled.div`
   // color: white;
   color: black;
 `;
-let Idwrap = styled.div`
-  padding: 0.5rem;
-  background: white;
-  border-radius: 1rem;
-`;
-
 let LCwrap = styled.div`
   padding: 0.5rem;
 `;
@@ -48,9 +42,7 @@ let Username = styled.div`
   font-size: 1.5rem;
 `;
 let BottomBox = styled.div`
-  border-radius: 1rem;
-  background: white;
-  padding: 0.5rem;
+  
 `;
 let LikeText = styled.div`
   margin-left: 5rem;
@@ -74,7 +66,6 @@ export default function Feedswrap() {
   return (
     <Box
       sx={{
-        width: "50%",
         margin: "auto",
       }}>
       <Stack spacing={2}>
@@ -82,19 +73,31 @@ export default function Feedswrap() {
           return (
             <>
               <FeedWrap>
-                <Idwrap>
+              <Paper
+            elevation={3}
+            style={{
+              borderRadius:"1rem",
+              padding: "0.8rem",
+            }}>
+               
                   <ProfileImg>ㅁ</ProfileImg>
                   <Username>{i.nickname}</Username>
-                </Idwrap>
+                </Paper>
                 <div
                   style={{
                     background: "lightgrey",
-                    width: "37rem",
-                    height: "30rem",
+                    // width: "30rem",
+                    // height: "30rem",
                     margin: "auto",
                     borderRadius: "1rem",
-                  }}></div>
+                  }}>a</div>
                 <BottomBox>
+                <Paper
+            elevation={3}
+            style={{
+              borderRadius:"1rem",
+              padding: "0.8rem",
+            }}>
                   <LCwrap>
                     <Icons>
                       <ThumbUpOffAltIcon />
@@ -105,6 +108,7 @@ export default function Feedswrap() {
                   <Title>{i.title}</Title>
                   <HashTag>해시태그 : #블랙핑크</HashTag>
                   <Contents>{i.content}</Contents>
+                  </Paper>
                 </BottomBox>
               </FeedWrap>
             </>

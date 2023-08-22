@@ -40,10 +40,10 @@ function Following() {
       <Box style={{ display: "flex" }}>
         <Paper
           elevation={3}
-          style={{ width: "50%", margin: "1rem", marginLeft: "0.4rem" }}>
+          style={{ margin:"0.8rem", padding: "0.8rem", width: "100%", maxWidth:"50rem" }}>
           <Title>팔로잉</Title>
           <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+           sx={{ width: "100%", bgcolor: "background.paper" }}>
             {follower.map(function (i, b) {
               return (
                 <>
@@ -56,7 +56,7 @@ function Following() {
                     </ListItemAvatar>
                     <ListItemText primary={i.nickname} />
                   </ListItem>
-                  <Divider variant="inset" component="li" />
+                  <Divider variant="inset" component="li" style={{margin:'0.8rem'}} />
                 </>
               );
             })}

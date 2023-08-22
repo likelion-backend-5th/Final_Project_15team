@@ -41,6 +41,7 @@ let WholeWrap = styled.div``;
 
 let TopWrap = styled.div`
   display: flex;
+  text-align:center;
 `;
 let Icons = styled.div``;
 let ContentWrap = styled.div``;
@@ -73,7 +74,9 @@ function ChatList() {
               padding: " 1.2rem",
             }}>
             <TopWrap>
+              <div style={{margin:"auto", fontSize:"1.6rem"}}>
               채팅
+              </div>
               <Icons>
                 <IconButton>
                   <AddIcon onClick={handleOpen}></AddIcon>

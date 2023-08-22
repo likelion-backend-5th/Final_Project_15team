@@ -18,7 +18,7 @@ import {
 import Appbars from "../components/appbars";
 
 let Title = styled.div`
-  font-size: 2rem;
+  font-size: 1.6rem;
   text-align: center;
   padding: 1.2rem;
 `;
@@ -37,17 +37,17 @@ function Scrap() {
       <Box style={{ display: "flex" }}>
         <Paper
           elevation={3}
-          style={{ width: "50%", margin: "1.2rem", marginRight: "0.4rem" }}>
+          style={{ margin:"0.8rem", padding: "0.8rem", width: "100%", maxWidth:"50rem" }}>
           <Title>스크랩</Title>
           <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+            sx={{ width: "100%", bgcolor: "background.paper" }}>
             {data.map(function (i, b) {
               return (
                 <>
-                  <ListItem alignItems="flex-start">
+                  <ListItem alignItems="flex-start" style={{textAlign:"center"}}>
                     <ListItemText primary={i.title} />
                   </ListItem>
-                  <Divider variant="inset" component="li" />
+                  <Divider variant="inset" component="li" style={{margin:'0.8rem'}} />
                 </>
               );
             })}

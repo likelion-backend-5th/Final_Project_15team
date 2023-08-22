@@ -13,14 +13,13 @@ import {
   ListItem,
   ListItemText,
   Divider,
-  Typography,
   IconButton,
 } from "@mui/material";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 
 let WholeWrap = styled.div`
-  margin: 2rem;
+  margin: 0.8rem;
 `;
 let ProfileImg = styled.div`
   border-radius: 2rem;

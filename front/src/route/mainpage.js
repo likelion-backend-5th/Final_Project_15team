@@ -21,7 +21,7 @@ let MainWrap = styled.div`
 `;
 
 let PlayerBox = styled.div`
-  float: left;
+  width:20rem;
   border-radius: 1rem;
   background: #003a88;
   color: white;
@@ -34,12 +34,13 @@ function Mainpage() {
   return (
     <>
       <Appbars></Appbars>
-      <PlayerBox>
-        <Musiccontroller></Musiccontroller>
-      </PlayerBox>
+     
       <MainWrap>
         <CenterBox>
           <Searchbox></Searchbox>
+          <PlayerBox>
+            <Musiccontroller></Musiccontroller>
+          </PlayerBox>
         </CenterBox>
         <Feedswrap></Feedswrap>
       </MainWrap>

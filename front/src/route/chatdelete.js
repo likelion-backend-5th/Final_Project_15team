@@ -53,7 +53,9 @@ function ChatDelete() {
               padding: " 1.2rem",
             }}>
             <TopWrap>
+            <div style={{margin:"auto", fontSize:"1.6rem"}}>
               채팅
+              </div>
               <Button
                 variant="contained"
                 onClick={() => {
