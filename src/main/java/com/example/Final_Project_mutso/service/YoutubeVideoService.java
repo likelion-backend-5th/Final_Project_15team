@@ -114,14 +114,17 @@ public class YoutubeVideoService {
 
     }
 
-    public MusicPlayList addPlayList(int musicId) {
+    public MusicPlayList addPlayList(String playListName, int musicId) {
         MusicPlayList musicPlayList = new MusicPlayList();
-        musicPlayList.getPlayList().add(playList.get(2));
-        musicPlayList.getPlayList().add(playList.get(1));
-        musicPlayList.getPlayList().add(playList.get(3));
+        musicPlayList.setName(playListName);
 
+        musicPlayList.getPlayList().add(playList.get(musicId - 1));
         playListRepository.save(musicPlayList);
         return musicPlayList;
 
+    }
+
+    public String returnVideoId(int musicId){
+        return playList.get(musicId-1).getMusicId().split("=")[1];
     }
 }

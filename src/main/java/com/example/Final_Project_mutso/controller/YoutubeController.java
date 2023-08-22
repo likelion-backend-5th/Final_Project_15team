@@ -1,4 +1,4 @@
-package com.example.Final_Project_mutso;
+package com.example.Final_Project_mutso.controller;
 
 import com.example.Final_Project_mutso.dto.YoutubeVideoDto;
 import com.example.Final_Project_mutso.entity.MusicPlayList;
@@ -7,11 +7,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Slf4j
+@Controller
 @RestController
 @RequestMapping("/youtube")
 @RequiredArgsConstructor
@@ -30,11 +34,22 @@ public class YoutubeController {
         return result;
     }
 
-    @GetMapping("/search/{musicId}/addplaylist")
+    @GetMapping("/search/{musicId}/{playlistname}/add")
     public MusicPlayList addPlayList(
-            @PathVariable(value = "musicId") int musicId
+            @PathVariable(value = "musicId") int musicId,
+            @PathVariable(value = "playlistname") String playListName
     ){
-        return service.addPlayList(musicId);
+        return service.addPlayList(playListName, musicId);
+    }
+
+    @GetMapping("/search/{musicId}/playmusic")
+    public String playMusic(
+            @PathVariable(value = "musicId") int musicId,
+            Model model
+    ){
+        String videoId = service.returnVideoId(musicId);
+        model.addAttribute("data",videoId);
+        return videoId;
     }
 
 }
