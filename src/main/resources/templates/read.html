@@ -19,14 +19,14 @@
 <!--comment section-->
 <div>
     <form th:action="@{/feed/{id} (id=${feed.id})}" method="post" style="display: inline;">
-        <input type="text" id="content" name="comment" class="form-control" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.." aria-describedby="basic-addon2">
+        <input type="text" id="content" name="content" class="form-control" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.." aria-describedby="basic-addon2">
         <button class="btn btn-primary">등록</button>
+        <a th:href="@{/feed/{feedId}/{commentId} (feedId=${feed.id})}">Delete</a>
     </form>
 </div>
 
 
-<div th:unless="${commentList.isEmpty()}" th:each="comments: ${commentList}">
-    <p>작성자: [[${comments.writer}]]</p>
+<div th:each="comments: ${commentList}"><!--th:unless="${commentList.isEmpty()}"-->
     <p>[[${comments.content}]]</p>
     <hr>
 </div>

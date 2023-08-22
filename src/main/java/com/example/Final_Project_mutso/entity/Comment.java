@@ -17,6 +17,7 @@ public class Comment {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
+//    private Long feedId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
