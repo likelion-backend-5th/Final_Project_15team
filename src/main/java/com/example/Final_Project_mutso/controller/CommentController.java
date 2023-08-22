@@ -3,6 +3,7 @@ package com.example.Final_Project_mutso.controller;
 import com.example.Final_Project_mutso.dto.CommentDto;
 import com.example.Final_Project_mutso.service.CommentService;
 import com.example.Final_Project_mutso.service.FeedService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
@@ -16,14 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @RequestMapping("/feed")
 @Controller
+@RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
     private final FeedService feedService;
-    public CommentController(CommentService commentService, FeedService feedService) {
-        this.commentService = commentService;
-        this.feedService = feedService;
-    }
 
     @PostMapping("/{feedId}") //댓글 등록
     public String createComment(
