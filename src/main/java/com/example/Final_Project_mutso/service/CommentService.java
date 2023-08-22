@@ -4,6 +4,7 @@ package com.example.Final_Project_mutso.service;
 import com.example.Final_Project_mutso.dto.CommentDto;
 import com.example.Final_Project_mutso.dto.ResponseDto;
 import com.example.Final_Project_mutso.entity.Comment;
+import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.repository.CommentRepository;
 import com.example.Final_Project_mutso.repository.FeedRepository;
 import lombok.Builder;
@@ -24,28 +25,24 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Builder
 public class CommentService {
     private final FeedRepository feedRepository;
     private final CommentRepository commentRepository;
 
 
-    public ResponseDto createComment(Long feedId, CommentDto dto) {
+    public void createComment(Long feedId, CommentDto dto) {
         // articleId를 ID로 가진 ArticleEntity 가 존재 하는지?
         if (!feedRepository.existsById(feedId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);  // 자유롭게 상황대처
 
-        Comment newComment = Comment.builder()
-                .user(dto.getUser())
-                .content(dto.getContent())
-                .feed(dto.getFeed())
-                .build();
+        Optional<Feed> optionalFeed
+                = feedRepository.findById(feedId);
+        Feed feed = optionalFeed.get();
+        Comment comment = new Comment();
+        comment.setFeed(feed);
+        comment.setContent(dto.getContent());
+        commentRepository.save(comment);
 
-        commentRepository.save(newComment);
-
-        ResponseDto response = new ResponseDto();
-        response.setMessage("댓글이 등록되었습니다.");
-        return response;
     }
 
     public Page<CommentDto> readCommentPaged(

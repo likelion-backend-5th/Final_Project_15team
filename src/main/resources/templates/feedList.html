@@ -9,7 +9,7 @@
      th:each="feed: ${feedList}">
     <div class="num">[[${feed.id}]]</div>
     <div>[[${feed.user}]]</div>
-    <div>[[${feed.title}]]</div>
+    <div class="title"><a th:href="@{/feed/{id}(id=${feed.id})}">[[${feed.title}]]</a></div>
     <div>[[${feed.content}]]</div>
     <hr>
 </div>
