@@ -61,23 +61,50 @@ public class FeedController {
         return "read";
     }
 
-
-
-    @PutMapping("/{feedId}/update") // 정보 수정
-    public void update(
+    @GetMapping("/{feedId}/updateView") // 정보 수정
+    public String updateView(
             @PathVariable("feedId") Long feedId,  // URL의 ID
-            @RequestBody FeedDto feedDto  // HTTP Request Body
+            Model model
     ) {
-        feedService.updateFeed(feedId, feedDto);
+        model.addAttribute(
+                "feed",
+                feedService.readFeed(feedId)
+        );
+        return "update";
     }
 
-
-    @DeleteMapping("/{feedId}/delete")//삭제
-    public void delete(
-            @PathVariable("feedId") Long feedId,
-            @RequestBody FeedDto dto
+    @PostMapping("/{feedId}/update") // 정보 수정
+    public String update(
+            @PathVariable("feedId") Long feedId,  // URL의 ID
+            FeedDto feedDto,  // HTTP Request Body
+            Model model
     ) {
-        feedService.deleteFeed(feedId, dto);
+        model.addAttribute(
+                "feed",
+                feedService.readFeed(feedId)
+        );
+        feedService.updateFeed(feedId, feedDto);
+        return String.format("redirect:/feed/%s", feedId);
+    }
+
+    @GetMapping("/{feedId}/deleteView") // 정보 수정
+    public String deketeView(
+            @PathVariable("feedId") Long feedId,  // URL의 ID
+            Model model
+    ) {
+        model.addAttribute(
+                "feed",
+                feedService.readFeed(feedId)
+        );
+        return "delete";
+    }
+
+    @PostMapping("/{feedId}/delete")//삭제
+    public String delete(
+            @PathVariable("feedId") Long feedId
+    ) {
+        feedService.deleteFeed(feedId);
+        return "redirect:/feed";
     }
 
 

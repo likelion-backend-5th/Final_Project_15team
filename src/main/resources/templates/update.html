@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+</head>
+<body>
+<h1>Update Feed</h1>
+<form th:action="@{/feed/{id}/update (id=${feed.id})}" method="post">
+    <!--  사용자가 제공할 데이터에 알맞은 input과 label을 만든다.  -->
+    <label for="title-input">
+        Title: <input id="title-input" name="title" th:value="${feed.title}">
+    </label>
+    <br>
+    <label for="content-input">
+        Content: <input id="content-input" name="content" th:value="${feed.content}">
+    </label>
+    <br>
+    <!--  데이터 제출 버튼  -->
+    <input type="submit">
+</form>
+<!--  <a href="/home">Back</a>-->
+<a th:href="@{/feed/{id} (id=${feed.id})}">Back</a>
+
+</body>
+</html>
