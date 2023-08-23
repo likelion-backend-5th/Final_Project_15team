@@ -150,10 +150,10 @@ public class UserController {
         return "redirect:/users/login";
     }
 
-    @PostMapping("/my-page")
-    public String myPagePost() {
-        return null;
-    }
+//    @PostMapping("/my-page")
+//    public String myPagePost() {
+//        return null;
+//    }
 
     // 20230823
 //    @PostMapping("/follow/{id}")
