@@ -15,12 +15,16 @@ import java.util.Collection;
 public class CustomUserDetails implements UserDetails {
     @Getter
     private Long id;
+
+    private String name;
     private String username;
+    private String nickname;
     private String password;
+    private String phonenumber;
     @Getter
     private String email;
     @Getter
-    private String image;
+    private String imageurl;
 
 
     @Override
@@ -59,22 +63,28 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public static CustomUserDetails
-    fromEntity(UserEntity entity) {
+    fromEntity(User entity) {
         CustomUserDetails details = new CustomUserDetails();
         details.id = entity.getId();
+        details.name = entity.getName();
         details.username = entity.getUsername();
+        details.nickname = entity.getNickname();
         details.password = entity.getPassword();
+        details.phonenumber = entity.getPhonenumber();
         details.email = entity.getEmail();
-        details.image = entity.getImage();
+        details.imageurl = entity.getImageurl();
         return details;
     }
 
-    public UserEntity newEntity() {
-        UserEntity entity = new UserEntity();
+    public User newEntity() {
+        User entity = new User();
+        entity.setName(name);
         entity.setUsername(username);
+        entity.setNickname(nickname);
         entity.setPassword(password);
+        entity.setPhonenumber(phonenumber);
         entity.setEmail(email);
-        entity.setImage(image);
+        entity.setImageurl(imageurl);
         return entity;
     }
 
@@ -82,10 +92,13 @@ public class CustomUserDetails implements UserDetails {
     public String toString() {
         return "CustomUserDetails{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", username='" + username + '\'' +
+                ", nickname='" + nickname + '\'' +
                 ", password='[PROTECTED]'" +
+                ", phonenumber='" + phonenumber + '\'' +
                 ", email='" + email + '\'' +
-                ", image='" + image + '\'' +
+                ", imageurl='" + imageurl + '\'' +
                 '}';
     }
 

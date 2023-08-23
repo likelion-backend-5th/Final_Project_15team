@@ -27,7 +27,8 @@ public class WebSecurityConfig {
                         authHttp -> authHttp
                                 .requestMatchers(
                                         "/users/login",
-                                        "/users/register"
+                                        "/users/register",
+                                        "/**"
                                 )
                                 .permitAll()
                                 .anyRequest()

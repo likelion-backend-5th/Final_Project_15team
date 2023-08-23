@@ -1,7 +1,7 @@
 package com.example.Final_Project_mutso.service;
 
 import com.example.Final_Project_mutso.entity.CustomUserDetails;
-import com.example.Final_Project_mutso.entity.UserEntity;
+import com.example.Final_Project_mutso.entity.User;
 import com.example.Final_Project_mutso.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class JpaUserDetailsManager implements UserDetailsManager {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserEntity> optionalUser
+        Optional<User> optionalUser
                 = userRepository.findByUsername(username);
         if (optionalUser.isEmpty())
             throw new UsernameNotFoundException(username);
@@ -58,7 +58,18 @@ public class JpaUserDetailsManager implements UserDetailsManager {
 
     @Override
     public void updateUser(UserDetails user) {
-        throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
+//        throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
+        if (!this.userExists(user.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        try {
+            CustomUserDetails customUserDetails = (CustomUserDetails) user;
+            User userEntity = customUserDetails.newEntity(); // 가정: UserDetails를 UserEntity로 변환하는 메서드
+            this.userRepository.save(userEntity);
+        } catch (ClassCastException e) {
+            log.error("failed to cast to {}", CustomUserDetails.class);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
