@@ -77,7 +77,7 @@ export default function Register() {
       email: email,
     };
     axios
-      .post("http://localhost:3000/sns", body)
+      .post("http://localhost:8080/register", body)
       .then((res) => {
         console.log(res.data);
       })

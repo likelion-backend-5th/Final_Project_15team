@@ -26,7 +26,7 @@ let Title = styled.div`
 function Scrap() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:3000/sns").then((res) => {
+    axios.get("http://localhost:8080/sns").then((res) => {
       console.log(res.data);
       setData(res.data);
     });

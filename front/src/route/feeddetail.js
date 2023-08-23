@@ -1,15 +1,16 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import axios from 'axios'
 import {
   Button,
   Menu,
   MenuItem,
   Box,
   Paper,
-  Divider,
-  ListItem,
+  IconButton,
+  Icon
 } from "@mui/material";
 
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
@@ -41,6 +42,18 @@ let Content = styled.div``;
 let Hashtag = styled.div``;
 
 function FeedDetail() {
+  const [data, setData] = useState("");
+  useEffect(()=>{
+    axios.get('http://localhost:8080/')
+  },[])
+
+
+  const deleteFeed = () => {
+   axios.delete("http://localhost:8080/")
+   setAnchorEl(null)
+  }
+
+  let navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -60,12 +73,14 @@ function FeedDetail() {
             <TopWrap>
               <ProfileImg>a</ProfileImg>
               이름
+              <IconButton>
               <MoreHorizIcon
                 id="basic-button"
                 aria-controls={open ? "basic-menu" : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}></MoreHorizIcon>
+
               <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
@@ -74,9 +89,12 @@ function FeedDetail() {
                 MenuListProps={{
                   "aria-labelledby": "basic-button",
                 }}>
-                <MenuItem onClick={handleClose}>수정하기</MenuItem>
-                <MenuItem onClick={handleClose}>삭제하기</MenuItem>
+                <MenuItem onClick={() => {
+                      navigate("/updatefeed");
+                    }}>수정하기</MenuItem>
+                <MenuItem onClick={deleteFeed}>삭제하기</MenuItem>
               </Menu>
+              </IconButton>
             </TopWrap>
             <ContentWrap>
               <Paper

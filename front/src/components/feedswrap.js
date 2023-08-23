@@ -55,10 +55,11 @@ let Contents = styled.div`
 `;
 
 export default function Feedswrap() {
+
   const likes = 10;
   const [data, setData] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:3000/sns").then((res) => {
+    axios.get("http://localhost:8080/feed").then((res) => {
       console.log(res.data);
       setData(res.data);
     });

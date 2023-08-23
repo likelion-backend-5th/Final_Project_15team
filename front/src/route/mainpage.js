@@ -7,6 +7,7 @@ import Appbars from "../components/appbars.js";
 import Searchbox from "../components/searchbox.js";
 import Musiccontroller from "../components/musiccontroller.js";
 import Feedswrap from "../components/feedswrap.js";
+import MusicPlayer from "../components/musicplayer.js";
 
 let CenterBox = styled.div`
   text-align: center;
@@ -21,7 +22,7 @@ let MainWrap = styled.div`
 `;
 
 let PlayerBox = styled.div`
-  width:20rem;
+  // width:20rem;
   border-radius: 1rem;
   background: #003a88;
   color: white;
@@ -40,6 +41,7 @@ function Mainpage() {
           <Searchbox></Searchbox>
           <PlayerBox>
             <Musiccontroller></Musiccontroller>
+            {/* <MusicPlayer></MusicPlayer> */}
           </PlayerBox>
         </CenterBox>
         <Feedswrap></Feedswrap>
