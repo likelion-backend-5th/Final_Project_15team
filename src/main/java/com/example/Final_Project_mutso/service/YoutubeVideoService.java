@@ -3,9 +3,14 @@ package com.example.Final_Project_mutso.service;
 import com.example.Final_Project_mutso.dto.YoutubeVideoDto;
 import com.example.Final_Project_mutso.entity.MusicEntity;
 import com.example.Final_Project_mutso.entity.MusicPlayList;
+import com.example.Final_Project_mutso.entity.User;
+import com.example.Final_Project_mutso.entity.UserEntity;
 import com.example.Final_Project_mutso.repository.MusicRepository;
 import com.example.Final_Project_mutso.repository.PlayListRepository;
+import com.example.Final_Project_mutso.repository.UserRepository;
+import com.google.api.client.http.OpenCensusUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequest;
@@ -19,10 +24,13 @@ import com.google.api.services.youtube.model.*;
 import com.google.api.services.youtube.model.ChannelContentDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.io.*;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +48,7 @@ public class YoutubeVideoService {
     private static List<MusicEntity> playList;
     private final MusicRepository musicRepository;
     private final PlayListRepository playListRepository;
+    private final UserRepository userRepository;
 
     static {
         youtube = new YouTube.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpRequestInitializer() {
@@ -115,16 +124,45 @@ public class YoutubeVideoService {
     }
 
     public MusicPlayList addPlayList(String playListName, int musicId) {
-        MusicPlayList musicPlayList = new MusicPlayList();
-        musicPlayList.setName(playListName);
+        Optional<UserEntity> optionalUser = userRepository.findByUsername("test");
+        if(optionalUser.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
 
-        musicPlayList.getPlayList().add(playList.get(musicId - 1));
-        playListRepository.save(musicPlayList);
-        return musicPlayList;
+        Optional<MusicPlayList> optionalMusicPlayList = playListRepository.findByName(playListName);
+        if (optionalMusicPlayList.isEmpty()) {
+            MusicPlayList musicPlayList = new MusicPlayList();
+            musicPlayList.setName(playListName);
+            musicPlayList.setUser(optionalUser.get());
 
+            musicPlayList.getPlayList().add(playList.get(musicId - 1));
+            playListRepository.save(musicPlayList);
+            return musicPlayList;
+        } else {
+            MusicPlayList musicPlayList = optionalMusicPlayList.get();
+            musicPlayList.getPlayList().add(playList.get(musicId - 1));
+            playListRepository.save(musicPlayList);
+            return musicPlayList;
+        }
     }
 
-    public String returnVideoId(int musicId){
-        return playList.get(musicId-1).getMusicId().split("=")[1];
+    public MusicEntity returnVideo(int musicId){
+
+        return playList.get(musicId-1);
+    }
+
+    public List<String> getPlayList() {
+        List<String> myPlaylist = new ArrayList<>();
+        Optional<UserEntity> testUser = userRepository.findByUsername("test");
+        if(testUser.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        UserEntity user = testUser.get();
+
+
+        for(MusicPlayList list : playListRepository.findByUser(user))
+            myPlaylist.add(list.getName());
+
+        return myPlaylist;
+
     }
 }

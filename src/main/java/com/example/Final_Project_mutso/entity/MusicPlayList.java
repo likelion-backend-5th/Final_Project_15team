@@ -18,7 +18,7 @@ public class MusicPlayList {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 
     @OneToMany
     private List<MusicEntity> playList = new ArrayList<>();
