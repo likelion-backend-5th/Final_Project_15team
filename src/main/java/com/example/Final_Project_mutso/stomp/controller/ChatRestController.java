@@ -1,5 +1,6 @@
-package com.example.Final_Project_mutso.stomp;
+package com.example.Final_Project_mutso.stomp.controller;
 
+import com.example.Final_Project_mutso.stomp.service.ChatService;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,16 +16,20 @@ import java.util.List;
 public class ChatRestController {
     private final ChatService chatService;
 
-    @GetMapping("rooms")
-    public ResponseEntity<List<ChatRoom>> getChatRooms(){
-        return ResponseEntity.ok(chatService.getChatRooms());
-    }
 
+    // 채팅방 생성하기
     @PostMapping("rooms")
     public ResponseEntity<ChatRoom> createRoom(@RequestBody ChatRoom chatRoom){
         return ResponseEntity.ok(chatService.createChatRoom(chatRoom));
     }
 
+    // 채팅방 조회하기
+    @GetMapping("rooms")
+    public ResponseEntity<List<ChatRoom>> getChatRooms(){
+        return ResponseEntity.ok(chatService.getChatRooms());
+    }
+
+    //
     @GetMapping("rooms/{id}/name")
     public ResponseEntity<ChatRoom> getRoomName(@PathVariable("id") Long roomId) {
         return ResponseEntity.ok(chatService.findRoomById(roomId));

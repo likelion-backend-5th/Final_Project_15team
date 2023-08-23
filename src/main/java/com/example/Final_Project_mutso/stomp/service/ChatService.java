@@ -1,4 +1,4 @@
-package com.example.Final_Project_mutso.stomp;
+package com.example.Final_Project_mutso.stomp.service;
 
 import com.example.Final_Project_mutso.stomp.dto.ChatMessage;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoom;
@@ -9,7 +9,6 @@ import com.example.Final_Project_mutso.stomp.jpa.ChatRoomRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,11 +25,12 @@ public class ChatService {
     ) {
         this.chatRoomRepository = chatRoomRepository;
         this.chatMessageRepository = chatMessageRepository;
-        ChatRoomEntity room = new ChatRoomEntity();
-        room.setRoomName("general");
-        this.chatRoomRepository.save(room);
+//        ChatRoomEntity room = new ChatRoomEntity();
+//        room.setRoomName("general");
+//        this.chatRoomRepository.save(room);
     }
 
+    // 채팅방 조회하기
     public List<ChatRoom> getChatRooms() {
         List<ChatRoom> chatRoomList = new ArrayList<>();
         for (ChatRoomEntity chatRoomEntity: chatRoomRepository.findAll())
@@ -38,6 +38,7 @@ public class ChatService {
         return chatRoomList;
     }
 
+    // 채팅방 생성하기
     public ChatRoom createChatRoom(ChatRoom chatRoom) {
         ChatRoomEntity chatRoomEntity = new ChatRoomEntity();
         chatRoomEntity.setRoomName(chatRoom.getRoomName());
@@ -45,6 +46,7 @@ public class ChatService {
         return ChatRoom.fromEntity(chatRoomRepository.save(chatRoomEntity));
     }
 
+    // 채팅방 이름 가져오기
     public ChatRoom findRoomById(Long id) {
         Optional<ChatRoomEntity> optionalChatRoom
                 = chatRoomRepository.findById(id);
