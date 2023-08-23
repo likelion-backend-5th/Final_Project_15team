@@ -34,7 +34,7 @@ function ChatDelete() {
   let [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/sns").then((res) => {
+    axios.get("http://localhost:8080/sns").then((res) => {
       console.log(res.data);
       setData(res.data);
     });
@@ -53,7 +53,9 @@ function ChatDelete() {
               padding: " 1.2rem",
             }}>
             <TopWrap>
+            <div style={{margin:"auto", fontSize:"1.6rem"}}>
               채팅
+              </div>
               <Button
                 variant="contained"
                 onClick={() => {

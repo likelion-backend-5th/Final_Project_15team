@@ -47,7 +47,7 @@ function MypageSet() {
       intro: intro,
     };
     axios
-      .post("http://localhost:3000/sns", body)
+      .post("http://localhost:8080/sns", body)
       .then((res) => {
         console.log(res.data);
       })

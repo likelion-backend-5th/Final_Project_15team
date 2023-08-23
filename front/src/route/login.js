@@ -67,7 +67,7 @@ export default function Login() {
     } else {
       let body = { username: id, password: password };
       axios
-        .post("http://localhost:3000/auth/login", body)
+        .post("http://localhost:8080/login", body)
         .then((res) => {
           console.log(res.data);
           const accessToken = res.data.access_token;

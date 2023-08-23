@@ -54,7 +54,7 @@ let ChatDate = styled.div``;
 function ChatPage() {
   const [chat, setChat] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:3000/sns").then((res) => {
+    axios.get("http://localhost:8080/sns").then((res) => {
       console.log(res.data);
       setChat(res.data);
     });

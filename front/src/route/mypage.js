@@ -13,14 +13,13 @@ import {
   ListItem,
   ListItemText,
   Divider,
-  Typography,
   IconButton,
 } from "@mui/material";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 
 let WholeWrap = styled.div`
-  margin: 2rem;
+  margin: 0.8rem;
 `;
 let ProfileImg = styled.div`
   border-radius: 2rem;
@@ -45,7 +44,7 @@ function Mypage() {
   const [data, setData] = useState([]);
   // useEffect로 피드 데이터 불러오기
   useEffect(() => {
-    axios.get("http://localhost:3000/sns").then((res) => {
+    axios.get("http://localhost:8080/sns").then((res) => {
       console.log(res.data);
       setData(res.data);
     });

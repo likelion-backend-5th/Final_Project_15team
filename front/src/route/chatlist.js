@@ -41,6 +41,7 @@ let WholeWrap = styled.div``;
 
 let TopWrap = styled.div`
   display: flex;
+  text-align:center;
 `;
 let Icons = styled.div``;
 let ContentWrap = styled.div``;
@@ -50,7 +51,7 @@ function ChatList() {
   let [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/sns").then((res) => {
+    axios.get("http://localhost:8080/sns").then((res) => {
       console.log(res.data);
       setData(res.data);
     });
@@ -73,7 +74,9 @@ function ChatList() {
               padding: " 1.2rem",
             }}>
             <TopWrap>
+              <div style={{margin:"auto", fontSize:"1.6rem"}}>
               채팅
+              </div>
               <Icons>
                 <IconButton>
                   <AddIcon onClick={handleOpen}></AddIcon>
