@@ -33,7 +33,7 @@ public class CommentController {
         return String.format("redirect:/feed/%s", feedId);
     }
 
-    @GetMapping("/{feedId}/{commentId}")
+    @PostMapping("/{feedId}/{commentId}")
     public String deleteComment(
             @PathVariable("feedId") Long feedId,
             @PathVariable("commentId") Long commentId
