@@ -17,6 +17,7 @@ public class FeedImage {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
+    private String imageUrl;
     public FeedImage() {
 
     }
