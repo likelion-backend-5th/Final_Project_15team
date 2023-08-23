@@ -1,6 +1,5 @@
 package com.example.Final_Project_mutso.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,11 +17,11 @@ public class Follow {
     @ManyToOne
     @JoinColumn(name="fromUserId")
     //@JsonIgnoreProperties({"images"})
-    private User fromUser;
+    private UserEntity fromUserEntity;
 
     @ManyToOne
     @JoinColumn(name="toUserId")
     //@JsonIgnoreProperties({"images"})
-    private User toUser;
+    private UserEntity toUserEntity;
 
 }

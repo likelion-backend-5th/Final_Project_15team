@@ -14,7 +14,7 @@ public class Role {
     private Long id;
     private String name;
     @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    private List<UserEntity> userEntities;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_authorities")

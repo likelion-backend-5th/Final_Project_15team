@@ -1,8 +1,6 @@
 package com.example.Final_Project_mutso.controller;
 
 import com.example.Final_Project_mutso.entity.CustomUserDetails;
-import com.example.Final_Project_mutso.entity.Follow;
-import com.example.Final_Project_mutso.entity.User;
 import com.example.Final_Project_mutso.jwt.JwtTokenDto;
 import com.example.Final_Project_mutso.jwt.JwtTokenUtils;
 import com.example.Final_Project_mutso.repository.FollowRepository;
@@ -10,16 +8,12 @@ import com.example.Final_Project_mutso.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller

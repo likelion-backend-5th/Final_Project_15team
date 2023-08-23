@@ -63,7 +63,7 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public static CustomUserDetails
-    fromEntity(User entity) {
+    fromEntity(UserEntity entity) {
         CustomUserDetails details = new CustomUserDetails();
         details.id = entity.getId();
         details.name = entity.getName();
@@ -76,8 +76,8 @@ public class CustomUserDetails implements UserDetails {
         return details;
     }
 
-    public User newEntity() {
-        User entity = new User();
+    public UserEntity newEntity() {
+        UserEntity entity = new UserEntity();
         entity.setName(name);
         entity.setUsername(username);
         entity.setNickname(nickname);
