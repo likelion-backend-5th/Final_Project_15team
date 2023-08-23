@@ -67,7 +67,18 @@ public class JpaUserDetailsManager implements UserDetailsManager {
 
     @Override
     public void updateUser(UserDetails user) {
-        throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
+//        throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
+        if (!this.userExists(user.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        try {
+            CustomUserDetails customUserDetails = (CustomUserDetails) user;
+            UserEntity userEntity = customUserDetails.newEntity(); // 가정: UserDetails를 UserEntity로 변환하는 메서드
+            this.userRepository.save(userEntity);
+        } catch (ClassCastException e) {
+            log.error("failed to cast to {}", CustomUserDetails.class);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
