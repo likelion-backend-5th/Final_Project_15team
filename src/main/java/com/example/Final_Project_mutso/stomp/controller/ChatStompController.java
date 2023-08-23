@@ -1,4 +1,4 @@
-package com.example.Final_Project_mutso.stomp;
+package com.example.Final_Project_mutso.stomp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

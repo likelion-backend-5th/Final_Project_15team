@@ -1,6 +1,6 @@
 package com.example.Final_Project_mutso.stomp.socket;
 
-import com.example.Final_Project_mutso.stomp.ChatService;
+import com.example.Final_Project_mutso.stomp.service.ChatService;
 import com.example.Final_Project_mutso.stomp.dto.ChatMessage;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoom;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +25,7 @@ public class WebSocketMapping {
 
     @MessageMapping("/chat")
     public void sendChat(
+            // 메세지의 실제 내용을 보여주는 @payload
             @Payload ChatMessage chatMessage,
             // STOMP over WebSocket은 Header를 포함할 수 있다
             @Headers Map<String, Object> headers,
