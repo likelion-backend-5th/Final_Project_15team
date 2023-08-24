@@ -9,6 +9,15 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 
 export default function Musiccontroller() {
   const [data, setData] = useState([]);
+  const theme = useTheme();
+
+  const [player, setPlayer] = useState(null);
+  const [videoTitle, setVideoTitle] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [totalTime, setTotalTime] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(50);
 
   useEffect(() => {
     axios.get("http://localhost:8080/feed").then((res) => {
@@ -26,17 +35,8 @@ export default function Musiccontroller() {
     return () => {
       delete window.onYouTubeIframeAPIReady;
     };
+    // eslint-disable-next-line
   }, []);
-
-  const theme = useTheme();
-
-  const [player, setPlayer] = useState(null);
-  const [videoTitle, setVideoTitle] = useState("");
-  const [progress, setProgress] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [totalTime, setTotalTime] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(50);
 
   const initializePlayer = () => {
     setPlayer(
@@ -115,7 +115,7 @@ export default function Musiccontroller() {
           display: "flex",
           background: "transparent",
           color: "white",
-          background: "#003a88",
+          backgroundColor: "#003a88",
           borderRadius: "1rem",
           padding: "0.8rem",
           margin: "0.8rem",
