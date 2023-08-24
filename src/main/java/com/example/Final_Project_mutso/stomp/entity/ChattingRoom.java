@@ -16,6 +16,7 @@ public class ChattingRoom {
     private Long id;
     private String roomName;
 
+
     @ManyToMany(mappedBy = "rooms")
     private List<UserEntity> users;
 
