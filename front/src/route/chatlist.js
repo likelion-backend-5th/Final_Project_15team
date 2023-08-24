@@ -41,7 +41,7 @@ let WholeWrap = styled.div``;
 
 let TopWrap = styled.div`
   display: flex;
-  text-align:center;
+  text-align: center;
 `;
 let Icons = styled.div``;
 let ContentWrap = styled.div``;
@@ -51,7 +51,7 @@ function ChatList() {
   let [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/feed").then((res) => {
+    axios.get("http://localhost:8080/chat/rooms").then((res) => {
       console.log(res.data);
       setData(res.data);
     });
@@ -60,6 +60,16 @@ function ChatList() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [roomName, setRoomName] = useState();
+  // const [name, setName] = useState();
+  const createChat = () => {
+    let body = { roomName };
+    axios.post("http://localhost:8080/chat/rooms", body).then((res) => {
+      console.log(res.data);
+    });
+    setOpen(false);
+  };
   return (
     <>
       <Appbars />
@@ -72,11 +82,10 @@ function ChatList() {
               margin: "1.2rem",
               marginRight: "0.4rem",
               padding: " 1.2rem",
-            }}>
+            }}
+          >
             <TopWrap>
-              <div style={{margin:"auto", fontSize:"1.6rem"}}>
-              채팅
-              </div>
+              <div style={{ margin: "auto", fontSize: "1.6rem" }}>채팅</div>
               <Icons>
                 <IconButton>
                   <AddIcon onClick={handleOpen}></AddIcon>
@@ -85,39 +94,50 @@ function ChatList() {
                   open={open}
                   onClose={handleClose}
                   aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description">
+                  aria-describedby="modal-modal-description"
+                >
                   <Box sx={style}>
                     <Typography
                       id="modal-modal-title"
                       variant="h6"
-                      component="h2">
+                      component="h2"
+                    >
                       채팅방 생성
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                       <TextField
                         style={{ margin: "0.4rem" }}
                         id="title"
-                        label="제목"
-                        varient="outlined"></TextField>
-                      <TextField
+                        label="방이름"
+                        varient="outlined"
+                        value={roomName}
+                        onChange={(e) => setRoomName(e.target.value)}
+                      ></TextField>
+                      {/* <TextField
                         style={{ margin: "0.4rem" }}
                         id="count"
-                        label="인원수"
-                        varient="outlined"></TextField>
+                        label="방장"
+                        varient="outlined"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      ></TextField> */}
                       <div style={{ margin: "0.4rem" }}>
                         대표이미지
                         <IconButton>
                           <AddIcon></AddIcon>
                         </IconButton>
                       </div>
-                      <Button variant="contained">생성하기</Button>
+                      <Button variant="contained" onClick={createChat}>
+                        생성하기
+                      </Button>
                     </Typography>
                   </Box>
                 </Modal>
                 <IconButton
                   onClick={() => {
                     navigate("/chatdelete");
-                  }}>
+                  }}
+                >
                   <DeleteOutlineIcon></DeleteOutlineIcon>
                 </IconButton>
               </Icons>
@@ -128,24 +148,34 @@ function ChatList() {
                   width: "100%",
                   maxWidth: 360,
                   bgcolor: "background.paper",
-                }}>
+                }}
+              >
                 {data.map(function (i, b) {
                   return (
                     <>
-                      <ListItem alignItems="flex-start">
-                        <ListItemAvatar>
-                          <Avatar
-                            alt="Remy Sharp"
-                            src="/static/images/avatar/1.jpg"
+                      <Button
+                        value={b}
+                        onClick={(e) => {
+                          navigate("/chat/" + e.target.value);
+                        }}
+                      >
+                        <ListItem alignItems="flex-start">
+                          <ListItemAvatar>
+                            <Avatar
+                              alt="Remy Sharp"
+                              src="/static/images/avatar/1.jpg"
+                            />
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={i.roomName}
+                            secondary={
+                              <React.Fragment>{i.chat}</React.Fragment>
+                            }
                           />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={i.title}
-                          secondary={<React.Fragment>{i.chat}</React.Fragment>}
-                        />
-                        {i.chatcount}
-                      </ListItem>
-                      <Divider variant="inset" component="li" />
+                          {i.chatcount}
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                      </Button>
                     </>
                   );
                 })}
