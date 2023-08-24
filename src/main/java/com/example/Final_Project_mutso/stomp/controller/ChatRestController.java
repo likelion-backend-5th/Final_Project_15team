@@ -13,6 +13,8 @@ import java.util.List;
 @RestController
 @RequestMapping("chat")
 @RequiredArgsConstructor
+// cors 설정
+@CrossOrigin(origins = "*")
 public class ChatRestController {
     private final ChatService chatService;
 

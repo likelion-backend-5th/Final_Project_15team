@@ -20,7 +20,7 @@ public class MusicPlayList {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany
+    @ManyToMany
     private List<MusicEntity> playList = new ArrayList<>();
 
 }
