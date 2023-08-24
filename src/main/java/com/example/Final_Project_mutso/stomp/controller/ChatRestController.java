@@ -1,5 +1,6 @@
 package com.example.Final_Project_mutso.stomp.controller;
 
+import com.example.Final_Project_mutso.stomp.dto.ChatMessage;
 import com.example.Final_Project_mutso.stomp.service.ChatService;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoom;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("chat")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ChatRestController {
     private final ChatService chatService;
 
@@ -34,4 +36,13 @@ public class ChatRestController {
     public ResponseEntity<ChatRoom> getRoomName(@PathVariable("id") Long roomId) {
         return ResponseEntity.ok(chatService.findRoomById(roomId));
     }
+
+//    // 메세지 보내기
+//    @PostMapping("rooms/chat")
+//    public ResponseEntity<ChatMessage> sendMessage(
+//            @PathVariable("id") Long roomId,
+//            @RequestBody ChatMessage dto
+//    ){
+//        return ResponseEntity.ok(chatService.sendMessage(dto, roomId));
+//    }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 // WebSocket과 STOMP 프로토콜을 설정하는 부분
-public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     // STOMP 엔드포인트 설정용 메소드
     // 엔드포인트 등록 시 클라이언트 애플리케이션과 WebSocket 연결을 설정

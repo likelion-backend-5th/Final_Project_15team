@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,11 +16,12 @@ public class ChattingRoom {
     private Long id;
     private String roomName;
 
-    @OneToMany(mappedBy = "chattingRoom")
-    private List<UserChat> userChatList = new ArrayList<>();
+    @ManyToMany(mappedBy = "rooms")
+    private List<UserEntity> users;
 
-    // User에 추가
-//    @OneToMany(mappedBy = "user")
-//    private List<UserChat> userChatList = new ArrayList<>();
+    // user에 추가
+//    @ManyToMany
+//    @JoinTable(name = "user_chattings")
+//    private List<ChattingRoom> rooms = new ArrayList<>();
 
 }

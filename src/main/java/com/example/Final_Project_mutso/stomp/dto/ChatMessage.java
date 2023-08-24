@@ -1,7 +1,6 @@
 package com.example.Final_Project_mutso.stomp.dto;
 
-import com.example.Final_Project_mutso.stomp.jpa.ChatMessageEntity;
-import com.example.Final_Project_mutso.stomp.jpa.ChatMessageEntity;
+import com.example.Final_Project_mutso.stomp.entity.ChatMessageEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

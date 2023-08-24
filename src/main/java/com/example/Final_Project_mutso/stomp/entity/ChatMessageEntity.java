@@ -1,4 +1,4 @@
-package com.example.Final_Project_mutso.stomp.jpa;
+package com.example.Final_Project_mutso.stomp.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -11,6 +11,7 @@ public class ChatMessageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long userId;
     private Long roomId;
     private String sender;
     private String message;

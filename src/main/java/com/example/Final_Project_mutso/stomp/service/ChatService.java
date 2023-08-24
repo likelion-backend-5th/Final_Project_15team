@@ -2,10 +2,10 @@ package com.example.Final_Project_mutso.stomp.service;
 
 import com.example.Final_Project_mutso.stomp.dto.ChatMessage;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoom;
-import com.example.Final_Project_mutso.stomp.jpa.ChatMessageEntity;
-import com.example.Final_Project_mutso.stomp.jpa.ChatMessageRepository;
-import com.example.Final_Project_mutso.stomp.jpa.ChatRoomEntity;
-import com.example.Final_Project_mutso.stomp.jpa.ChatRoomRepository;
+import com.example.Final_Project_mutso.stomp.entity.ChatMessageEntity;
+import com.example.Final_Project_mutso.stomp.entity.ChattingRoom;
+import com.example.Final_Project_mutso.stomp.repository.ChatMessageRepository;
+import com.example.Final_Project_mutso.stomp.repository.ChatRoomRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,32 +33,36 @@ public class ChatService {
     // 채팅방 조회하기
     public List<ChatRoom> getChatRooms() {
         List<ChatRoom> chatRoomList = new ArrayList<>();
-        for (ChatRoomEntity chatRoomEntity: chatRoomRepository.findAll())
+        for (ChattingRoom chatRoomEntity: chatRoomRepository.findAll())
             chatRoomList.add(ChatRoom.fromEntity(chatRoomEntity));
         return chatRoomList;
     }
 
     // 채팅방 생성하기
     public ChatRoom createChatRoom(ChatRoom chatRoom) {
-        ChatRoomEntity chatRoomEntity = new ChatRoomEntity();
-        chatRoomEntity.setRoomName(chatRoom.getRoomName());
+        ChattingRoom chattingRoom = new ChattingRoom();
+        chattingRoom.setRoomName(chatRoom.getRoomName());
 
-        return ChatRoom.fromEntity(chatRoomRepository.save(chatRoomEntity));
+        return ChatRoom.fromEntity(chatRoomRepository.save(chattingRoom));
     }
 
     // 채팅방 이름 가져오기
     public ChatRoom findRoomById(Long id) {
-        Optional<ChatRoomEntity> optionalChatRoom
+        Optional<ChattingRoom> optionalChatRoom
                 = chatRoomRepository.findById(id);
         if (optionalChatRoom.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         return ChatRoom.fromEntity(optionalChatRoom.get());
     }
 
+    // 메세지 보내기
 
+
+    // 메세지 저장하기
     public void saveChatMessage(ChatMessage chatMessage) {
         chatMessageRepository.save(chatMessage.newEntity());
     }
+
 
     public List<ChatMessage> getLast5Messages(Long roomId) {
         List<ChatMessage> chatMessages = new ArrayList<>();
