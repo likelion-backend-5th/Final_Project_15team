@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/feed")
 @RequiredArgsConstructor
+// cors 설정
+@CrossOrigin(origins = "*")
 public class FeedController {
 
     private final FeedService feedService;

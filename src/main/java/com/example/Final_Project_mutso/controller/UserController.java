@@ -20,6 +20,8 @@ import org.springframework.web.server.ResponseStatusException;
 @Controller
 //@RestController
 @RequestMapping("/users")
+// cors 설정
+@CrossOrigin(origins = "*")
 
 public class UserController {
     private final UserRepository userRepository;
