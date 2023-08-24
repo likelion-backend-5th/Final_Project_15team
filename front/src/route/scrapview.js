@@ -6,13 +6,7 @@ import axios from "axios";
 import {
   Box,
   Paper,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Divider,
-  Typography,
+ 
 } from "@mui/material";
 
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
@@ -42,7 +36,7 @@ let Hashtag = styled.div``;
 function ScrapView() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8080/sns").then((res) => {
+    axios.get("http://localhost:8080/feed").then((res) => {
       console.log(res.data);
       setData(res.data[0]);
     });

@@ -12,7 +12,6 @@ import {
   ListItemAvatar,
   Avatar,
   Divider,
-  Typography,
 } from "@mui/material";
 
 import Appbars from "../components/appbars";
@@ -25,13 +24,13 @@ let Title = styled.div`
 
 function Follows() {
   let [follow, setFollow] = useState([]);
-  let [follower, setFollower] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/sns").then((res) => {
+    axios.get(
+      "http://localhost:8080/feed"
+      ).then((res) => {
       console.log(res.data);
       setFollow(res.data);
-      setFollower(res.data);
     });
   }, []);
   return (

@@ -9,10 +9,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemAvatar,
-  Avatar,
   Divider,
-  Typography,
 } from "@mui/material";
 
 import Appbars from "../components/appbars";
@@ -26,7 +23,7 @@ let Title = styled.div`
 function Scrap() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8080/sns").then((res) => {
+    axios.get("http://localhost:8080/feed").then((res) => {
       console.log(res.data);
       setData(res.data);
     });
