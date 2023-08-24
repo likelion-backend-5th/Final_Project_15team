@@ -3,7 +3,7 @@ package com.example.Final_Project_mutso.controller;
 import com.example.Final_Project_mutso.entity.CustomUserDetails;
 import com.example.Final_Project_mutso.jwt.JwtTokenDto;
 import com.example.Final_Project_mutso.jwt.JwtTokenUtils;
-import com.example.Final_Project_mutso.repository.FollowRepository;
+//import com.example.Final_Project_mutso.repository.FollowRepository;
 import com.example.Final_Project_mutso.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserController {
     private final UserRepository userRepository;
 
-    private final FollowRepository followRepository;
+//    private final FollowRepository followRepository;
 
     @GetMapping("/login")
     public String loginForm() {
@@ -57,11 +57,11 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
     public UserController(
-            UserRepository userRepository, FollowRepository followRepository, UserDetailsManager manager,
+            UserRepository userRepository, UserDetailsManager manager,
             JwtTokenUtils jwtTokenUtils, PasswordEncoder passwordEncoder
     ) {
         this.userRepository = userRepository;
-        this.followRepository = followRepository;
+//        this.followRepository = followRepository;
         this.manager = manager;
         this.jwtTokenUtils = jwtTokenUtils;
         this.passwordEncoder = passwordEncoder;
