@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Data
-@SuperBuilder
 
 public class Comment {
     @Id
@@ -19,9 +18,6 @@ public class Comment {
 
 //    private Long feedId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     private String content;
 

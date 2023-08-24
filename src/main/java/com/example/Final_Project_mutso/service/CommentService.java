@@ -80,7 +80,6 @@ public class CommentService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
         comment.setContent(dto.getContent());
-        comment.setUser(dto.getUser());
         CommentDto.fromEntity(commentRepository.save(comment));
         ResponseDto response = new ResponseDto();
         response.setMessage("댓글이 수정되었습니다.");
