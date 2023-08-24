@@ -5,6 +5,7 @@ import com.example.Final_Project_mutso.jwt.JwtTokenDto;
 import com.example.Final_Project_mutso.jwt.JwtTokenUtils;
 import com.example.Final_Project_mutso.repository.FollowRepository;
 import com.example.Final_Project_mutso.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;

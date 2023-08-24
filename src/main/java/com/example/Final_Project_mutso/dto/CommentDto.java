@@ -3,14 +3,14 @@ package com.example.Final_Project_mutso.dto;
 
 import com.example.Final_Project_mutso.entity.Comment;
 import com.example.Final_Project_mutso.entity.Feed;
-import com.example.Final_Project_mutso.entity.User;
+import com.example.Final_Project_mutso.entity.UserEntity;
 import lombok.Data;
 
 @Data
 public class CommentDto {
     private Long id;
     private Feed feed;
-    private User user;
+    private UserEntity user;
     private String content;
 
     public static CommentDto fromEntity(Comment comment){

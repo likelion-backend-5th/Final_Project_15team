@@ -16,7 +16,7 @@ public class Feed {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 
     private String title;
 

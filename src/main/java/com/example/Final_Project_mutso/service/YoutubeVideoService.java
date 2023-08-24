@@ -3,7 +3,6 @@ package com.example.Final_Project_mutso.service;
 import com.example.Final_Project_mutso.dto.YoutubeVideoDto;
 import com.example.Final_Project_mutso.entity.MusicEntity;
 import com.example.Final_Project_mutso.entity.MusicPlayList;
-import com.example.Final_Project_mutso.entity.User;
 import com.example.Final_Project_mutso.entity.UserEntity;
 import com.example.Final_Project_mutso.repository.MusicRepository;
 import com.example.Final_Project_mutso.repository.PlayListRepository;
