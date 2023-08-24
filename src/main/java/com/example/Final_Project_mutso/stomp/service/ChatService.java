@@ -1,7 +1,7 @@
 package com.example.Final_Project_mutso.stomp.service;
 
-import com.example.Final_Project_mutso.stomp.dto.ChatMessage;
-import com.example.Final_Project_mutso.stomp.dto.ChatRoom;
+import com.example.Final_Project_mutso.stomp.dto.ChatMessageDto;
+import com.example.Final_Project_mutso.stomp.dto.ChatRoomDto;
 import com.example.Final_Project_mutso.stomp.jpa.ChatMessageEntity;
 import com.example.Final_Project_mutso.stomp.jpa.ChatMessageRepository;
 import com.example.Final_Project_mutso.stomp.jpa.ChatRoomEntity;
@@ -31,42 +31,42 @@ public class ChatService {
     }
 
     // 채팅방 조회하기
-    public List<ChatRoom> getChatRooms() {
-        List<ChatRoom> chatRoomList = new ArrayList<>();
+    public List<ChatRoomDto> getChatRooms() {
+        List<ChatRoomDto> chatRoomDtoList = new ArrayList<>();
         for (ChatRoomEntity chatRoomEntity: chatRoomRepository.findAll())
-            chatRoomList.add(ChatRoom.fromEntity(chatRoomEntity));
-        return chatRoomList;
+            chatRoomDtoList.add(ChatRoomDto.fromEntity(chatRoomEntity));
+        return chatRoomDtoList;
     }
 
     // 채팅방 생성하기
-    public ChatRoom createChatRoom(ChatRoom chatRoom) {
+    public ChatRoomDto createChatRoom(ChatRoomDto chatRoomDto) {
         ChatRoomEntity chatRoomEntity = new ChatRoomEntity();
-        chatRoomEntity.setRoomName(chatRoom.getRoomName());
+        chatRoomEntity.setRoomName(chatRoomDto.getRoomName());
 
-        return ChatRoom.fromEntity(chatRoomRepository.save(chatRoomEntity));
+        return ChatRoomDto.fromEntity(chatRoomRepository.save(chatRoomEntity));
     }
 
     // 채팅방 이름 가져오기
-    public ChatRoom findRoomById(Long id) {
+    public ChatRoomDto findRoomById(Long id) {
         Optional<ChatRoomEntity> optionalChatRoom
                 = chatRoomRepository.findById(id);
         if (optionalChatRoom.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        return ChatRoom.fromEntity(optionalChatRoom.get());
+        return ChatRoomDto.fromEntity(optionalChatRoom.get());
     }
 
 
-    public void saveChatMessage(ChatMessage chatMessage) {
-        chatMessageRepository.save(chatMessage.newEntity());
+    public void saveChatMessage(ChatMessageDto chatMessageDto) {
+        chatMessageRepository.save(chatMessageDto.newEntity());
     }
 
-    public List<ChatMessage> getLast5Messages(Long roomId) {
-        List<ChatMessage> chatMessages = new ArrayList<>();
+    public List<ChatMessageDto> getLast5Messages(Long roomId) {
+        List<ChatMessageDto> chatMessageDtos = new ArrayList<>();
         List<ChatMessageEntity> chatMessageEntities = chatMessageRepository.findTop5ByRoomIdOrderByIdDesc(roomId);
         Collections.reverse(chatMessageEntities);
         for (ChatMessageEntity messageEntity: chatMessageEntities) {
-            chatMessages.add(ChatMessage.fromEntity(messageEntity));
+            chatMessageDtos.add(ChatMessageDto.fromEntity(messageEntity));
         }
-        return chatMessages;
+        return chatMessageDtos;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.Final_Project_mutso.entity;
 
+import com.example.Final_Project_mutso.stomp.entity.ChattingRoom;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,6 +28,10 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles")
     private List<Role> roles = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "user_chattings")
+    private List<ChattingRoom> rooms = new ArrayList<>();
 
     /*@OneToMany
     private List<Feed> feed;
