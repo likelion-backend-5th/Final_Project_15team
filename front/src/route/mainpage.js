@@ -19,28 +19,15 @@ let MainWrap = styled.div`
   padding: 1rem;
 `;
 
-let PlayerBox = styled.div`
-  // width:20rem;
-  border-radius: 1rem;
-  background: #003a88;
-  color: white;
-  padding: 0.5rem;
-  margin: 1rem;
-  box-shadow: 0.2rem 0.2rem 1rem black;
-`;
-
 function Mainpage() {
   return (
     <>
       <Appbars></Appbars>
-     
+
       <MainWrap>
         <CenterBox>
           <Searchbox></Searchbox>
-          <PlayerBox>
-            <Musiccontroller></Musiccontroller>
-            {/* <MusicPlayer></MusicPlayer> */}
-          </PlayerBox>
+          <Musiccontroller></Musiccontroller>
         </CenterBox>
         <Feedswrap></Feedswrap>
       </MainWrap>
