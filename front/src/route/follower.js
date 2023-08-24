@@ -12,7 +12,6 @@ import {
   ListItemAvatar,
   Avatar,
   Divider,
-  Typography,
 } from "@mui/material";
 
 import Appbars from "../components/appbars";
@@ -25,13 +24,13 @@ let Title = styled.div`
 
 function Follows() {
   let [follow, setFollow] = useState([]);
-  let [follower, setFollower] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/sns").then((res) => {
+    axios.get(
+      "http://localhost:8080/feed"
+      ).then((res) => {
       console.log(res.data);
       setFollow(res.data);
-      setFollower(res.data);
     });
   }, []);
   return (
@@ -40,10 +39,10 @@ function Follows() {
       <Box style={{ display: "flex" }}>
         <Paper
           elevation={3}
-          style={{ width: "50%", margin: "1.2rem", marginRight: "0.4rem" }}>
+          style={{ margin:"0.8rem", padding: "0.8rem", width: "100%", maxWidth:"50rem" }}>
           <Title>팔로워</Title>
           <List
-            sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+            sx={{ width: "100%", bgcolor: "background.paper" }}>
             {follow.map(function (i, b) {
               return (
                 <>
@@ -56,7 +55,7 @@ function Follows() {
                     </ListItemAvatar>
                     <ListItemText primary={i.nickname} />
                   </ListItem>
-                  <Divider variant="inset" component="li" />
+                  <Divider variant="inset" component="li" style={{margin:'0.8rem'}} />
                 </>
               );
             })}

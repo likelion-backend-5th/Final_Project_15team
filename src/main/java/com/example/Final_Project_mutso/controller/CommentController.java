@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/feed")
 @Controller
 @RequiredArgsConstructor
+// cors 설정
+@CrossOrigin(origins = "*")
 public class CommentController {
 
     private final CommentService commentService;

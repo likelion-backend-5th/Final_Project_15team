@@ -21,6 +21,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/youtube")
 @RequiredArgsConstructor
+// cors 설정
+@CrossOrigin(origins = "*")
 public class YoutubeController {
     private final YoutubeVideoService service;
 

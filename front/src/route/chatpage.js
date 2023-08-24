@@ -6,13 +6,7 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   Paper,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Divider,
-  Typography,
+ 
   Button,
 } from "@mui/material";
 
@@ -54,7 +48,7 @@ let ChatDate = styled.div``;
 function ChatPage() {
   const [chat, setChat] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:3000/sns").then((res) => {
+    axios.get("http://localhost:8080/feed").then((res) => {
       console.log(res.data);
       setChat(res.data);
     });
