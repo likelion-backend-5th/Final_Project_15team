@@ -18,7 +18,7 @@ public class UserChat {
     @JoinColumn(name = "room_id")
     private ChattingRoom chattingRoom;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
 }
