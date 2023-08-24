@@ -7,7 +7,6 @@ import {
   CardContent,
   CardMedia,
   IconButton,
-  Typography,
 } from "@mui/material";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -60,11 +59,11 @@ export default function Musiccontroller() {
   // }, []);
 
   const initializePlayer = () => {
-    
     setPlayer(
       new window.YT.Player("player", {
         height: "0",
         width: "0",
+        // videoId: musicId,
         videoId: "JGwWNGJdvx8", //music id, 일단 임의로 지정해둠
         playerVars: {
           rel: 0,
@@ -78,6 +77,7 @@ export default function Musiccontroller() {
           onStateChange: onPlayerStateChange,
         },
       })
+      
     );
   };
 

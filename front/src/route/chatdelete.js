@@ -13,10 +13,12 @@ import {
   ListItemAvatar,
   Avatar,
   Divider,
-  Typography,
   ToggleButton,
-  Button,
+  IconButton,
 } from "@mui/material";
+
+import RefreshIcon from '@mui/icons-material/Refresh';
+import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 
 import Appbars from "../components/appbars";
 
@@ -25,7 +27,7 @@ let WholeWrap = styled.div``;
 let TopWrap = styled.div`
   display: flex;
 `;
-let Icons = styled.div``;
+// let Icons = styled.div``;
 let ContentWrap = styled.div``;
 
 function ChatDelete() {
@@ -34,7 +36,7 @@ function ChatDelete() {
   let [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/sns").then((res) => {
+    axios.get("http://localhost:8080/feed").then((res) => {
       console.log(res.data);
       setData(res.data);
     });
@@ -56,14 +58,14 @@ function ChatDelete() {
             <div style={{margin:"auto", fontSize:"1.6rem"}}>
               채팅
               </div>
-              <Button
-                variant="contained"
-                onClick={() => {
+              <IconButton>
+                <RefreshIcon onClick={() => {
                   navigate("/chatlist");
-                }}>
-                돌아가기
-              </Button>
-              <Button variant="contained">삭제하기</Button>
+                }}/>
+              </IconButton>
+              <IconButton>
+                <RestoreFromTrashIcon/>
+              </IconButton>
             </TopWrap>
             <ContentWrap>
               <List

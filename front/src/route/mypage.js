@@ -38,13 +38,13 @@ let TopWrap = styled.div`
 
 function Mypage() {
   let navigate = useNavigate();
-  const [follower, setFollower] = useState(11);
-  const [following, setFollowing] = useState(9);
-  const [scrap, setScrap] = useState(13);
+  const [follower] = useState(11);
+  const [following] = useState(9);
+  const [scrap] = useState(13);
   const [data, setData] = useState([]);
   // useEffect로 피드 데이터 불러오기
   useEffect(() => {
-    axios.get("http://localhost:8080/sns").then((res) => {
+    axios.get("http://localhost:8080/feed").then((res) => {
       console.log(res.data);
       setData(res.data);
     });

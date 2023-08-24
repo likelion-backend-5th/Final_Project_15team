@@ -1,13 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import Appbars from "../components/appbars.js";
 import Searchbox from "../components/searchbox.js";
 import Musiccontroller from "../components/musiccontroller.js";
 import Feedswrap from "../components/feedswrap.js";
-import MusicPlayer from "../components/musicplayer.js";
 
 let CenterBox = styled.div`
   text-align: center;

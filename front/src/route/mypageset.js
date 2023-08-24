@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Grid, TextField, Box, Paper } from "@mui/material";
 
 import Appbars from "../components/appbars";
@@ -47,7 +47,7 @@ function MypageSet() {
       intro: intro,
     };
     axios
-      .post("http://localhost:8080/sns", body)
+      .post("http://localhost:8080/feed", body)
       .then((res) => {
         console.log(res.data);
       })
@@ -114,7 +114,10 @@ function MypageSet() {
                   <Button
                     variant="contained"
                     style={{ marginTop: "0.4rem" }}
-                    type="submit">
+                    type="submit"
+                    onClick={() => {
+                      navigate("/mypage");
+                    }}>
                     확인/저장
                   </Button>
                 </Paper>
