@@ -1,8 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
+import axios from 'axios'
 
-import React, { useState, useEffect } from "react";
-import { Button, Menu, MenuItem, TextField, Box, Paper } from "@mui/material";
+import React, { useState } from "react";
+import { Button, TextField, Box, Paper } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 
@@ -19,6 +20,28 @@ let ContentWrap = styled.div``;
 let BottomWrap = styled.div``;
 
 function CreateFeed() {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const OCTitle = (e) => {
+    setTitle(e.target.value)
+  }
+  const OCContent = (e) => {
+    setContent(e.target.value)
+  }
+
+  const postFeed = (e)=>{
+    e.preventDefault();
+    let body = {
+      title : title,
+      content : content
+    }
+    axios.post("http://localhost:8080/feed/add",body)
+    .then((res)=>{
+      console.log(res.data);
+    })
+  }
+
   return (
     <>
       <Appbars></Appbars>
@@ -32,7 +55,7 @@ function CreateFeed() {
               padding: "0.8rem",
             }}>
             <TopWrap>
-              피드생성<Button variant="contained">게시하기</Button>
+              피드생성<Button variant="contained" onClick={postFeed}>게시하기</Button>
             </TopWrap>
             <Paper elevation={3} style={{ textAlign: "center" }}>
               <TitleWrap>
@@ -42,6 +65,8 @@ function CreateFeed() {
                   multiline
                   maxRows={4}
                   variant="standard"
+                  value={title}
+                  onChange={OCTitle}
                 />
               </TitleWrap>
               <ContentWrap>
@@ -51,6 +76,8 @@ function CreateFeed() {
                   multiline
                   rows={4}
                   variant="standard"
+                  value = {content}
+                  onChange={OCContent}
                 />
               </ContentWrap>
               <BottomWrap>

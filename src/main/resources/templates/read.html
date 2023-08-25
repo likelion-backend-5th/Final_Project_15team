@@ -8,6 +8,10 @@
 <body>
 
 <h1>[[${feed.id}]]. [[${feed.title}]]</h1>
+[[${file}]]
+<p><img src="${file}"></p>
+<p><img src="C:\Final_Project_15team-main\src\main\resources\static\files\0.jpg"></p>
+
 <p>[[${feed.content}]]</p>
 
 <a href="/feed">Back</a>
@@ -21,13 +25,15 @@
     <form th:action="@{/feed/{id} (id=${feed.id})}" method="post" style="display: inline;">
         <input type="text" id="content" name="content" class="form-control" placeholder="댓글을 입력해주세요.." aria-label="댓글을 입력해주세요.." aria-describedby="basic-addon2">
         <button class="btn btn-primary">등록</button>
-        <a th:href="@{/feed/{feedId}/{commentId} (feedId=${feed.id})}">Delete</a>
     </form>
 </div>
 
 
 <div th:each="comments: ${commentList}"><!--th:unless="${commentList.isEmpty()}"-->
     <p>[[${comments.content}]]</p>
+    <form th:href="@{/feed/{feedId}/{commentId} (feedId=${feed.id}, commentId=${comments.id})}" method="post">
+        <input type="submit" value="Delete" >
+    </form>
     <hr>
 </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Button,
@@ -7,8 +7,6 @@ import {
   Link,
   Grid,
   Box,
-  Checkbox,
-  FormControlLabel,
   Typography,
   Container,
 } from "@mui/material";
@@ -49,14 +47,14 @@ export default function Login() {
   const setCookie = (name, value, option) => {
     return cookies.set(name, value, { ...option });
   };
-  //쿠키에 있는 값을 꺼낼때
-  const getCookie = (name) => {
-    return cookies.get(name);
-  };
-  //쿠키를 지울때
-  const removeCookie = (name) => {
-    return cookies.remove(name);
-  };
+  // //쿠키에 있는 값을 꺼낼때
+  // const getCookie = (name) => {
+  //   return cookies.get(name);
+  // };
+  // //쿠키를 지울때
+  // const removeCookie = (name) => {
+  //   return cookies.remove(name);
+  // };
   // 로그인 POST 요청
   const LoginFunction = (e) => {
     e.preventDefault();
@@ -67,7 +65,7 @@ export default function Login() {
     } else {
       let body = { username: id, password: password };
       axios
-        .post("http://localhost:3000/auth/login", body)
+        .post("http://localhost:8080/login", body)
         .then((res) => {
           console.log(res.data);
           const accessToken = res.data.access_token;

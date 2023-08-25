@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { styled } from "@mui/material/styles";
 
@@ -12,7 +12,6 @@ import {
   ListItem,
   ListItemText,
   Grid,
-  Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -31,8 +30,8 @@ const Demo = styled("div")(({ theme }) => ({
 }));
 
 function SearchPage() {
-  const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(false);
+  const [dense] = React.useState(false);
+  const [secondary] = React.useState(false);
   return (
     <>
       <Appbars></Appbars>

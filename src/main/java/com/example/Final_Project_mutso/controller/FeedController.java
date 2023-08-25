@@ -4,11 +4,13 @@ package com.example.Final_Project_mutso.controller;
 import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.service.CommentService;
 import com.example.Final_Project_mutso.service.FeedService;
+import com.example.Final_Project_mutso.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Slf4j
@@ -19,6 +21,7 @@ public class FeedController {
 
     private final FeedService feedService;
     private final CommentService commentService;
+    private final FileService fileService;
 
     @GetMapping
     public String getFeed(Model model) {
@@ -37,9 +40,11 @@ public class FeedController {
     @PostMapping("/add")//피드 생성
     // RESTful한 API는 행동의 결과로 반영된 자원의 상태를 반환함이 옳다
     public String create(
-            FeedDto dto
+            FeedDto dto,
+            // add.html파일에서 가져온 파일 정보
+            @RequestParam("files") MultipartFile file
     ){
-        feedService.createFeed(dto);
+        feedService.createFeed(dto, file);
         return "redirect:/feed";
     }
 
@@ -53,6 +58,11 @@ public class FeedController {
         model.addAttribute(
                 "feed",
                 feedService.readFeed(feedId)
+        );
+        model.addAttribute(
+                "file",
+                fileService.readFile(feedId)
+
         );
         model.addAttribute(
                 "commentList",

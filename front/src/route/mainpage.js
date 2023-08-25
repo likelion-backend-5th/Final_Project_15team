@@ -1,7 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import Appbars from "../components/appbars.js";
 import Searchbox from "../components/searchbox.js";
@@ -21,7 +20,7 @@ let MainWrap = styled.div`
 `;
 
 let PlayerBox = styled.div`
-  float: left;
+  // width:20rem;
   border-radius: 1rem;
   background: #003a88;
   color: white;
@@ -34,12 +33,14 @@ function Mainpage() {
   return (
     <>
       <Appbars></Appbars>
-      <PlayerBox>
-        <Musiccontroller></Musiccontroller>
-      </PlayerBox>
+     
       <MainWrap>
         <CenterBox>
           <Searchbox></Searchbox>
+          <PlayerBox>
+            <Musiccontroller></Musiccontroller>
+            {/* <MusicPlayer></MusicPlayer> */}
+          </PlayerBox>
         </CenterBox>
         <Feedswrap></Feedswrap>
       </MainWrap>

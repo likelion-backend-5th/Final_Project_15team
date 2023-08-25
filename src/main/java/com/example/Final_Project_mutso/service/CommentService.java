@@ -45,26 +45,7 @@ public class CommentService {
 
     }
 
-    public Page<CommentDto> readCommentPaged(
-            Long feedId, Integer pageNumber, Integer pageSize
-    ) {
-        Optional<Comment> optionalComment
-                = commentRepository.findById(feedId);
-        if (optionalComment.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-        Comment comment = optionalComment.get();
-
-        if (!feedId.equals(comment.getFeed()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        Pageable pageable = PageRequest.of(
-                pageNumber, pageSize, Sort.by("id").descending());
-        Page<Comment> commentEntityPage
-                = commentRepository.findAll(pageable);
-        Page<CommentDto> commentDtoPage
-                = commentEntityPage.map(CommentDto::fromEntity);
-        return commentDtoPage;
-    }
 
     // TODO 게시글 댓글 전체 조회
     // 반환 타입 이름 인자
@@ -132,7 +113,7 @@ public class CommentService {
 //    }
 
     // deleteComment() 자유롭게 만들기
-    public ResponseDto deleteComment(Long feedId, Long commentId) {
+    public void deleteComment(Long feedId, Long commentId) {
         Optional<Comment> optionalComment
                 = commentRepository.findById(commentId);
         if (optionalComment.isEmpty())
@@ -144,9 +125,6 @@ public class CommentService {
 
         commentRepository.deleteById(commentId);
 
-        ResponseDto response = new ResponseDto();
-        response.setMessage("댓글을 삭제했습니다.");
-        return response;
     }
 }
 
