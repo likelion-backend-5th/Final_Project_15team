@@ -1,4 +1,4 @@
-package com.example.Final_Project_mutso.stomp.entity;
+package com.example.Final_Project_mutso.stomp.jpa;
 
 import jakarta.persistence.*;
 import lombok.Data;

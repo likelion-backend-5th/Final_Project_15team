@@ -1,6 +1,7 @@
-package com.example.Final_Project_mutso.stomp.entity;
+package com.example.Final_Project_mutso.stomp.jpa;
 
 //import com.example.Final_Project_mutso.entity.UserEntity;
+import com.example.Final_Project_mutso.stomp.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
