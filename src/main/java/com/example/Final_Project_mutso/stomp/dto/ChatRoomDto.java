@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatRoom {
+public class ChatRoomDto {
     private Long id;
     private String roomName;
 
-    public static ChatRoom fromEntity(ChattingRoom entity) {
-        return new ChatRoom(
+    public static ChatRoomDto fromEntity(ChattingRoom entity) {
+        return new ChatRoomDto(
                 entity.getId(),
                 entity.getRoomName()
         );
