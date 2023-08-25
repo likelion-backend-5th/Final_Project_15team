@@ -34,6 +34,15 @@ public class JpaUserDetailsManager implements UserDetailsManager {
         testUser.setImage("test.img");
 
         userRepository.save(testUser);
+
+
+        UserEntity testUser2 = new UserEntity();
+        testUser2.setEmail("test2@gmail.com");
+        testUser2.setPassword("test2");
+        testUser2.setUsername("test2");
+        testUser2.setImage("test2.img");
+
+        userRepository.save(testUser2);
         //test user entity 생성
     }
 

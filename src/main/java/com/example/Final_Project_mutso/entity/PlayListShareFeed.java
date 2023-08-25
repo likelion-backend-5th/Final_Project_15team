@@ -3,24 +3,22 @@ package com.example.Final_Project_mutso.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "Playlist")
+@Table(name = "PlayList_Feed")
 @Data
-public class MusicPlayList {
+public class PlayListShareFeed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @ManyToMany
-    private List<MusicEntity> playList = new ArrayList<>();
+    private String title;
+    private String description;
+
+    @ManyToOne
+    private MusicPlayList playList;
 
 }
