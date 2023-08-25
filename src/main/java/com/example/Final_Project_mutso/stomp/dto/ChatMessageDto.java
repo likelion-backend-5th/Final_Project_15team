@@ -1,6 +1,6 @@
 package com.example.Final_Project_mutso.stomp.dto;
 
-import com.example.Final_Project_mutso.stomp.entity.ChatMessage;
+import com.example.Final_Project_mutso.stomp.jpa.ChatMessageEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ public class ChatMessageDto {
     private String time;
 
 
-    public static ChatMessageDto fromEntity(ChatMessage messageEntity) {
+    public static ChatMessageDto fromEntity(ChatMessageEntity messageEntity) {
         return new ChatMessageDto(
                 messageEntity.getRoomId(),
                 messageEntity.getSender(),
@@ -24,8 +24,8 @@ public class ChatMessageDto {
         );
     }
 
-    public ChatMessage newEntity() {
-        ChatMessage messageEntity = new ChatMessage();
+    public ChatMessageEntity newEntity() {
+        ChatMessageEntity messageEntity = new ChatMessageEntity();
         messageEntity.setRoomId(roomId);
         messageEntity.setSender(sender);
         messageEntity.setMessage(message);
