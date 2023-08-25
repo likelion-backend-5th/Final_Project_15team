@@ -157,8 +157,11 @@ public class YoutubeVideoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         UserEntity user = testUser.get();
 
-
-        for(MusicPlayList list : playListRepository.findByUser(user))
+        Optional<List<MusicPlayList>> optionalMusicPlayLists = playListRepository.findByUser(user);
+        if(optionalMusicPlayLists.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        List<MusicPlayList> musicPlayList = optionalMusicPlayLists.get();
+        for(MusicPlayList list : musicPlayList)
             myPlaylist.add(list.getName());
 
         return myPlaylist;

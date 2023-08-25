@@ -27,13 +27,17 @@ public class JpaUserDetailsManager implements UserDetailsManager {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
 
-//        UserEntity testUser = new UserEntity();
-//        testUser.setEmail("test@gmail.com");
-//        testUser.setPassword("test");
-//        testUser.setUsername("test");
-////        testUser.setImage("test.img");
-//
-//        userRepository.save(testUser);
+        UserEntity testUser = new UserEntity();
+        testUser.setEmail("test@gmail.com");
+        testUser.setPassword("test");
+        testUser.setUsername("test");
+        testUser.setName("test");
+        testUser.setImageurl("test");
+        testUser.setPhonenumber("test");
+        testUser.setNickname("test");
+        //        testUser.setImage("test.img");
+
+        userRepository.save(testUser);
         //test user entity 생성
     }
 
