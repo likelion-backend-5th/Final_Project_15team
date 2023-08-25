@@ -23,23 +23,23 @@ public class CommentController {
     private final FeedService feedService;
 
     @PostMapping("/{feedId}") //댓글 등록
-    public String createComment(
+    public void createComment(
             @PathVariable("feedId") Long feedId,
             CommentDto commentDto)
     {
         commentService.createComment(feedId, commentDto);
 
-        return String.format("redirect:/feed/%s", feedId);
+//        return String.format("redirect:/feed/%s", feedId);
     }
 
-    @PostMapping("/{feedId}/{commentId}")
-    public String deleteComment(
+    @DeleteMapping("/{feedId}/{commentId}")
+    public void deleteComment(
             @PathVariable("feedId") Long feedId,
             @PathVariable("commentId") Long commentId
     ){
         commentService.deleteComment(feedId, commentId);
 
-        return String.format("redirect:/feed/%s", feedId);
+//        return String.format("redirect:/feed/%s", feedId);
     }
 //    @PostMapping("/read")
 //    public String commentWrite(

@@ -13,6 +13,8 @@ public class FeedHashtag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String hashtag;
+
     @ManyToOne
     @JoinColumn(name = "feed_id")
     private Feed feed;

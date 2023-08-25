@@ -17,7 +17,7 @@ public class FeedVideo {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-    private String image_url;
+    private String videoUrl;
 
     public FeedVideo() {
 
