@@ -2,15 +2,18 @@ package com.example.Final_Project_mutso.controller;
 
 
 import com.example.Final_Project_mutso.dto.FeedDto;
+import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.service.CommentService;
 import com.example.Final_Project_mutso.service.FeedService;
 import com.example.Final_Project_mutso.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 @Slf4j
@@ -26,16 +29,17 @@ public class FeedController {
     private final FileService fileService;
 
     @GetMapping
-    public void getFeed() {
-        feedService.readFeedAll();
+    public List<Feed> getFeed() {
+        return feedService.readFeedAll();
     }
 
-    @PostMapping("/add")//피드 생성
+    @PostMapping(value = "/add",
+    consumes = MediaType.MULTIPART_FORM_DATA_VALUE)//피드 생성
     // RESTful한 API는 행동의 결과로 반영된 자원의 상태를 반환함이 옳다
     public void create(
-            @RequestBody FeedDto dto,
+            FeedDto dto,
             // add.html파일에서 가져온 파일 정보
-            @RequestParam("files") MultipartFile file
+            @RequestParam("file") MultipartFile file
     ){
         feedService.createFeed(dto, file);
     }
