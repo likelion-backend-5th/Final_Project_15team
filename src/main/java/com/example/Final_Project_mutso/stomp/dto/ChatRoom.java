@@ -1,6 +1,6 @@
 package com.example.Final_Project_mutso.stomp.dto;
 
-import com.example.Final_Project_mutso.stomp.jpa.ChattingRoom;
+import com.example.Final_Project_mutso.stomp.entity.ChattingRoom;
 import lombok.AllArgsConstructor;
 
 import lombok.Data;
