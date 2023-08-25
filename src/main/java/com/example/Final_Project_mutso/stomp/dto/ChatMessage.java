@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatMessageDto {
+public class ChatMessage {
     private Long roomId;
     private String sender;
     private String message;
     private String time;
 
 
-    public static ChatMessageDto fromEntity(ChatMessageEntity messageEntity) {
-        return new ChatMessageDto(
+    public static ChatMessage fromEntity(ChatMessageEntity messageEntity) {
+        return new ChatMessage(
                 messageEntity.getRoomId(),
                 messageEntity.getSender(),
                 messageEntity.getMessage(),
