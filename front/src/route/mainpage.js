@@ -25,11 +25,13 @@ function Mainpage() {
       <Appbars></Appbars>
 
       <MainWrap>
-        <CenterBox>
-          <Searchbox></Searchbox>
-          <Musiccontroller></Musiccontroller>
-        </CenterBox>
-        <Feedswrap></Feedswrap>
+        <div style={{ maxWidth: 800 }}>
+          <CenterBox>
+            <Searchbox></Searchbox>
+            <Musiccontroller></Musiccontroller>
+          </CenterBox>
+          <Feedswrap></Feedswrap>
+        </div>
       </MainWrap>
     </>
   );

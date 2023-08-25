@@ -13,7 +13,6 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ChatIcon from "@mui/icons-material/Chat";
 
@@ -59,7 +58,8 @@ export default function Appbars() {
             sx={{ mr: 2 }}
             onClick={() => {
               navigate("/");
-            }}>
+            }}
+          >
             <HomeIcon></HomeIcon>
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -73,7 +73,8 @@ export default function Appbars() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
-                color="inherit">
+                color="inherit"
+              >
                 <AccountCircle />
               </IconButton>
               <IconButton
@@ -81,7 +82,8 @@ export default function Appbars() {
                 onClick={() => {
                   navigate("/chatlist");
                 }}
-                color="inherit">
+                color="inherit"
+              >
                 <ChatIcon />
               </IconButton>
               <Menu
@@ -97,11 +99,13 @@ export default function Appbars() {
                   horizontal: "right",
                 }}
                 open={Boolean(anchorEl)}
-                onClose={handleClose}>
+                onClose={handleClose}
+              >
                 <MenuItem
                   onClick={() => {
                     navigate("/mypage");
-                  }}>
+                  }}
+                >
                   Profile
                 </MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
@@ -116,7 +120,8 @@ export default function Appbars() {
                 sx={{ background: "white", color: "blue" }}
                 onClick={() => {
                   navigate("/login");
-                }}>
+                }}
+              >
                 Login
               </Button>
             </div>

@@ -62,7 +62,6 @@ function ChatList() {
   const handleClose = () => setOpen(false);
 
   const [roomName, setRoomName] = useState();
-  // const [name, setName] = useState();
   const createChat = () => {
     let body = { roomName };
     axios.post("http://localhost:8080/chat/rooms", body).then((res) => {
@@ -154,9 +153,8 @@ function ChatList() {
                   return (
                     <>
                       <Button
-                        value={b}
-                        onClick={(e) => {
-                          navigate("/chat/" + e.target.value);
+                        onClick={() => {
+                          navigate("/chatpage/" + i.id);
                         }}
                       >
                         <ListItem alignItems="flex-start">
@@ -169,10 +167,12 @@ function ChatList() {
                           <ListItemText
                             primary={i.roomName}
                             secondary={
-                              <React.Fragment>{i.chat}</React.Fragment>
+                              <React.Fragment>
+                                {i.chat}
+                                {i.chatcount}명
+                              </React.Fragment>
                             }
-                          />
-                          {i.chatcount}
+                          ></ListItemText>
                         </ListItem>
                         <Divider variant="inset" component="li" />
                       </Button>

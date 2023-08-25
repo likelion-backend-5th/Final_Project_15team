@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import React, { useState, useEffect } from "react";
 import {
@@ -79,14 +79,15 @@ function Feeddetail() {
   const [content, setContent] = useState();
   const [comment, setComment] = useState([]);
   const [viewComment, setViewComment] = useState(false);
+  const { id } = useParams();
   useEffect(() => {
-    axios.get("http://localhost:8080/feed").then((res) => {
+    axios.get("http://localhost:8080/feed/" + id).then((res) => {
       console.log(res.data);
-      setTitle(res.data[0].title);
-      setNickname(res.data[0].nickname);
-      setContent(res.data[0].content);
-      setDate(res.data[0].date);
-      setTime(res.data[0].time);
+      setTitle(res.data.title);
+      setNickname(res.data.nickname);
+      setContent(res.data.content);
+      setDate(res.data.date);
+      setTime(res.data.time);
     });
     axios.get("http://localhost:8080/comment").then((res) => {
       console.log(res.data);

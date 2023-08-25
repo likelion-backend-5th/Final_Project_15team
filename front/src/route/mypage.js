@@ -8,6 +8,7 @@ import Appbars from "../components/appbars";
 import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Paper,
   List,
   ListItem,
@@ -63,7 +64,8 @@ function Mypage() {
                   <IconButton
                     onClick={() => {
                       navigate("/follower");
-                    }}>
+                    }}
+                  >
                     팔로워
                   </IconButton>
                 </th>
@@ -72,7 +74,8 @@ function Mypage() {
                   <IconButton
                     onClick={() => {
                       navigate("/following");
-                    }}>
+                    }}
+                  >
                     팔로잉
                   </IconButton>
                 </th>
@@ -81,7 +84,8 @@ function Mypage() {
                   <IconButton
                     onClick={() => {
                       navigate("/scrap");
-                    }}>
+                    }}
+                  >
                     스크랩
                   </IconButton>
                 </th>
@@ -102,7 +106,8 @@ function Mypage() {
               onClick={() => {
                 navigate("/mypageset");
               }}
-              color="inherit">
+              color="inherit"
+            >
               <SettingsIcon></SettingsIcon>
             </IconButton>
           </TopWrap>
@@ -113,19 +118,27 @@ function Mypage() {
                 "& > :not(style)": {
                   m: 1,
                 },
-              }}>
+              }}
+            >
               <List
                 sx={{
                   width: "100%",
                   // maxWidth: 360,
                   bgcolor: "background.paper",
-                }}>
+                }}
+              >
                 {data.map(function (i, b) {
                   return (
                     <>
-                      <ListItem alignItems="flex-start">
-                        <ListItemText primary={i.title} />
-                      </ListItem>
+                      <Button
+                        onClick={() => {
+                          navigate("/feeddetail/" + i.id);
+                        }}
+                      >
+                        <ListItem alignItems="flex-start">
+                          <ListItemText primary={i.title} />
+                        </ListItem>
+                      </Button>
                       <Divider variant="inset" component="li" />
                     </>
                   );
