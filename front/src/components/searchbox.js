@@ -14,7 +14,7 @@ export default function Searchbox() {
       console.log(res.data);
       setData(res.data);
     });
-  });
+  }, [search]);
 
   const getValue = (e) => {
     setSearch(e.target.value.toLowerCase());
