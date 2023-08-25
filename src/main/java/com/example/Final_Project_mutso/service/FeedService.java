@@ -1,7 +1,9 @@
 package com.example.Final_Project_mutso.service;
 
 import com.example.Final_Project_mutso.dto.FeedDto;
+import com.example.Final_Project_mutso.dto.FeedHashtagDto;
 import com.example.Final_Project_mutso.entity.Feed;
+import com.example.Final_Project_mutso.entity.FeedHashtag;
 import com.example.Final_Project_mutso.entity.FeedImage;
 import com.example.Final_Project_mutso.entity.FeedVideo;
 import com.example.Final_Project_mutso.repository.FeedImageRepository;
@@ -26,12 +28,17 @@ public class FeedService {
     private final FeedImageRepository feedImageRepository;
     private final FeedVideoRepository feedVideoRepository;
 
-    public void createFeed(FeedDto dto, MultipartFile file) {
+    public void createFeed(FeedDto dto, FeedHashtagDto hashtagDto, MultipartFile file) {
         Feed feed = new Feed();
 //        feed.setUser(userEntity);
         feed.setTitle(dto.getTitle());
         feed.setContent(dto.getContent());
         feedRepository.save(feed);
+
+        FeedHashtag hashtag = new FeedHashtag();
+        hashtag.setHashtag(hashtag.getHashtag());
+        hashtag.setFeed(feed);
+
         if (!file.isEmpty()) { // 첨부 파일이 존재한다면
             String fileName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
             String fileExtension = fileName.substring(fileName.lastIndexOf("."),fileName.length());
