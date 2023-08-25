@@ -2,14 +2,10 @@ package com.example.Final_Project_mutso.stomp.service;
 
 import com.example.Final_Project_mutso.stomp.dto.ChatMessageDto;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoomDto;
-//import com.example.Final_Project_mutso.stomp.jpa.ChatMessageEntity;
-//import com.example.Final_Project_mutso.stomp.jpa.ChatMessageRepository;
-//import com.example.Final_Project_mutso.stomp.jpa.ChatRoomEntity;
-//import com.example.Final_Project_mutso.stomp.jpa.ChatRoomRepository;
-import com.example.Final_Project_mutso.stomp.entity.ChatMessageEntity;
-import com.example.Final_Project_mutso.stomp.entity.ChatRoomEntity;
-import com.example.Final_Project_mutso.stomp.repository.ChatMessageRepository;
-import com.example.Final_Project_mutso.stomp.repository.ChatRoomRepository;
+import com.example.Final_Project_mutso.stomp.jpa.ChatMessageEntity;
+import com.example.Final_Project_mutso.stomp.jpa.ChatMessageRepository;
+import com.example.Final_Project_mutso.stomp.jpa.ChatRoomEntity;
+import com.example.Final_Project_mutso.stomp.jpa.ChatRoomRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
