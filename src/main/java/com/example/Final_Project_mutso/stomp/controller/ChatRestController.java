@@ -2,6 +2,7 @@ package com.example.Final_Project_mutso.stomp.controller;
 
 import com.example.Final_Project_mutso.stomp.dto.ChatMessageDto;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoomDto;
+import com.example.Final_Project_mutso.stomp.dto.UserDto;
 import com.example.Final_Project_mutso.stomp.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +26,13 @@ public class ChatRestController {
         return ResponseEntity.ok(chatService.createChatRoom(chatRoomDto));
     }
 
-    // 채팅방 조회하기
+    // 채팅방 목록 조회하기
     @GetMapping("rooms")
     public ResponseEntity<List<ChatRoomDto>> getChatRooms(){
         return ResponseEntity.ok(chatService.getChatRooms());
     }
 
-    //
+    // 채팅방 정보 조회 (이름 불러오기)
     @GetMapping("rooms/{id}/name")
     public ResponseEntity<ChatRoomDto> getRoomName(@PathVariable("id") Long roomId) {
         return ResponseEntity.ok(chatService.findRoomById(roomId));

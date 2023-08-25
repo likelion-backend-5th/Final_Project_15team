@@ -15,7 +15,8 @@ public class ChattingRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roomName;
-
+    private String imageUrl;
+    private Integer memberNum;
 
     @ManyToMany(mappedBy = "rooms")
     private List<UserEntity> users;

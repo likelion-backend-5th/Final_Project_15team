@@ -46,7 +46,7 @@ public class ChatService {
         return ChatRoomDto.fromEntity(chatRoomRepository.save(chattingRoom));
     }
 
-    // 채팅방 이름 가져오기
+    // 채팅방 정보 불러오기
     public ChatRoomDto findRoomById(Long id) {
         Optional<ChattingRoom> optionalChatRoom
                 = chatRoomRepository.findById(id);
