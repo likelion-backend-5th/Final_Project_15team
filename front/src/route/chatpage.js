@@ -1,14 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import axios from "axios";
-
+import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Paper,
- 
-  Button,
-} from "@mui/material";
+import { Box, Paper, Button } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 
@@ -46,12 +41,15 @@ let ChatContent = styled.div``;
 let ChatDate = styled.div``;
 
 function ChatPage() {
-  const [chat, setChat] = useState([]);
+  const { id } = useParams();
+  const [data, setData] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8080/feed").then((res) => {
-      console.log(res.data);
-      setChat(res.data);
-    });
+    axios
+      .get("http://localhost:8080/chat/rooms/" + id + "/message")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      });
   }, []);
   return (
     <>
@@ -65,25 +63,22 @@ function ChatPage() {
               margin: "1.2rem",
               marginRight: "0.4rem",
               padding: "1.2rem",
-            }}>
-            <TopWrap>채팅 제목</TopWrap>
+            }}
+          >
+            <TopWrap>{data.roomName}</TopWrap>
             <ContentWrap>
-              {chat.map(function (i, b) {
-                return (
-                  <>
-                    <LeftChat>
-                      <ProfileImg></ProfileImg>
-                      <ChatContent>{i.chat}</ChatContent>
-                      <ChatDate>{i.date}</ChatDate>
-                    </LeftChat>
-                    <RightChat>
-                      <ChatContent>{i.chat}</ChatContent>
-                      <ChatDate>{i.date}</ChatDate>
-                      <ProfileImg></ProfileImg>
-                    </RightChat>
-                  </>
-                );
-              })}
+              <>
+                <LeftChat>
+                  <ProfileImg></ProfileImg>
+                  <ChatContent>{data.chat}</ChatContent>
+                  <ChatDate>{data.date}</ChatDate>
+                </LeftChat>
+                <RightChat>
+                  <ChatContent>{data.chat}</ChatContent>
+                  <ChatDate>{data.date}</ChatDate>
+                  <ProfileImg></ProfileImg>
+                </RightChat>
+              </>
             </ContentWrap>
             <BottomWrap>
               <AddIcon></AddIcon>

@@ -34,8 +34,8 @@ function App() {
         <Route path="/scrapview" element={<ScrapView></ScrapView>} />
         <Route path="/chatlist" element={<ChatList></ChatList>} />
         <Route path="/chatdelete" element={<ChatDelete></ChatDelete>} />
-        <Route path="/chatpage" element={<ChatPage></ChatPage>} />
-        <Route path="/feeddetail" element={<FeedDetail></FeedDetail>} />
+        <Route path="/chatpage/:id" element={<ChatPage></ChatPage>} />
+        <Route path="/feeddetail/:id" element={<FeedDetail></FeedDetail>} />
         <Route path="/createfeed" element={<CreateFeed></CreateFeed>} />
         <Route path="/updatefeed" element={<UpdateFeed></UpdateFeed>} />
         <Route path="/searchpage" element={<SearchPage></SearchPage>} />

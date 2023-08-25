@@ -152,7 +152,11 @@ function ChatList() {
                 {data.map(function (i, b) {
                   return (
                     <>
-                      <Button value={b}>
+                      <Button
+                        onClick={() => {
+                          navigate("/chatpage/" + i.id);
+                        }}
+                      >
                         <ListItem alignItems="flex-start">
                           <ListItemAvatar>
                             <Avatar
