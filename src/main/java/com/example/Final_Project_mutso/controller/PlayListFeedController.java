@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/playlistfeed")
 @RequiredArgsConstructor
+// cors 설정
+@CrossOrigin(origins = "*")
 public class PlayListFeedController {
     private final PlayListFeedService service;
     private final PLCommentService plCommentService;

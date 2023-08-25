@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/feed")
 @RequiredArgsConstructor
 // cors 설정
