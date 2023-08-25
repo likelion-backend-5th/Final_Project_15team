@@ -7,7 +7,6 @@ import com.example.Final_Project_mutso.entity.UserEntity;
 import com.example.Final_Project_mutso.repository.MusicRepository;
 import com.example.Final_Project_mutso.repository.PlayListRepository;
 import com.example.Final_Project_mutso.repository.UserRepository;
-import com.google.api.client.http.OpenCensusUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.*;
-import com.google.api.services.youtube.model.ChannelContentDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.server.ResponseStatusException;
@@ -157,8 +155,11 @@ public class YoutubeVideoService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         UserEntity user = testUser.get();
 
-
-        for(MusicPlayList list : playListRepository.findByUser(user))
+        Optional<List<MusicPlayList>> optionalMusicPlayLists = playListRepository.findByUser(user);
+        if(optionalMusicPlayLists.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        List<MusicPlayList> musicPlayList = optionalMusicPlayLists.get();
+        for(MusicPlayList list : musicPlayList)
             myPlaylist.add(list.getName());
 
         return myPlaylist;
