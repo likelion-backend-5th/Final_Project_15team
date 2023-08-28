@@ -91,7 +91,7 @@ public class ChatService {
 
     // 채팅방 이미지 추가
     public void updateImage(Long id, MultipartFile image){
-        String profileDir = "media/";
+        String profileDir = "back/chatRoom/";
         try {
             Files.createDirectories(Path.of(profileDir));
         } catch (IOException e) {
