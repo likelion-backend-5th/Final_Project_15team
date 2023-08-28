@@ -21,9 +21,4 @@ public class ChattingRoom {
 
     @ManyToMany(mappedBy = "rooms")
     private List<UserEntity> users;
-
-    // user에 추가
-//    @ManyToMany
-//    @JoinTable(name = "user_chattings")
-//    private List<ChattingRoom> rooms = new ArrayList<>();
 }
