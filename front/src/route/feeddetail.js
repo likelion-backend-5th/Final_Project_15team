@@ -81,22 +81,34 @@ function Feeddetail() {
   const [viewComment, setViewComment] = useState(false);
   const { id } = useParams();
   useEffect(() => {
-    axios.get("http://localhost:8080/feed/" + id).then((res) => {
-      console.log(res.data);
-      setTitle(res.data.title);
-      setNickname(res.data.nickname);
-      setContent(res.data.content);
-      setDate(res.data.date);
-      setTime(res.data.time);
-    });
-    axios.get("http://localhost:8080/comment").then((res) => {
-      console.log(res.data);
-      setComment(res.data);
-    });
+    axios
+      .get("http://localhost:8080/feed/" + id)
+      .then((res) => {
+        console.log(res.data);
+        setTitle(res.data.title);
+        setNickname(res.data.nickname);
+        setContent(res.data.content);
+        setDate(res.data.date);
+        setTime(res.data.time);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get("http://localhost:8080/comment")
+      .then((res) => {
+        console.log(res.data);
+        setComment(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const deleteFeed = () => {
-    axios.delete("http://localhost:8080/");
+    axios.delete("http://localhost:8080/").catch((error) => {
+      console.log(error);
+    });
     setAnchorEl(null);
   };
 

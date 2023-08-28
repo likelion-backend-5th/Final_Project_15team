@@ -3,11 +3,7 @@ import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import {
-  Box,
-  Paper,
- 
-} from "@mui/material";
+import { Box, Paper } from "@mui/material";
 
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ContentCutIcon from "@mui/icons-material/ContentCut";
@@ -36,10 +32,15 @@ let Hashtag = styled.div``;
 function ScrapView() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8080/feed").then((res) => {
-      console.log(res.data);
-      setData(res.data[0]);
-    });
+    axios
+      .get("http://localhost:8080/feed")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   return (
     <>
@@ -53,7 +54,8 @@ function ScrapView() {
               margin: "1.2rem",
               marginRight: "0.4rem",
               padding: "1.2rem",
-            }}>
+            }}
+          >
             <TopWrap>
               <ProfileImg>a</ProfileImg>
               {data.nickname}
@@ -64,7 +66,8 @@ function ScrapView() {
                 style={{
                   margin: "0.4rem",
                   padding: "0.8rem",
-                }}>
+                }}
+              >
                 <Title>{data.title}</Title>
                 <Content>{data.content}</Content>
                 <Hashtag>#해시태그</Hashtag>

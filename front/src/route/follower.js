@@ -26,12 +26,15 @@ function Follows() {
   let [follow, setFollow] = useState([]);
 
   useEffect(() => {
-    axios.get(
-      "http://localhost:8080/feed"
-      ).then((res) => {
-      console.log(res.data);
-      setFollow(res.data);
-    });
+    axios
+      .get("http://localhost:8080/feed")
+      .then((res) => {
+        console.log(res.data);
+        setFollow(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   return (
     <>
@@ -39,10 +42,15 @@ function Follows() {
       <Box style={{ display: "flex" }}>
         <Paper
           elevation={3}
-          style={{ margin:"0.8rem", padding: "0.8rem", width: "100%", maxWidth:"50rem" }}>
+          style={{
+            margin: "0.8rem",
+            padding: "0.8rem",
+            width: "100%",
+            maxWidth: "50rem",
+          }}
+        >
           <Title>팔로워</Title>
-          <List
-            sx={{ width: "100%", bgcolor: "background.paper" }}>
+          <List sx={{ width: "100%", bgcolor: "background.paper" }}>
             {follow.map(function (i, b) {
               return (
                 <>
@@ -55,7 +63,11 @@ function Follows() {
                     </ListItemAvatar>
                     <ListItemText primary={i.nickname} />
                   </ListItem>
-                  <Divider variant="inset" component="li" style={{margin:'0.8rem'}} />
+                  <Divider
+                    variant="inset"
+                    component="li"
+                    style={{ margin: "0.8rem" }}
+                  />
                 </>
               );
             })}

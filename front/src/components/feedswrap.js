@@ -63,14 +63,24 @@ export default function Feedswrap() {
   const [comment, setComment] = useState([]);
   const [viewComment, setViewComment] = useState(false);
   useEffect(() => {
-    axios.get("http://localhost:8080/feed").then((res) => {
-      console.log(res.data);
-      setData(res.data);
-    });
-    axios.get("http://localhost:8080/comment").then((res) => {
-      console.log(res.data);
-      setComment(res.data);
-    });
+    axios
+      .get("http://localhost:8080/feed")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get("http://localhost:8080/comment")
+      .then((res) => {
+        console.log(res.data);
+        setComment(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   return (
     <Box
