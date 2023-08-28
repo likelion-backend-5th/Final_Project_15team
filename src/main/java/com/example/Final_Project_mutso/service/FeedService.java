@@ -66,12 +66,12 @@ public class FeedService {
     }
 
 
-    public Feed readFeed(Long id) {
+    public FeedDto readFeed(Long id) {
         Optional<Feed> optionalFeed
                 = feedRepository.findById(id);
         if (optionalFeed.isPresent()) {
             Feed feed = optionalFeed.get();
-            return feed;
+            return FeedDto.fromEntity(feed);
         }
         return null;
 

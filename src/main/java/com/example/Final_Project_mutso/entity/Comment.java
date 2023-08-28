@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Data
-@SuperBuilder
 
 public class Comment {
     @Id

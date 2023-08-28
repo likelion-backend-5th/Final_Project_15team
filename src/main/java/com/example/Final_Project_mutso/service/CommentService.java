@@ -29,7 +29,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
 
-    public Comment createComment(Long feedId, CommentDto dto) {
+    public void createComment(Long feedId, CommentDto dto) {
         // articleId를 ID로 가진 ArticleEntity 가 존재 하는지?
         if (!feedRepository.existsById(feedId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);  // 자유롭게 상황대처
@@ -40,29 +40,34 @@ public class CommentService {
         Comment comment = new Comment();
         comment.setFeed(feed);
         comment.setContent(dto.getContent());
-        return commentRepository.save(comment);
+        commentRepository.save(comment);
 
     }
 
+    public List<CommentDto> readCommentAll(Long feedId) {
+        List<CommentDto> commentList = new ArrayList<>();
+        List<Comment> commentEntities
+                = commentRepository.findAllByFeedId(feedId);
+        for (Comment entity: commentEntities) {
+            commentList.add(CommentDto.fromEntity(entity));
+        }
 
-    public Page<CommentDto> readCommentPaged(
-            Long feedId, Integer pageNumber, Integer pageSize
-    ) {
-        Optional<Comment> optionalComment
-                = commentRepository.findById(feedId);
-        if (optionalComment.isEmpty())
+        return commentList;
+//        return commentRepository.findAllByFeedId(feedId);
+    }
+
+    public Page<CommentDto> readCommentPaged(Long feedId, Integer pageNumber, Integer pageSize){
+        if(!commentRepository.existsById(feedId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-        Comment comment = optionalComment.get();
-
-        if (!feedId.equals(comment.getFeed().getId()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         Pageable pageable = PageRequest.of(
-                pageNumber, pageSize, Sort.by("id").descending());
-        Page<Comment> commentEntityPage
+                pageNumber, pageSize, Sort.by("id").ascending());
+
+        Page<Comment> feedEntityPage
                 = commentRepository.findAll(pageable);
+
         Page<CommentDto> commentDtoPage
-                = commentEntityPage.map(CommentDto::fromEntity);
+                = feedEntityPage.map(CommentDto::fromEntity);
         return commentDtoPage;
     }
 
