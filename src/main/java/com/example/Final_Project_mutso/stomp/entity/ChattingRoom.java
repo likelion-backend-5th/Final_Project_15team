@@ -4,8 +4,6 @@ import com.example.Final_Project_mutso.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,4 +20,8 @@ public class ChattingRoom {
     @ManyToMany(mappedBy = "rooms")
     private List<UserEntity> users;
 
+    // user에 추가
+//    @ManyToMany
+//    @JoinTable(name = "user_chattings")
+//    private List<ChattingRoom> rooms = new ArrayList<>();
 }

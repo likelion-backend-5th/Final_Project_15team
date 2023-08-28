@@ -2,9 +2,9 @@ package com.example.Final_Project_mutso.stomp.service;
 
 import com.example.Final_Project_mutso.stomp.dto.ChatMessageDto;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoomDto;
-import com.example.Final_Project_mutso.stomp.jpa.ChatMessageEntity;
+import com.example.Final_Project_mutso.stomp.entity.ChatMessage;
+import com.example.Final_Project_mutso.stomp.entity.ChattingRoom;
 import com.example.Final_Project_mutso.stomp.jpa.ChatMessageRepository;
-import com.example.Final_Project_mutso.stomp.jpa.ChatRoomEntity;
 import com.example.Final_Project_mutso.stomp.jpa.ChatRoomRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -33,22 +33,22 @@ public class ChatService {
     // 채팅방 조회하기
     public List<ChatRoomDto> getChatRooms() {
         List<ChatRoomDto> chatRoomDtoList = new ArrayList<>();
-        for (ChatRoomEntity chatRoomEntity: chatRoomRepository.findAll())
+        for (ChattingRoom chatRoomEntity: chatRoomRepository.findAll())
             chatRoomDtoList.add(ChatRoomDto.fromEntity(chatRoomEntity));
         return chatRoomDtoList;
     }
 
     // 채팅방 생성하기
     public ChatRoomDto createChatRoom(ChatRoomDto chatRoomDto) {
-        ChatRoomEntity chatRoomEntity = new ChatRoomEntity();
-        chatRoomEntity.setRoomName(chatRoomDto.getRoomName());
+        ChattingRoom chattingRoom = new ChattingRoom();
+        chattingRoom.setRoomName(chatRoomDto.getRoomName());
 
-        return ChatRoomDto.fromEntity(chatRoomRepository.save(chatRoomEntity));
+        return ChatRoomDto.fromEntity(chatRoomRepository.save(chattingRoom));
     }
 
-    // 채팅방 이름 가져오기
+    // 채팅방 정보 불러오기
     public ChatRoomDto findRoomById(Long id) {
-        Optional<ChatRoomEntity> optionalChatRoom
+        Optional<ChattingRoom> optionalChatRoom
                 = chatRoomRepository.findById(id);
         if (optionalChatRoom.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -56,15 +56,28 @@ public class ChatService {
     }
 
 
+    // 메세지 저장하기
     public void saveChatMessage(ChatMessageDto chatMessageDto) {
         chatMessageRepository.save(chatMessageDto.newEntity());
     }
 
+    // 메시지 조회
+    public List<ChatMessageDto> readMessage(Long roomId){
+        List<ChatMessageDto> chatMessageDtoList = new ArrayList<>();
+        Optional<ChattingRoom> optionalChatRoom = chatRoomRepository.findById(roomId);
+        if (optionalChatRoom.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        for (ChatMessage chatMessage : chatMessageRepository.findAll()){
+            chatMessageDtoList.add(ChatMessageDto.fromEntity(chatMessage));
+        }
+        return chatMessageDtoList;
+    }
+
     public List<ChatMessageDto> getLast5Messages(Long roomId) {
         List<ChatMessageDto> chatMessageDtos = new ArrayList<>();
-        List<ChatMessageEntity> chatMessageEntities = chatMessageRepository.findTop5ByRoomIdOrderByIdDesc(roomId);
+        List<ChatMessage> chatMessageEntities = chatMessageRepository.findTop5ByRoomIdOrderByIdDesc(roomId);
         Collections.reverse(chatMessageEntities);
-        for (ChatMessageEntity messageEntity: chatMessageEntities) {
+        for (ChatMessage messageEntity: chatMessageEntities) {
             chatMessageDtos.add(ChatMessageDto.fromEntity(messageEntity));
         }
         return chatMessageDtos;
