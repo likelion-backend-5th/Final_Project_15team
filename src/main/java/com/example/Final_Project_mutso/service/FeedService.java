@@ -1,9 +1,7 @@
 package com.example.Final_Project_mutso.service;
 
 import com.example.Final_Project_mutso.dto.FeedDto;
-import com.example.Final_Project_mutso.dto.FeedHashtagDto;
 import com.example.Final_Project_mutso.entity.Feed;
-import com.example.Final_Project_mutso.entity.FeedHashtag;
 import com.example.Final_Project_mutso.entity.FeedImage;
 import com.example.Final_Project_mutso.entity.FeedVideo;
 import com.example.Final_Project_mutso.repository.FeedImageRepository;
@@ -27,17 +25,16 @@ public class FeedService {
     private final FileService fileService;
     private final FeedImageRepository feedImageRepository;
     private final FeedVideoRepository feedVideoRepository;
+    private final CommentService commentService;
 
-    public void createFeed(FeedDto dto, FeedHashtagDto hashtagDto, MultipartFile file) {
+    public void createFeed(FeedDto dto, MultipartFile file) {
         Feed feed = new Feed();
 //        feed.setUser(userEntity);
         feed.setTitle(dto.getTitle());
         feed.setContent(dto.getContent());
+        feed.setHashtag(dto.getHashtag());
         feedRepository.save(feed);
 
-        FeedHashtag hashtag = new FeedHashtag();
-        hashtag.setHashtag(hashtag.getHashtag());
-        hashtag.setFeed(feed);
 
         if (!file.isEmpty()) { // 첨부 파일이 존재한다면
             String fileName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
@@ -77,19 +74,21 @@ public class FeedService {
             return feed;
         }
         return null;
+
     }
 
     public void updateFeed(Long id, FeedDto feedDto) {
         Optional<Feed> optionalFeed = feedRepository.findById(id);
+//        Optional<FeedHashtag> optionalHashtag = feedRepository.findById(id);
         if (optionalFeed.isPresent()){
             Feed feedEntity = optionalFeed.get();
             feedEntity.setTitle(feedDto.getTitle());
             feedEntity.setContent(feedDto.getContent());
-            // 이미지 추가
+            feedEntity.setHashtag(feedDto.getHashtag());
 
             feedRepository.save(feedEntity);
-
         }
+
     }
 
     public void deleteFeed(Long id) {

@@ -7,7 +7,6 @@ import com.example.Final_Project_mutso.entity.Comment;
 import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.repository.CommentRepository;
 import com.example.Final_Project_mutso.repository.FeedRepository;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,7 +29,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
 
-    public void createComment(Long feedId, CommentDto dto) {
+    public Comment createComment(Long feedId, CommentDto dto) {
         // articleId를 ID로 가진 ArticleEntity 가 존재 하는지?
         if (!feedRepository.existsById(feedId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);  // 자유롭게 상황대처
@@ -41,23 +40,30 @@ public class CommentService {
         Comment comment = new Comment();
         comment.setFeed(feed);
         comment.setContent(dto.getContent());
-        commentRepository.save(comment);
+        return commentRepository.save(comment);
 
     }
 
 
+    public Page<CommentDto> readCommentPaged(
+            Long feedId, Integer pageNumber, Integer pageSize
+    ) {
+        Optional<Comment> optionalComment
+                = commentRepository.findById(feedId);
+        if (optionalComment.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-    // TODO 게시글 댓글 전체 조회
-    // 반환 타입 이름 인자
-    public List<CommentDto> readCommentAll(Long feedId) {
-        List<CommentDto> commentList = new ArrayList<>();
-        List<Comment> commentEntities
-                = commentRepository.findAllByFeedId(feedId);
-        for (Comment entity: commentEntities) {
-            commentList.add(CommentDto.fromEntity(entity));
-        }
+        Comment comment = optionalComment.get();
 
-        return commentList;
+        if (!feedId.equals(comment.getFeed().getId()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        Pageable pageable = PageRequest.of(
+                pageNumber, pageSize, Sort.by("id").descending());
+        Page<Comment> commentEntityPage
+                = commentRepository.findAll(pageable);
+        Page<CommentDto> commentDtoPage
+                = commentEntityPage.map(CommentDto::fromEntity);
+        return commentDtoPage;
     }
 
     public ResponseDto updateComment(
@@ -76,7 +82,7 @@ public class CommentService {
         Comment comment = optionalComment.get();
 
         // 대상 댓글이 대상 게시글의 댓글이 맞는지
-        if (!feedId.equals(comment.getFeed()))
+        if (!feedId.equals(comment.getFeed().getId()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
         comment.setContent(dto.getContent());
@@ -85,6 +91,30 @@ public class CommentService {
         response.setMessage("댓글이 수정되었습니다.");
         return response;
     }
+
+    public void deleteComment(Long feedId, Long commentId) {
+
+        if (!commentRepository.existsById(commentId))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);  // 자유롭게 상황대처
+
+//        Optional<Feed> optionalFeed
+//                = feedRepository.findById(feedId);
+//        Feed feed = optionalFeed.get();
+
+        Optional<Comment> optionalComment
+                = commentRepository.findById(commentId);
+        if (optionalComment.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        Comment comment = optionalComment.get();
+        if (!feedId.equals(comment.getFeed().getId()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+
+        commentRepository.deleteById(commentId);
+
+    }
+
+
 
 //    public ResponseDto addReply(
 //            Long feedId,
@@ -112,19 +142,7 @@ public class CommentService {
 //    }
 
     // deleteComment() 자유롭게 만들기
-    public void deleteComment(Long feedId, Long commentId) {
-        Optional<Comment> optionalComment
-                = commentRepository.findById(commentId);
-        if (optionalComment.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-        Comment comment = optionalComment.get();
-        if (!feedId.equals(comment.getFeed()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-
-        commentRepository.deleteById(commentId);
-
-    }
 }
 
 
