@@ -11,11 +11,13 @@ import lombok.NoArgsConstructor;
 public class ChatRoomDto {
     private Long id;
     private String roomName;
+    private Integer memberNum;
 
     public static ChatRoomDto fromEntity(ChattingRoom entity) {
         return new ChatRoomDto(
                 entity.getId(),
-                entity.getRoomName()
+                entity.getRoomName(),
+                entity.getMemberNum()
         );
     }
 }
