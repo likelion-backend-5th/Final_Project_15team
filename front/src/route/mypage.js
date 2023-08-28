@@ -45,10 +45,15 @@ function Mypage() {
   const [data, setData] = useState([]);
   // useEffect로 피드 데이터 불러오기
   useEffect(() => {
-    axios.get("http://localhost:8080/feed").then((res) => {
-      console.log(res.data);
-      setData(res.data);
-    });
+    axios
+      .get("http://localhost:8080/feed")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (

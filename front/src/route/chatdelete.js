@@ -17,8 +17,8 @@ import {
   IconButton,
 } from "@mui/material";
 
-import RefreshIcon from '@mui/icons-material/Refresh';
-import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import RefreshIcon from "@mui/icons-material/Refresh";
+import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
 
 import Appbars from "../components/appbars";
 
@@ -36,10 +36,15 @@ function ChatDelete() {
   let [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/feed").then((res) => {
-      console.log(res.data);
-      setData(res.data);
-    });
+    axios
+      .get("http://localhost:8080/feed")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   return (
     <>
@@ -53,18 +58,19 @@ function ChatDelete() {
               margin: "1.2rem",
               marginRight: "0.4rem",
               padding: " 1.2rem",
-            }}>
+            }}
+          >
             <TopWrap>
-            <div style={{margin:"auto", fontSize:"1.6rem"}}>
-              채팅
-              </div>
+              <div style={{ margin: "auto", fontSize: "1.6rem" }}>채팅</div>
               <IconButton>
-                <RefreshIcon onClick={() => {
-                  navigate("/chatlist");
-                }}/>
+                <RefreshIcon
+                  onClick={() => {
+                    navigate("/chatlist");
+                  }}
+                />
               </IconButton>
               <IconButton>
-                <RestoreFromTrashIcon/>
+                <RestoreFromTrashIcon />
               </IconButton>
             </TopWrap>
             <ContentWrap>
@@ -73,7 +79,8 @@ function ChatDelete() {
                   width: "100%",
                   maxWidth: 360,
                   bgcolor: "background.paper",
-                }}>
+                }}
+              >
                 {data.map(function (i, b) {
                   return (
                     <>
@@ -83,7 +90,8 @@ function ChatDelete() {
                           selected={selected}
                           onChange={() => {
                             setSelected(!selected);
-                          }}></ToggleButton>
+                          }}
+                        ></ToggleButton>
                         <ListItemAvatar>
                           <Avatar
                             alt="Remy Sharp"

@@ -51,10 +51,15 @@ function ChatList() {
   let [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/chat/rooms").then((res) => {
-      console.log(res.data);
-      setData(res.data);
-    });
+    axios
+      .get("http://localhost:8080/chat/rooms")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const [open, setOpen] = React.useState(false);

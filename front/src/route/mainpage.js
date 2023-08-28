@@ -23,7 +23,6 @@ function Mainpage() {
   return (
     <>
       <Appbars></Appbars>
-
       <MainWrap>
         <div style={{ maxWidth: 800 }}>
           <CenterBox>
