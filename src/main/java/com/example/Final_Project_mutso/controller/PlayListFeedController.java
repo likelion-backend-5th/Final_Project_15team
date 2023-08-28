@@ -7,9 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -52,4 +55,21 @@ public class PlayListFeedController {
     ){
         plCommentService.post(feedId,content);
     }
+
+    @PutMapping("/{feedId}/likes")
+    public ResponseEntity<Map<String,String>> Likes(
+            @PathVariable("feedId") Long id
+
+    ){
+        return service.likes(id);
+    }
+
+    @GetMapping("/{feedId}/likes")
+    public Long getLikes(
+            @PathVariable("feedId") Long id
+    ){
+        return service.getLikes(id);
+    }
+
+
 }

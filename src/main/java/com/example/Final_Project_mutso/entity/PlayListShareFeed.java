@@ -26,4 +26,7 @@ public class PlayListShareFeed {
     @OneToMany(mappedBy = "feed")
     private List<PlayListCommentEntity> comments;
 
+    @OneToMany(mappedBy = "feed")
+    private List<Likes> likes;
+
 }
