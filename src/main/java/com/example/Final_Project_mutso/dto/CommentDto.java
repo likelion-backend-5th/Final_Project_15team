@@ -8,16 +8,14 @@ import lombok.Data;
 
 @Data
 public class CommentDto {
-    private Long id;
     private Feed feed;
-    private UserEntity user;
+//    private UserEntity user;
     private String content;
 
     public static CommentDto fromEntity(Comment comment){
         CommentDto dto = new CommentDto();
-        dto.setId(comment.getId());
         dto.setFeed(comment.getFeed());
-        dto.setUser(comment.getUser());
+//        dto.setUser(comment.getUser());
         dto.setContent(comment.getContent());
         return dto;
     }

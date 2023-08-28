@@ -6,14 +6,15 @@ import com.example.Final_Project_mutso.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Configuration
 @Slf4j
-@RequestMapping("/feed")
-@Controller
+@RequestMapping("/comment")
+@RestController
 @RequiredArgsConstructor
 // cors 설정
 @CrossOrigin(origins = "*")
@@ -22,14 +23,30 @@ public class CommentController {
     private final CommentService commentService;
     private final FeedService feedService;
 
+    @GetMapping("/{feedId}") //해당 피드 댓글 모두 불러오기
+    public Page<CommentDto> readAll(
+            @PathVariable("feedId") Long feedId,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "limit", defaultValue = "5") Integer limit
+    ) {
+        return commentService.readCommentPaged(feedId, page, limit);
+    }
+
     @PostMapping("/{feedId}") //댓글 등록
     public void createComment(
             @PathVariable("feedId") Long feedId,
             CommentDto commentDto)
     {
         commentService.createComment(feedId, commentDto);
+    }
 
-//        return String.format("redirect:/feed/%s", feedId);
+    @PutMapping("/{feedId}/{commentId}")
+    public void updateComment(
+            @PathVariable("feedId") Long feedId,
+            @PathVariable("commentId") Long commentId,
+            CommentDto commentDto
+    ){
+        commentService.updateComment(feedId, commentId, commentDto);
     }
 
     @DeleteMapping("/{feedId}/{commentId}")
@@ -38,9 +55,8 @@ public class CommentController {
             @PathVariable("commentId") Long commentId
     ){
         commentService.deleteComment(feedId, commentId);
-
-//        return String.format("redirect:/feed/%s", feedId);
     }
+
 //    @PostMapping("/read")
 //    public String commentWrite(
 //            @PathVariable("id") Long id,
