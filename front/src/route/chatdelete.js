@@ -13,8 +13,8 @@ import {
   ListItemAvatar,
   Avatar,
   Divider,
-  ToggleButton,
   IconButton,
+  Checkbox,
 } from "@mui/material";
 
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -31,9 +31,22 @@ let TopWrap = styled.div`
 let ContentWrap = styled.div``;
 
 function ChatDelete() {
-  const [selected, setSelected] = React.useState(false);
   let navigate = useNavigate();
   let [data, setData] = useState([]);
+  let [del, setDel] = useState([]);
+
+  const deleteAll = () => {
+    del.map(function (i, b) {
+      axios
+        .delete("http://localhost:8080/chat/rooms/" + i)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  };
 
   useEffect(() => {
     axios
@@ -54,9 +67,9 @@ function ChatDelete() {
           <Paper
             elevation={3}
             style={{
-              width: "50%",
-              margin: "1.2rem",
-              marginRight: "0.4rem",
+              width: "100%",
+              margin: "auto 0.4rem",
+              marginTop: "0.4rem",
               padding: " 1.2rem",
             }}
           >
@@ -70,7 +83,7 @@ function ChatDelete() {
                 />
               </IconButton>
               <IconButton>
-                <RestoreFromTrashIcon />
+                <RestoreFromTrashIcon onClick={deleteAll} />
               </IconButton>
             </TopWrap>
             <ContentWrap>
@@ -85,13 +98,16 @@ function ChatDelete() {
                   return (
                     <>
                       <ListItem alignItems="flex-start">
-                        <ToggleButton
-                          value="check"
-                          selected={selected}
+                        <Checkbox
                           onChange={() => {
-                            setSelected(!selected);
+                            setDel(Array.from(del));
+                            if (del.includes(i.id)) {
+                              setDel([...del.filter((item) => item !== i.id)]);
+                            } else {
+                              setDel([i.id, ...del]);
+                            }
                           }}
-                        ></ToggleButton>
+                        />
                         <ListItemAvatar>
                           <Avatar
                             alt="Remy Sharp"
