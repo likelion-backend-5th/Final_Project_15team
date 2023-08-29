@@ -2,7 +2,6 @@ package com.example.Final_Project_mutso.controller;
 
 
 import com.example.Final_Project_mutso.dto.FeedDto;
-import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.service.CommentService;
 import com.example.Final_Project_mutso.service.FeedService;
 import com.example.Final_Project_mutso.service.FileService;
@@ -28,7 +27,7 @@ public class FeedController {
     private final FileService fileService;
 
     @GetMapping
-    public List<Feed> getFeed() {
+    public List<FeedDto> getFeed() {
         return feedService.readFeedAll();
     }
 
@@ -55,7 +54,7 @@ public class FeedController {
     }
 
 
-    @PutMapping("/{feedId}/update") // 정보 수정
+    @PutMapping("/{feedId}") // 정보 수정
     public void update(
             @PathVariable("feedId") Long feedId,  // URL의 ID
             FeedDto feedDto,  // HTTP Request Body
@@ -67,7 +66,7 @@ public class FeedController {
 
 
 
-    @DeleteMapping("/{feedId}/delete")//삭제
+    @DeleteMapping("/{feedId}")//삭제
     public void delete(
             @PathVariable("feedId") Long feedId
     ) {
