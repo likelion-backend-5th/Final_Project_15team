@@ -16,7 +16,7 @@ response: `{"roomId": 1,"sender": "d","message": "fff","time": "15:36"}`
 - 
 - 피드 목록 : `GET/feed`
 - 피드 상세 : `GET/feed/{feedId}`
-- 피드 수정 : `PUT/feed/{feedId}/{commentId}`
+- 피드 수정 : `PUT/feed/{feedId}`
 - ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/d9bf7a40-6dd7-44a4-b959-4f81b7fa420e)
 
 - 피드 삭제 : `DELETE/feed/{feedId}`
