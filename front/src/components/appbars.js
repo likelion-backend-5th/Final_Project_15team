@@ -15,6 +15,7 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ChatIcon from "@mui/icons-material/Chat";
+import AddIcon from "@mui/icons-material/Add";
 
 import { useNavigate } from "react-router-dom";
 
@@ -67,6 +68,14 @@ export default function Appbars() {
           </Typography>
           {auth && (
             <div>
+              <IconButton
+                size="large"
+                onClick={() => {
+                  navigate("/createfeed");
+                }}
+              >
+                <AddIcon style={{ color: "white" }} />
+              </IconButton>
               <IconButton
                 size="large"
                 aria-label="account of current user"

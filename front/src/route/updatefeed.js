@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
+import axios from "axios";
 
 import React from "react";
 import { Button, TextField, Box, Paper } from "@mui/material";
@@ -29,7 +30,8 @@ function UpdateFeed() {
               margin: "1.2rem",
               marginRight: "0.4rem",
               textAlign: "center",
-            }}>
+            }}
+          >
             <TopWrap>
               피드수정<Button variant="contained">수정하기</Button>
             </TopWrap>

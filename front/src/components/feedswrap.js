@@ -2,8 +2,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 
 import React, { useState, useEffect } from "react";
-import { Box, Stack, Paper, IconButton, TextField } from "@mui/material";
+import { Box, Stack, Paper, IconButton } from "@mui/material";
 import axios from "axios";
+
+import Comments from "./comments";
 
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import AddCommentIcon from "@mui/icons-material/AddComment";
@@ -45,7 +47,6 @@ let Username = styled.div`
 `;
 let Time = styled.div``;
 let BottomBox = styled.div``;
-let CommentBox = styled.div``;
 let LikeText = styled.div`
   margin-left: 5rem;
 `;
@@ -57,10 +58,10 @@ let Contents = styled.div`
 `;
 
 export default function Feedswrap() {
+  const [commentIndex, setCommentIndex] = useState([]);
   const [like, setLike] = useState(false);
   const likes = 10;
   const [data, setData] = useState([]);
-  const [comment, setComment] = useState([]);
   const [viewComment, setViewComment] = useState(false);
   useEffect(() => {
     axios
@@ -68,15 +69,6 @@ export default function Feedswrap() {
       .then((res) => {
         console.log(res.data);
         setData(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get("http://localhost:8080/comment")
-      .then((res) => {
-        console.log(res.data);
-        setComment(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -109,8 +101,6 @@ export default function Feedswrap() {
                 <div
                   style={{
                     background: "lightgrey",
-                    // width: "30rem",
-                    // height: "30rem",
                     margin: "auto",
                     borderRadius: "1rem",
                     height: "10rem",
@@ -144,10 +134,12 @@ export default function Feedswrap() {
                         <IconButton>
                           <AddCommentIcon
                             onClick={() => {
-                              if (viewComment) {
-                                setViewComment(false);
+                              if (commentIndex.includes(b)) {
+                                setCommentIndex([
+                                  ...commentIndex.filter((item) => item !== b),
+                                ]);
                               } else {
-                                setViewComment(true);
+                                setCommentIndex([i.id, ...commentIndex]);
                               }
                             }}
                           />
@@ -161,42 +153,10 @@ export default function Feedswrap() {
                     <Title>{i.title}</Title>
                     <Contents>{i.content}</Contents>
                     <HashTag>해시태그 : #블랙핑크</HashTag>
-                    {viewComment ? (
-                      <CommentBox>
-                        {comment
-                          ? comment.map(function (i, b) {
-                              return (
-                                <>
-                                  <Paper
-                                    elevation={3}
-                                    style={{
-                                      marginTop: "0.4rem",
-                                      borderRadius: "1rem",
-                                      padding: "0.8rem",
-                                    }}
-                                  >
-                                    <span
-                                      style={{
-                                        fontWeight: "bold",
-                                        marginRight: "0.8rem",
-                                      }}
-                                    >
-                                      {i.nickname}
-                                    </span>
-                                    {i.comment}
-                                  </Paper>
-                                </>
-                              );
-                            })
-                          : null}
-                        <TextField
-                          fullwidth
-                          style={{ width: "100%" }}
-                          id="fullwidth"
-                          label="댓글달기"
-                          variant="standard"
-                        />
-                      </CommentBox>
+                    {commentIndex.includes(b) ? (
+                      <>
+                        <Comments props={i.comments} feed={i.id}></Comments>
+                      </>
                     ) : null}
                   </Paper>
                 </BottomBox>
