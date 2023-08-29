@@ -24,7 +24,4 @@ public class Comment {
 
     private String time;
 
-    public Comment() {
-
-    }
 }
