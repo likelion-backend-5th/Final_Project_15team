@@ -86,7 +86,30 @@ response: `{"roomId": 1,"sender": "d","message": "fff","time": "15:36"}`
 
 
 # 마이페이지
+- 회원가입
+Post http://localhost:8080/users/register
+params에 key랑 value 입력 (회원가입정보)
 
+- 로그인
+Post http://localhost:8080/users/login
+body raw json username, password 입력하면 토큰 나옴
 
+- 팔로우
+Put http://localhost:8080/users/mypage/{username}/follow
+auth bearer token 에서 토큰 입력 후 username에 팔로우 할 아이디 적으면 됨
 
+- 팔로우리스트
+Get http://localhost:8080/users/mypage/{username}/follow
+auth bearer token 에서 토큰 입력 후 username에는 팔로우 리스트 보고싶은 아이디 적으면 됨
 
+- 마이페이지
+Get http://localhost:8080/users/mypage/{username}
+auth bearer token 에서 토큰 입력
+
+- 프로필
+Get http://localhost:8080/users/mypage/{username}/profile
+auth bearer token 에서 토큰 입력
+
+-프로필 이미지
+Put http://localhost:8080/users/mypage/profile/imgupload
+auth bearer token 에서 토큰 입력 후 body form-data key: image (file) value: 파일찾기
