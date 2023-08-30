@@ -3,25 +3,26 @@ package com.example.Final_Project_mutso.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
+@Table(name = "user_follow")
 public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 중간 테이블 생성됨.
-    // fromUser가 toUser를 following 함.
-    // toUser를 fromUser가 follower 함.
-
     @ManyToOne
-    @JoinColumn(name="fromUserId")
-    //@JsonIgnoreProperties({"images"})
-    private UserEntity fromUserEntity;
+    private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name="toUserId")
-    //@JsonIgnoreProperties({"images"})
-    private UserEntity toUserEntity;
+    @ManyToMany
+    @JoinColumn(name="follower")
+    private List<UserEntity> followerList = new ArrayList<>();
+
+    @ManyToMany
+    @JoinColumn(name="following")
+    private List<UserEntity> followingList = new ArrayList<>();
 
 }
