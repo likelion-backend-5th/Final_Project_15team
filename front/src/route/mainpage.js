@@ -6,6 +6,7 @@ import Appbars from "../components/appbars.js";
 import Searchbox from "../components/searchbox.js";
 import Musiccontroller from "../components/musiccontroller.js";
 import Feedswrap from "../components/feedswrap.js";
+import Music from "../components/music.js";
 
 let CenterBox = styled.div`
   text-align: center;
@@ -27,6 +28,7 @@ function Mainpage() {
         <div style={{ maxWidth: 800 }}>
           <CenterBox>
             <Searchbox></Searchbox>
+            {/* <Music /> */}
             <Musiccontroller></Musiccontroller>
           </CenterBox>
           <Feedswrap></Feedswrap>

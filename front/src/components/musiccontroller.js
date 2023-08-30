@@ -18,13 +18,27 @@ export default function Musiccontroller() {
   const [totalTime, setTotalTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(50);
+  const [videoId, setVideoId] = useState();
+  const [coverImg, setCoverImg] = useState();
 
   useEffect(() => {
+    let tempVideoId = "";
     axios
       .get("http://localhost:8080/feed")
       .then((res) => {
         console.log(res.data);
         setData(res.data);
+        tempVideoId = res.data[0].videoId;
+        let [a, b] = tempVideoId.split("=");
+        if (b) {
+          setVideoId(b);
+        }
+        setCoverImg(res.data[0].imageUrlPath);
+      })
+      .then(() => {
+        if (videoId) {
+          initializePlayer(videoId);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -41,14 +55,16 @@ export default function Musiccontroller() {
       delete window.onYouTubeIframeAPIReady;
     };
     // eslint-disable-next-line
-  }, []);
+  }, [videoId]);
 
-  const initializePlayer = () => {
+  const initializePlayer = (videoId) => {
+    console.log(videoId);
     setPlayer(
       new window.YT.Player("player", {
         height: "0",
         width: "0",
-        videoId: "JGwWNGJdvx8", //music id, 일단 임의로 지정해둠
+        videoId: videoId,
+        // videoId: "JGwWNGJdvx8", //music id, 일단 임의로 지정해둠
         playerVars: {
           rel: 0,
           controls: 0,
@@ -208,7 +224,7 @@ export default function Musiccontroller() {
             borderRadius: "1rem",
             margin: "auto",
           }}
-          image={data[0] ? data[0].imageUrl : null}
+          image={coverImg ? coverImg : null}
           alt="앨범커버"
         />
       </Card>

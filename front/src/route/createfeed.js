@@ -2,12 +2,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import axios from "axios";
 
-import React, { useState } from "react";
-import { Button, TextField, Box, Paper } from "@mui/material";
+import React, { useState, useRef } from "react";
+import { Button, TextField, Box, Paper, IconButton } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 
 import Appbars from "../components/appbars";
+
+import SendIcon from "@mui/icons-material/Send";
 
 let WholeWrap = styled.div``;
 let TopWrap = styled.div`
@@ -20,8 +22,32 @@ let ContentWrap = styled.div``;
 let BottomWrap = styled.div``;
 
 function CreateFeed() {
+  const [PnV, setPnV] = useState("");
+  const PnVRef = useRef();
+  const [musicFile, setMusicFile] = useState("");
+  const musicRef = useRef();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [viewUploadPnV, setViewUploadPnV] = useState(false);
+  const [viewUploadMusic, setViewUploadMusic] = useState(false);
+
+  const uploadPnV = () => {
+    const file = PnVRef.current.file[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPnV(reader.result);
+    };
+  };
+
+  const uploadMusic = () => {
+    const file = musicRef.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setMusicFile(reader.result);
+    };
+  };
 
   const OCTitle = (e) => {
     setTitle(e.target.value);
@@ -35,6 +61,8 @@ function CreateFeed() {
     let body = {
       title: title,
       content: content,
+      music: musicFile,
+      PnV: PnV,
     };
     axios
       .post("http://localhost:8080/feed/add", body)
@@ -59,12 +87,7 @@ function CreateFeed() {
               padding: "0.8rem",
             }}
           >
-            <TopWrap>
-              피드생성
-              <Button variant="contained" onClick={postFeed}>
-                게시하기
-              </Button>
-            </TopWrap>
+            <TopWrap>피드생성</TopWrap>
             <Paper elevation={3} style={{ textAlign: "center" }}>
               <TitleWrap>
                 <TextField
@@ -90,11 +113,60 @@ function CreateFeed() {
               </ContentWrap>
               <BottomWrap>
                 <div>
-                  사진/동영상 추가 : <AddIcon></AddIcon>
+                  사진/동영상 추가 :{" "}
+                  <IconButton>
+                    <AddIcon
+                      onClick={() => {
+                        if (viewUploadPnV) {
+                          setViewUploadPnV(false);
+                        } else {
+                          setViewUploadPnV(true);
+                        }
+                      }}
+                    />
+                  </IconButton>
+                  {viewUploadPnV ? (
+                    <form>
+                      <input
+                        type="file"
+                        onChange={uploadPnV}
+                        ref={PnVRef}
+                      ></input>
+                      <IconButton>
+                        <SendIcon />
+                      </IconButton>
+                    </form>
+                  ) : null}
                 </div>
                 <div>
-                  음원 추가 : <AddIcon></AddIcon>
+                  음원 추가 :{" "}
+                  <IconButton>
+                    <AddIcon
+                      onClick={() => {
+                        if (viewUploadMusic) {
+                          setViewUploadMusic(false);
+                        } else {
+                          setViewUploadMusic(true);
+                        }
+                      }}
+                    />
+                  </IconButton>
+                  {viewUploadMusic ? (
+                    <form>
+                      <input
+                        type="file"
+                        onChange={uploadMusic}
+                        ref={musicRef}
+                      ></input>
+                      <IconButton>
+                        <SendIcon />
+                      </IconButton>
+                    </form>
+                  ) : null}
                 </div>
+                <Button variant="contained" onClick={postFeed}>
+                  게시하기
+                </Button>
               </BottomWrap>
             </Paper>
           </Paper>
