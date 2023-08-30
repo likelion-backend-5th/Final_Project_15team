@@ -30,8 +30,10 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
+
+// cors 설정
+@CrossOrigin(origins = "*")
 
 public class UserController {
     private final UserRepository userRepository;
