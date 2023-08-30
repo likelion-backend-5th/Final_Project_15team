@@ -35,8 +35,45 @@ response: `{"roomId": 1,"sender": "d","message": "fff","time": "15:36"}`
 
 
 # 뮤직플레이어
+- 음악 검색
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/560c90ed-5daa-419f-b989-02c81433a7dd)
+  
+  "title":"[최초 공개] DK (디셈버) - 心 (심)"
+  "imageUrlPath":"https://i.ytimg.com/vi/OMjDI2NqQ9M/default.jpg"
+  "videoId":"https://www.youtube.com/watch?v=OMjDI2NqQ9M"
+  "artist":"방구석 캐스팅","musicTime":"4:17"
+  
+  의 형태로 리턴되게 됩니다.
+  
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/3e43a051-0840-4c70-a73a-6803704a763c)
+  
+  dto의 타입은 다음과 같습니다.
 
+- 검색한 음악 재생
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/9f0e5d61-b11f-4280-8dbc-34b9b05ef780)
+  
+  /search/{musicId}/playmusic
+  musicId는 검색한 리스트의 순서를 의미합니다.
+  
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/4e46ddee-f42d-497a-a584-86c061a51300)
+  
+  음악 url을 보내줄수 있으며, 위에서 검색할때 나온 title, artist , musicTime, imageUrl을 모두 보낼 수 있으며, 필요한 정보가 있다면 추가 개발 하도록 하겠습니다.
 
+- 검색한 음악 플레이 리스트 추가
+  
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/73d4903f-a467-468a-ab83-3942e8adb4b3)
+  
+  search/{musicId}/{playListName}/add
+  
+  음악을 {playListName}이라는 플레이 리스트에 저장합니다. 플레이 리스트가 이미 존재한다면 추가를 하고, 없다면 새롭게 만듭니다.
+
+![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/0483a0cb-89b1-42ef-a7f2-8b9d787f03ea)
+
+- 내 플레이  리스트 조회
+
+![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/b520c245-50af-4793-81c6-bfc36f646b78)
+
+- 
 
 
 
