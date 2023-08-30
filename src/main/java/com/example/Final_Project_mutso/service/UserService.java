@@ -1,6 +1,7 @@
 package com.example.Final_Project_mutso.service;
 
 import com.example.Final_Project_mutso.dto.FollowDto;
+import com.example.Final_Project_mutso.dto.MypageDto;
 import com.example.Final_Project_mutso.dto.ProfileDto;
 import com.example.Final_Project_mutso.entity.Follow;
 import com.example.Final_Project_mutso.entity.UserEntity;
@@ -23,6 +24,20 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
+
+    public MypageDto getMypage(String username) {
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        if(optionalUser.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        UserEntity userEntity = optionalUser.get();
+
+        List<Follow> followsOptional = followRepository.findByUser(userEntity);
+        if(followsOptional.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        Follow follow = followsOptional.get(0);
+
+        return MypageDto.fromEntity(userEntity, follow);
+    }
 
     public ProfileDto getProfile(String username){
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
@@ -104,7 +119,7 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         Follow follow = followsOptional.get(0);
 
-        return FollowDto.fromEntity(follow);
+        return FollowDto.fromEntity(follow, userEntity);
     }
 
 }

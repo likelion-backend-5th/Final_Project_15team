@@ -72,8 +72,12 @@ public class UserController {
         Map<String, String> responseBody = new HashMap<>();
         if (password.equals(passwordCheck) && !jpaUserDetailsManager.userExists(username)) {
             UserEntity userEntity = new UserEntity();
+            userEntity.setName(name);
             userEntity.setUsername(username);
+            userEntity.setNickname(nickname);
             userEntity.setPassword(passwordEncoder.encode(password));
+            userEntity.setPhonenumber(phonenumber);
+            userEntity.setEmail(email);
 
             Follow follow = new Follow();
             follow.setUser(userEntity);
@@ -95,7 +99,15 @@ public class UserController {
             @PathVariable("username") String username
 
     ){
-        return null;
+        return userService.getMypage(username);
+    }
+
+    @GetMapping("/mypage/{username}/profile")
+    public ProfileDto profile(
+            @PathVariable("username") String username
+
+    ){
+        return userService.getProfile(username);
     }
 
     @PutMapping(value = "/mypage/profile/imgupload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -108,14 +120,6 @@ public class UserController {
         responseBody.put("message", "이미지가 등록되었습니다.");
 
         return ResponseEntity.ok(responseBody);
-    }
-
-    @GetMapping("/mypage/{username}/profile")
-    public ProfileDto profile(
-            @PathVariable("username") String username
-
-    ){
-        return userService.getProfile(username);
     }
 
     @PutMapping("/mypage/{username}/follow")

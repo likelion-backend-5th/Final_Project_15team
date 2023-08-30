@@ -11,8 +11,10 @@ import java.util.List;
 public class FollowDto {
     private List<String> followerList;
     private List<String> followingList;
+    private String profileImage;
+    private String nickname;
 
-    public static FollowDto fromEntity(Follow entity) {
+    public static FollowDto fromEntity(Follow entity, UserEntity userEntity) {
         FollowDto dto = new FollowDto();
         List<String> followerList = new ArrayList<>();
         for(UserEntity e : entity.getFollowerList())
@@ -24,6 +26,8 @@ public class FollowDto {
 
         dto.setFollowerList(followerList);
         dto.setFollowingList(followingList);
+        dto.setProfileImage(userEntity.getProfileImage());
+        dto.setNickname(userEntity.getNickname());
 
         return dto;
     }

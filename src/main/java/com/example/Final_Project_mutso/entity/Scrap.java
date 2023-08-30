@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class UserScrap {
+public class Scrap {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,4 +17,5 @@ public class UserScrap {
 //    @ManyToMany
 //    @JoinColumn(name="scrap")
 //    private List<Feed> scrapList = new ArrayList<>();
+
 }
