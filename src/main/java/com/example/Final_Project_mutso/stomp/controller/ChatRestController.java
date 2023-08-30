@@ -21,11 +21,13 @@ import java.util.List;
 public class ChatRestController {
     private final ChatService chatService;
 
-
     // 채팅방 생성하기
-    @PostMapping("rooms")
-    public ResponseEntity<ChatRoomDto> createRoom(@RequestBody ChatRoomDto chatRoomDto){
-        return ResponseEntity.ok(chatService.createChatRoom(chatRoomDto));
+    @PostMapping(value = "rooms", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ChatRoomDto> createRoom(
+            @RequestPart ChatRoomDto chatRoomDto,
+            @RequestPart("image") MultipartFile file
+    ){
+        return ResponseEntity.ok(chatService.createChatRoom(chatRoomDto , file));
     }
 
     // 채팅방 목록 조회하기
@@ -40,6 +42,12 @@ public class ChatRestController {
         return ResponseEntity.ok(chatService.findRoomById(roomId));
     }
 
+    // 채팅방 삭제
+    @DeleteMapping("rooms/{id}/delete")
+    public void deleteChatRoom(@PathVariable("id") Long id){
+        chatService.deleteChatRoom(id);
+    }
+
     // 메세지 조회
     @GetMapping("rooms/{id}/message")
     public List<ChatMessageDto> readMessage(
@@ -48,20 +56,10 @@ public class ChatRestController {
         return chatService.readMessage(id);
     }
 
-    // 채팅방 삭제
-    @DeleteMapping("rooms/{id}/delete")
-    public void deleteChatRoom(@PathVariable("id") Long id){
-        chatService.deleteChatRoom(id);
+    // 파일 업로드
+    @PostMapping(value = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String uploadFile(@RequestParam("file") MultipartFile image) throws IOException {
+        return chatService.uploadFile(image);
     }
 
-
-    // 채팅방 이미지
-    //updateImage
-    @PutMapping(value = "/rooms/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void updateImage(
-            @PathVariable("id")Long id,
-            @RequestParam("image") MultipartFile image
-    )throws IOException {
-        chatService.updateImage(id, image);
-    }
 }

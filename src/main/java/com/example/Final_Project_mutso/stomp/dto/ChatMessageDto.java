@@ -13,6 +13,8 @@ public class ChatMessageDto {
     private String sender;
     private String message;
     private String time;
+    private String profile;
+    private String fileUrl;
 
 
     public static ChatMessageDto fromEntity(ChatMessage messageEntity) {
@@ -20,7 +22,9 @@ public class ChatMessageDto {
                 messageEntity.getRoomId(),
                 messageEntity.getSender(),
                 messageEntity.getMessage(),
-                messageEntity.getTime()
+                messageEntity.getTime(),
+                messageEntity.getProfile(),
+                messageEntity.getFileUrl()
         );
     }
 
@@ -30,6 +34,8 @@ public class ChatMessageDto {
         messageEntity.setSender(sender);
         messageEntity.setMessage(message);
         messageEntity.setTime(time);
+        messageEntity.setProfile(profile);
+        messageEntity.setFileUrl(fileUrl);
         return messageEntity;
     }
 }

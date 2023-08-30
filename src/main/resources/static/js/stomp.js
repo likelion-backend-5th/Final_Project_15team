@@ -653,4 +653,9 @@
         self.Stomp = Stomp;
     }
 
+    // 이진 데이터를 보내는 함수
+    function sendBinaryData(binaryData) {
+        stompClient.send('/app/sendBinary', {}, binaryData);
+    }
+
 }).call(this);
