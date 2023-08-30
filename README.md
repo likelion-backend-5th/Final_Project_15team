@@ -110,6 +110,6 @@ auth bearer token 에서 토큰 입력
 Get http://localhost:8080/users/mypage/{username}/profile
 auth bearer token 에서 토큰 입력
 
--프로필 이미지
+- 프로필 이미지
 Put http://localhost:8080/users/mypage/profile/imgupload
 auth bearer token 에서 토큰 입력 후 body form-data key: image (file) value: 파일찾기
