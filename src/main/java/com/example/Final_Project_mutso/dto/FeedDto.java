@@ -13,7 +13,7 @@ public class FeedDto {
     private String date;
     private String time;
     private String hashtag;
-    private List<Comment> comments;
+//    private List<Comment> comments;
 
 //    private String image_url;
 //    private UserEntity user;

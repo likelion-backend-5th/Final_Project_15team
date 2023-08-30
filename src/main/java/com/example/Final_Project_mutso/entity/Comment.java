@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @Data
-@SuperBuilder
 
 public class Comment {
     @Id
@@ -25,7 +24,4 @@ public class Comment {
 
     private String time;
 
-    public Comment() {
-
-    }
 }

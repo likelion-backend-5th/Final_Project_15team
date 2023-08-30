@@ -24,12 +24,19 @@ public class CommentController {
     private final FeedService feedService;
 
     @GetMapping("/{feedId}") //해당 피드 댓글 모두 불러오기
-    public Page<CommentDto> readAll(
-            @PathVariable("feedId") Long feedId,
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "limit", defaultValue = "5") Integer limit
+    public List<CommentDto> readAll(
+            @PathVariable("feedId") Long feedId
     ) {
-        return commentService.readCommentPaged(feedId, page, limit);
+        return commentService.readCommentAll(feedId);
+    }
+
+    @GetMapping("/{feedId}/list") //댓글 리스트
+    public Page<CommentDto> readFeedCommments(
+            @PathVariable("feedId") Long feedId,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "25") Integer limit
+    ){
+        return commentService.readCommentPaged(feedId,page,limit);
     }
 
     @PostMapping("/{feedId}") //댓글 등록
