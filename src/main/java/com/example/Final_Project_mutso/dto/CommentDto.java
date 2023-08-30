@@ -11,6 +11,8 @@ public class CommentDto {
 //    private Feed feed;
 //    private UserEntity user;
     private String content;
+    private Long id;
+    private String nickname;
 
     public static CommentDto fromEntity(Comment comment){
         CommentDto dto = new CommentDto();
