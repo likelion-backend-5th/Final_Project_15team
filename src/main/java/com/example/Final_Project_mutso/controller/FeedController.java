@@ -44,12 +44,12 @@ public class FeedController {
 
 
     @GetMapping("/{feedId}") //피드 상세
-    public FeedDto read(
+    public void read(
             @PathVariable("feedId") Long feedId)
     {
-        return feedService.readFeed(feedId);
-//        commentService.readCommentPaged(feedId, 0, 5);
-//        fileService.readFile(feedId);
+        feedService.readFeed(feedId);
+        commentService.readCommentPaged(feedId, 0, 5);
+        fileService.readFile(feedId);
 
     }
 
