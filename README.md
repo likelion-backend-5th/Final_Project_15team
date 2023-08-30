@@ -59,6 +59,9 @@ response: `{"roomId": 1,"sender": "d","message": "fff","time": "15:36"}`
   
   음악 url을 보내줄수 있으며, 위에서 검색할때 나온 title, artist , musicTime, imageUrl을 모두 보낼 수 있으며, 필요한 정보가 있다면 추가 개발 하도록 하겠습니다.
 
+
+# 플레이리스트
+
 - 검색한 음악 플레이 리스트 추가
   
   ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/73d4903f-a467-468a-ab83-3942e8adb4b3)
@@ -67,14 +70,19 @@ response: `{"roomId": 1,"sender": "d","message": "fff","time": "15:36"}`
   
   음악을 {playListName}이라는 플레이 리스트에 저장합니다. 플레이 리스트가 이미 존재한다면 추가를 하고, 없다면 새롭게 만듭니다.
 
-![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/0483a0cb-89b1-42ef-a7f2-8b9d787f03ea)
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/0483a0cb-89b1-42ef-a7f2-8b9d787f03ea)
 
 - 내 플레이  리스트 조회
 
-![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/b520c245-50af-4793-81c6-bfc36f646b78)
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/b520c245-50af-4793-81c6-bfc36f646b78)
 
-- 
+- 플레이 리스트 공유 피드 생성
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/a6430e73-002b-4911-b629-996c4c7f16e1)
 
+- 플레이 리스트 피드 목록 조회
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/b3f7643c-cddf-47d7-b231-d604fba70d9c)
+
+  
 
 
 # 마이페이지
