@@ -5,13 +5,18 @@ import com.example.Final_Project_mutso.entity.UserEntity;
 import com.example.Final_Project_mutso.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 
 @Slf4j
@@ -71,18 +76,7 @@ public class JpaUserDetailsManager implements UserDetailsManager {
 
     @Override
     public void updateUser(UserDetails user) {
-//        throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
-        if (!this.userExists(user.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        try {
-            CustomUserDetails customUserDetails = (CustomUserDetails) user;
-            UserEntity userEntity = customUserDetails.newEntity(); // 가정: UserDetails를 UserEntity로 변환하는 메서드
-            this.userRepository.save(userEntity);
-        } catch (ClassCastException e) {
-            log.error("failed to cast to {}", CustomUserDetails.class);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @Override
@@ -93,6 +87,42 @@ public class JpaUserDetailsManager implements UserDetailsManager {
     @Override
     public void changePassword(String oldPassword, String newPassword) {
         throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    public void ImageUpload(MultipartFile avatarImage){
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        Optional<UserEntity> optionalUser
+                = userRepository.findByUsername(username);
+
+        if(optionalUser.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        UserEntity userEntity = optionalUser.get();
+
+        String profileDir = String.format("media/%s/",username);
+        try {
+            Files.createDirectories(Path.of(profileDir));
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        String originalFilename = avatarImage.getOriginalFilename();
+        String[] fileNameSplit = originalFilename.split("\\.");
+        String extension = fileNameSplit[fileNameSplit.length - 1];
+        String profileFilename = "profile." + extension;
+        String profilePath = profileDir + profileFilename;
+        try {
+            avatarImage.transferTo(Path.of(profilePath));
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        userEntity.setProfileImage(String.format("/static/%s/%s",username,profileFilename));
+        userRepository.save(userEntity);
     }
 
 }

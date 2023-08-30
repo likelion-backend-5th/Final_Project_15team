@@ -1,89 +1,68 @@
 package com.example.Final_Project_mutso.controller;
 
-import com.example.Final_Project_mutso.entity.CustomUserDetails;
+import com.example.Final_Project_mutso.dto.FollowDto;
+import com.example.Final_Project_mutso.dto.MypageDto;
+import com.example.Final_Project_mutso.dto.ProfileDto;
+import com.example.Final_Project_mutso.entity.Follow;
+import com.example.Final_Project_mutso.entity.UserEntity;
+import com.example.Final_Project_mutso.jwt.JwtRequestDto;
 import com.example.Final_Project_mutso.jwt.JwtTokenDto;
 import com.example.Final_Project_mutso.jwt.JwtTokenUtils;
-//import com.example.Final_Project_mutso.repository.FollowRepository;
+import com.example.Final_Project_mutso.repository.FollowRepository;
 import com.example.Final_Project_mutso.repository.UserRepository;
+import com.example.Final_Project_mutso.service.UserService;
+import com.example.Final_Project_mutso.service.JpaUserDetailsManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Slf4j
-@Controller
-//@RestController
+@RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
+
 // cors 설정
 @CrossOrigin(origins = "*")
 
 public class UserController {
     private final UserRepository userRepository;
 
-//    private final FollowRepository followRepository;
+    private final FollowRepository followRepository;
 
-    @GetMapping("/login")
-    public String loginForm() {
-        return "login-form";
-    }
+    private final JpaUserDetailsManager jpaUserDetailsManager;
 
-    @GetMapping("/profile")
-    public String myProfile(
-//            Authentication authentication
-    ) {
-//        CustomUserDetails userDetails
-//                = (CustomUserDetails) authentication.getPrincipal();
-//        log.info(userDetails.getUsername());
-//        log.info(userDetails.getEmail());
-        return "profile-form";
-    }
-
-    @GetMapping("/register")
-    public String registerForm() {
-        return "register-form";
-    }
-
-    @GetMapping("/logout")
-    public String logoutForm() {
-        return "login-form";
-    }
-
-    private final UserDetailsManager manager;
+    private final UserDetailsManager userDetailsManager;
     private final JwtTokenUtils jwtTokenUtils;
     private final PasswordEncoder passwordEncoder;
 
-    public UserController(
-            UserRepository userRepository, UserDetailsManager manager,
-            JwtTokenUtils jwtTokenUtils, PasswordEncoder passwordEncoder
-    ) {
-        this.userRepository = userRepository;
-//        this.followRepository = followRepository;
-        this.manager = manager;
-        this.jwtTokenUtils = jwtTokenUtils;
-        this.passwordEncoder = passwordEncoder;
+    private final UserService userService;
+
+    @PostMapping("/login")
+    public JwtTokenDto issueJwt(@RequestBody JwtRequestDto dto) {
+        UserDetails userDetails
+                = userDetailsManager.loadUserByUsername(dto.getUsername());
+
+        if (!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword()))
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
+        JwtTokenDto response = new JwtTokenDto();
+        response.setToken(jwtTokenUtils.generateToken(userDetails));
+        return response;
     }
 
-//    @PostMapping("/login")
-//    public JwtTokenDto issueJwt(@RequestBody JwtRequestDto dto) {
-//        UserDetails userDetails
-//                = manager.loadUserByUsername(dto.getUsername());
-//
-//        if (!passwordEncoder.matches(dto.getPassword(), userDetails.getPassword()))
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-//
-//        JwtTokenDto response = new JwtTokenDto();
-//        response.setToken(jwtTokenUtils.generateToken(userDetails));
-//        return response;
-//    }
-
     @PostMapping("/register")
-    public String registerPost(
+    public ResponseEntity<Map<String, String>> register(
             @RequestParam("name") String name,
             @RequestParam("username") String username,
             @RequestParam("nickname") String nickname,
@@ -92,120 +71,78 @@ public class UserController {
             @RequestParam("phonenumber") String phonenumber,
             @RequestParam("email") String email
     ) {
-        if (password.equals(passwordCheck)) {
-            log.info("password match!");
-            manager.createUser(CustomUserDetails.builder()
-                    .name(name)
-                    .username(username)
-                    .nickname(nickname)
-                    .password(passwordEncoder.encode(password))
-                    .phonenumber(phonenumber)
-                    .email(email)
-                    .build());
+        Map<String, String> responseBody = new HashMap<>();
+        if (password.equals(passwordCheck) && !jpaUserDetailsManager.userExists(username)) {
+            UserEntity userEntity = new UserEntity();
+            userEntity.setName(name);
+            userEntity.setUsername(username);
+            userEntity.setNickname(nickname);
+            userEntity.setPassword(passwordEncoder.encode(password));
+            userEntity.setPhonenumber(phonenumber);
+            userEntity.setEmail(email);
 
-            return "redirect:/users/login";
+            Follow follow = new Follow();
+            follow.setUser(userEntity);
+
+            userRepository.save(userEntity);
+            followRepository.save(follow);
+
+            responseBody.put("message", "등록이 완료 되었습니다.");
+        } else if (jpaUserDetailsManager.userExists(username)) {
+            responseBody.put("message", "아이디가 중복됩니다.");
+        } else if (!password.equals(passwordCheck)) {
+            responseBody.put("message", "패스워드가 일치하지 않습니다.");
         }
-        log.warn("password does not match...");
-        return "redirect:/users/register?error";
+        return ResponseEntity.ok(responseBody);
     }
 
-    @PostMapping("/login")
-    public String loginPost(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password
+    @GetMapping("/mypage/{username}")
+    public MypageDto mypage(
+            @PathVariable("username") String username
+
+    ){
+        return userService.getMypage(username);
+    }
+
+    @GetMapping("/mypage/{username}/profile")
+    public ProfileDto profile(
+            @PathVariable("username") String username
+
+    ){
+        return userService.getProfile(username);
+    }
+
+    @PutMapping(value = "/mypage/profile/imgupload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, String>> updateImage(
+            @RequestParam("image") MultipartFile avatarImage
     ) {
-        UserDetails userDetails = manager.loadUserByUsername(username);
 
-        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
+        jpaUserDetailsManager.ImageUpload(avatarImage);
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("message", "이미지가 등록되었습니다.");
 
-        JwtTokenDto response = new JwtTokenDto();
-        response.setToken(jwtTokenUtils.generateToken(userDetails));
-
-        return "redirect:/users/profile";
+        return ResponseEntity.ok(responseBody);
     }
 
-    @PostMapping("/profile")
-    public String myProfilePost(
-            Authentication authentication
-    ) {
-        CustomUserDetails customUserDetails
-                = (CustomUserDetails) authentication.getPrincipal();
-        manager.updateUser(CustomUserDetails.builder()
-                .username(customUserDetails.getUsername())
-                .password(customUserDetails.getPassword())
-                .email(customUserDetails.getEmail())
-                .imageurl(customUserDetails.getImageurl())
-                .build());
-
-        return "redirect:/users/profile";
+    @PutMapping("/mypage/{username}/follow")
+    public ResponseEntity<Map<String, String>> userFollow(
+            @PathVariable("username") String username
+    ){
+        return userService.userFollow(username);
     }
 
-    @PostMapping("/logout")
-    public String logoutPost() {
-        return "redirect:/users/login";
+    @GetMapping("/mypage/{username}/follow")
+    public FollowDto getUserFollows(
+            @PathVariable("username") String username
+    ){
+        return userService.getUserFollows(username);
     }
 
-//    @PostMapping("/my-page")
-//    public String myPagePost() {
-//        return null;
-//    }
-
-    // 20230823
-//    @PostMapping("/follow/{id}")
-//    public @ResponseBody String follow
-//            (
-//                    @AuthenticationPrincipal CustomUserDetails userDetail,
-//                    @PathVariable Long id
-//            )
-//    {
-//        User fromUser = userDetail.getUser();
-//        Optional<User> oToUser =
-//                userRepository.findById(id);
-//        User toUser = oToUser.get();
-//
-//        Follow follow = new Follow();
-//        follow.setFromUser(fromUser);
-//        follow.setToUser(toUser);
-//
-//        followRepository.save(follow);
-//
-//        return "ok";
-//    }
-//
-//    @DeleteMapping("/follow/{id}")
-//    public @ResponseBody String unFollow
-//            (
-//                    @AuthenticationPrincipal CustomUserDetails userDetail,
-//                    @PathVariable Long id
-//            )
-//    {
-//        User fromUser = userDetail.getUser();
-//        Optional<User> oToUser =
-//                userRepository.findById(id);
-//        User toUser = oToUser.get();
-//
-//        followRepository.deleteByFromUserIdAndToUserId(fromUser.getId(), toUser.getId());
-//
-//        List<Follow> follows = followRepository.findAll();
-//        return "ok";
-//    }
-//
-//    @GetMapping("/follow/follower/{id}")
-//    public String followFollower(@PathVariable Long id) {
-//
-//        // 팔로워 리스트
-//
-//        return "follow/follow";
-//    }
-//
-//    @GetMapping("/follow/follow/{id}")
-//    public String followFollow(@PathVariable Long id) {
-//
-//        // 팔로우 리스트
-//
-//        return "follow/follow";
+//    @GetMapping("/mypage/{username}/scrap")
+//    public ScrapDto getFeedScraps(
+//            @PathVariable("username") String username
+//    ) {
+//        return feedService.getFeedScraps(username);
 //    }
 
 }

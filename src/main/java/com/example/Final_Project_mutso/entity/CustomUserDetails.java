@@ -16,16 +16,16 @@ public class CustomUserDetails implements UserDetails {
     @Getter
     private Long id;
 
+    @Getter
     private String name;
     private String username;
+    @Getter
     private String nickname;
     private String password;
+    @Getter
     private String phonenumber;
     @Getter
     private String email;
-    @Getter
-    private String imageurl;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -72,7 +72,6 @@ public class CustomUserDetails implements UserDetails {
         details.password = entity.getPassword();
         details.phonenumber = entity.getPhonenumber();
         details.email = entity.getEmail();
-        details.imageurl = entity.getImageurl();
         return details;
     }
 
@@ -84,7 +83,6 @@ public class CustomUserDetails implements UserDetails {
         entity.setPassword(password);
         entity.setPhonenumber(phonenumber);
         entity.setEmail(email);
-        entity.setImageurl(imageurl);
         return entity;
     }
 
@@ -98,7 +96,6 @@ public class CustomUserDetails implements UserDetails {
                 ", password='[PROTECTED]'" +
                 ", phonenumber='" + phonenumber + '\'' +
                 ", email='" + email + '\'' +
-                ", imageurl='" + imageurl + '\'' +
                 '}';
     }
 
