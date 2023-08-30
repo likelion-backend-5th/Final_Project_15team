@@ -12,12 +12,14 @@ public class ChatRoomDto {
     private Long id;
     private String roomName;
     private Integer memberNum;
+    private String imageUrl;
 
     public static ChatRoomDto fromEntity(ChattingRoom entity) {
         return new ChatRoomDto(
                 entity.getId(),
                 entity.getRoomName(),
-                entity.getMemberNum()
+                entity.getMemberNum(),
+                entity.getImageUrl()
         );
     }
 }
