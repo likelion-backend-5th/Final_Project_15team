@@ -21,5 +21,4 @@ public class ChattingRoom {
 
     @ManyToMany(mappedBy = "rooms")
     private List<UserEntity> users;
-
 }

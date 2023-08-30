@@ -2,24 +2,26 @@
 //
 //import jakarta.persistence.*;
 //import lombok.Data;
+//import org.hibernate.annotations.OnDelete;
+//import org.hibernate.annotations.OnDeleteAction;
 //
 //@Data
 //@Entity
-//@Table(name = "playlist_comment")
-//public class PlayListCommentEntity {
-//
+//public class Likes {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long id;
 //
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private UserEntity user;
 //
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @JoinColumn(name="feedId")
 //    @ManyToOne
-//    @JoinColumn(name = "feed_id")
 //    private PlayListShareFeed feed;
 //
-//    private String content;
+//
+//    @JoinColumn(name="userId")
+//    @ManyToOne
+//    private UserEntity user;
+//
 //
 //}

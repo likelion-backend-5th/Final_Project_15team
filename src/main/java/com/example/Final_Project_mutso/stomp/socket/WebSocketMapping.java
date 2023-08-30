@@ -9,6 +9,7 @@ import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.socket.BinaryMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,6 +43,16 @@ public class WebSocketMapping {
                 chatMessageDto
         );
     }
+
+//    @MessageMapping("/sendBinary")
+//    @SendTo("/topic/binaryMessages")
+//    public BinaryMessage handlerBinaryMessage(@Payload byte[] binaryData) {
+//        // 파일 저장
+//        // 이진 데이터처리 (이미지 처리)
+//        return handlerBinaryMessage(binaryData);
+//
+//    }
+
 
     // 누군가가 구독할때 실행하는 메소드
     @SubscribeMapping("/{roomId}")

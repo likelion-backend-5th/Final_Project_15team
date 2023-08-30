@@ -13,12 +13,12 @@ import {
   ListItemAvatar,
   Avatar,
   Divider,
-  ToggleButton,
   IconButton,
+  Checkbox,
 } from "@mui/material";
 
-import RefreshIcon from '@mui/icons-material/Refresh';
-import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import RefreshIcon from "@mui/icons-material/Refresh";
+import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
 
 import Appbars from "../components/appbars";
 
@@ -31,15 +31,33 @@ let TopWrap = styled.div`
 let ContentWrap = styled.div``;
 
 function ChatDelete() {
-  const [selected, setSelected] = React.useState(false);
   let navigate = useNavigate();
   let [data, setData] = useState([]);
+  let [del, setDel] = useState([]);
+
+  const deleteAll = () => {
+    del.map(function (i, b) {
+      axios
+        .delete("http://localhost:8080/chat/rooms/" + i)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  };
 
   useEffect(() => {
-    axios.get("http://localhost:8080/feed").then((res) => {
-      console.log(res.data);
-      setData(res.data);
-    });
+    axios
+      .get("http://localhost:8080/feed")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   return (
     <>
@@ -49,22 +67,23 @@ function ChatDelete() {
           <Paper
             elevation={3}
             style={{
-              width: "50%",
-              margin: "1.2rem",
-              marginRight: "0.4rem",
+              width: "100%",
+              margin: "auto 0.4rem",
+              marginTop: "0.4rem",
               padding: " 1.2rem",
-            }}>
+            }}
+          >
             <TopWrap>
-            <div style={{margin:"auto", fontSize:"1.6rem"}}>
-              채팅
-              </div>
+              <div style={{ margin: "auto", fontSize: "1.6rem" }}>채팅</div>
               <IconButton>
-                <RefreshIcon onClick={() => {
-                  navigate("/chatlist");
-                }}/>
+                <RefreshIcon
+                  onClick={() => {
+                    navigate("/chatlist");
+                  }}
+                />
               </IconButton>
               <IconButton>
-                <RestoreFromTrashIcon/>
+                <RestoreFromTrashIcon onClick={deleteAll} />
               </IconButton>
             </TopWrap>
             <ContentWrap>
@@ -73,17 +92,22 @@ function ChatDelete() {
                   width: "100%",
                   maxWidth: 360,
                   bgcolor: "background.paper",
-                }}>
+                }}
+              >
                 {data.map(function (i, b) {
                   return (
                     <>
                       <ListItem alignItems="flex-start">
-                        <ToggleButton
-                          value="check"
-                          selected={selected}
+                        <Checkbox
                           onChange={() => {
-                            setSelected(!selected);
-                          }}></ToggleButton>
+                            setDel(Array.from(del));
+                            if (del.includes(i.id)) {
+                              setDel([...del.filter((item) => item !== i.id)]);
+                            } else {
+                              setDel([i.id, ...del]);
+                            }
+                          }}
+                        />
                         <ListItemAvatar>
                           <Avatar
                             alt="Remy Sharp"

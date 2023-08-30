@@ -23,10 +23,15 @@ let Title = styled.div`
 function Scrap() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8080/feed").then((res) => {
-      console.log(res.data);
-      setData(res.data);
-    });
+    axios
+      .get("http://localhost:8080/feed")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
   return (
     <>
@@ -34,17 +39,29 @@ function Scrap() {
       <Box style={{ display: "flex" }}>
         <Paper
           elevation={3}
-          style={{ margin:"0.8rem", padding: "0.8rem", width: "100%", maxWidth:"50rem" }}>
+          style={{
+            margin: "0.8rem",
+            padding: "0.8rem",
+            width: "100%",
+            maxWidth: "50rem",
+          }}
+        >
           <Title>스크랩</Title>
-          <List
-            sx={{ width: "100%", bgcolor: "background.paper" }}>
+          <List sx={{ width: "100%", bgcolor: "background.paper" }}>
             {data.map(function (i, b) {
               return (
                 <>
-                  <ListItem alignItems="flex-start" style={{textAlign:"center"}}>
+                  <ListItem
+                    alignItems="flex-start"
+                    style={{ textAlign: "center" }}
+                  >
                     <ListItemText primary={i.title} />
                   </ListItem>
-                  <Divider variant="inset" component="li" style={{margin:'0.8rem'}} />
+                  <Divider
+                    variant="inset"
+                    component="li"
+                    style={{ margin: "0.8rem" }}
+                  />
                 </>
               );
             })}

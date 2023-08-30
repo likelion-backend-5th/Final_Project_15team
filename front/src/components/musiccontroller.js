@@ -20,10 +20,15 @@ export default function Musiccontroller() {
   const [volume, setVolume] = useState(50);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/feed").then((res) => {
-      console.log(res.data);
-      setData(res.data);
-    });
+    axios
+      .get("http://localhost:8080/feed")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
