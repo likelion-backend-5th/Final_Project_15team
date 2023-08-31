@@ -28,8 +28,8 @@ function Mainpage() {
         <div style={{ maxWidth: 800 }}>
           <CenterBox>
             <Searchbox></Searchbox>
-            {/* <Music /> */}
-            <Musiccontroller></Musiccontroller>
+            <Music />
+            {/* <Musiccontroller></Musiccontroller> */}
           </CenterBox>
           <Feedswrap></Feedswrap>
         </div>
