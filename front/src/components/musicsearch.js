@@ -6,7 +6,6 @@ import SearchIcon from "@mui/icons-material/Search";
 export default function MusicSearch(props) {
   const [search, setSearch] = useState();
   const [data, setData] = useState([]);
-  const [check, setCheck] = useState();
 
   useEffect(() => {
     axios

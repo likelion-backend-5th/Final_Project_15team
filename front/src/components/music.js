@@ -30,6 +30,8 @@ function Music() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState();
   const [volumeControl, setVolumeControl] = useState();
+  const [isMuted, setIsMuted] = useState(false);
+  const [mute, setMute] = useState();
 
   // const _onReady = (event) => {
   //   console.log(event);
@@ -51,14 +53,25 @@ function Music() {
     }
   };
 
+  const _controlMute = (player) => {
+    console.log(player);
+    if (isMuted) {
+      setIsMuted(false);
+      player.unMute();
+    } else if (!isMuted) {
+      setIsMuted(true);
+      player.mute();
+    }
+  };
+
   const _controlVolume = (setVolumeControl, volume) => {
-    console.log(setVolumeControl);
+    console.log(setVolumeControl.setVolume);
     setVolumeControl.setVolume(volume);
     setVolume(volume);
   };
   const opts = {
-    height: "0",
-    width: "0",
+    height: "300",
+    width: "600",
     playerVars: { autoplay: 1 },
   };
   // useEffect(() => {
@@ -90,6 +103,8 @@ function Music() {
           console.log(e.target);
           setIsPlaying(true);
           setVolume(e.target.playerInfo.volume);
+          setIsMuted(e.target.playerInfo.muted);
+          setMute(e.target);
         }}
         onStateChange={(e) => {
           setOnStateChange(e);
@@ -160,9 +175,11 @@ function Music() {
             <IconButton sx={{ color: "white" }}>
               <SkipNextIcon />
             </IconButton>
-            <IconButton sx={{ color: "white" }}>
-              <VolumeUpIcon />
-              <VolumeOffIcon />
+            <IconButton
+              sx={{ color: "white" }}
+              onClick={() => _controlMute(mute)}
+            >
+              {isMuted ? <VolumeOffIcon /> : <VolumeUpIcon />}
             </IconButton>
             <div style={{ maxWidth: 200, margin: "auto" }}>
               <input
