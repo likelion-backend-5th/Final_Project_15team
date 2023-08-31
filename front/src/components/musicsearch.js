@@ -21,7 +21,7 @@ export default function MusicSearch(props) {
       .catch((error) => {
         console.log(error);
       });
-  }, [check]);
+  }, [search]);
 
   const changeVideoId = (data) => {
     let tempVideoId = "";
