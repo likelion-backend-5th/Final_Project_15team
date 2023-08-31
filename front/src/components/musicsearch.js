@@ -10,7 +10,9 @@ export default function MusicSearch(props) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/youtube/search")
+      .get("http://localhost:8080/youtube/search", {
+        params: { word: search },
+      })
       .then((res) => {
         console.log("musicsearch, useEffect");
         console.log(res.data);

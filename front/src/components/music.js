@@ -9,6 +9,8 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
 function Music() {
   // const [data, setData] = useState([]);
@@ -26,6 +28,8 @@ function Music() {
   const [onStateChange, setOnStateChange] = useState();
   const [videoTitle, setVideoTitle] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState();
+  const [volumeControl, setVolumeControl] = useState();
 
   // const _onReady = (event) => {
   //   console.log(event);
@@ -47,6 +51,11 @@ function Music() {
     }
   };
 
+  const _controlVolume = (setVolumeControl, volume) => {
+    console.log(setVolumeControl);
+    setVolumeControl.setVolume(volume);
+    setVolume(volume);
+  };
   const opts = {
     height: "0",
     width: "0",
@@ -77,15 +86,15 @@ function Music() {
         videoId={videoId}
         opts={opts}
         onReady={(e) => {
-          // setOnReady(e);
           setVideoTitle(e.target.videoTitle);
-          console.log(e.target.videoTitle);
+          console.log(e.target);
           setIsPlaying(true);
-          //   e.target.mute();
-          //   e.target.pauseVideo();
+          setVolume(e.target.playerInfo.volume);
         }}
         onStateChange={(e) => {
           setOnStateChange(e);
+          // console.log(e.target);
+          setVolumeControl(e.target);
         }}
       />
       <Card
@@ -151,6 +160,20 @@ function Music() {
             <IconButton sx={{ color: "white" }}>
               <SkipNextIcon />
             </IconButton>
+            <IconButton sx={{ color: "white" }}>
+              <VolumeUpIcon />
+              <VolumeOffIcon />
+            </IconButton>
+            <div style={{ maxWidth: 200, margin: "auto" }}>
+              <input
+                type="range"
+                value={volume}
+                onChange={(e) => _controlVolume(volumeControl, e.target.value)}
+                min="0"
+                max="100"
+                style={{ margin: "auto", width: 200 }}
+              />
+            </div>
           </Box>
         </Box>
         <CardMedia
