@@ -12,7 +12,7 @@ import {
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
-import PauseIcon from '@mui/icons-material/Pause';
+import PauseIcon from "@mui/icons-material/Pause";
 
 function MusicPlayer() {
   const [player, setPlayer] = useState(null);
@@ -72,11 +72,11 @@ function MusicPlayer() {
   };
 
   const updateProgressBar = () => {
-    if(player){
-    const currentTime = player.getCurrentTime();
-    const duration = player.getDuration();
-    setProgress((currentTime / duration) * 100);
-    setCurrentTime(currentTime);
+    if (player) {
+      const currentTime = player.getCurrentTime();
+      const duration = player.getDuration();
+      setProgress((currentTime / duration) * 100);
+      setCurrentTime(currentTime);
     }
   };
 
@@ -107,60 +107,60 @@ function MusicPlayer() {
 
   return (
     <>
-    <div id="player"></div>
-    <Card sx={{ display: "flex", background: "transparent", color: "white" }}>
-    <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-        }}>
-            <CardContent sx={{ flex: "1 0 auto", textAlign: "center" }}>
-          <Typography component="div" variant="h5">
-            {videoTitle}
-          </Typography>
+      <div id="player"></div>
+      <Card sx={{ display: "flex", background: "transparent", color: "white" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <CardContent sx={{ flex: "1 0 auto", textAlign: "center" }}>
+            <Typography component="div" variant="h5">
+              {videoTitle}
+            </Typography>
           </CardContent>
           <button onClick={togglePlayPause}>
-        {isPlaying ? "일시정지" : "재생"}
-      </button>
-      <input
-        type="range"
-        value={progress}
-        onChange={(e) => seekToTime(e.target.value)}
-      />
-      <span>{formatTime(currentTime)}</span> /{" "}
-      <span>{formatTime(totalTime)}</span>
-      <input
-        type="range"
-        value={volume}
-        onChange={(e) => changeVolume(e.target.value)}
-        min="0"
-        max="100"
-      />
+            {isPlaying ? "일시정지" : "재생"}
+          </button>
+          <input
+            type="range"
+            value={progress}
+            onChange={(e) => seekToTime(e.target.value)}
+          />
+          <span>{formatTime(currentTime)}</span> /{" "}
+          <span>{formatTime(totalTime)}</span>
+          <input
+            type="range"
+            value={volume}
+            onChange={(e) => changeVolume(e.target.value)}
+            min="0"
+            max="100"
+          />
         </Box>
-    </Card>
-    <div>
-      <div id="player"></div>
-      <h2 id="videoTitle">{videoTitle}</h2>
-      <button onClick={togglePlayPause}>
-        {isPlaying ? "일시정지" : "재생"}
-      </button>
-      <input
-        type="range"
-        value={progress}
-        onChange={(e) => seekToTime(e.target.value)}
-      />
-      <span>{formatTime(currentTime)}</span> /{" "}
-      <span>{formatTime(totalTime)}</span>
-      <input
-        type="range"
-        value={volume}
-        onChange={(e) => changeVolume(e.target.value)}
-        min="0"
-        max="100"
-      />
-    </div>
+      </Card>
+      <div>
+        <div id="player"></div>
+        <h2 id="videoTitle">{videoTitle}</h2>
+        <button onClick={togglePlayPause}>
+          {isPlaying ? "일시정지" : "재생"}
+        </button>
+        <input
+          type="range"
+          value={progress}
+          onChange={(e) => seekToTime(e.target.value)}
+        />
+        <span>{formatTime(currentTime)}</span> /{" "}
+        <span>{formatTime(totalTime)}</span>
+        <input
+          type="range"
+          value={volume}
+          onChange={(e) => changeVolume(e.target.value)}
+          min="0"
+          max="100"
+        />
+      </div>
     </>
-
   );
 }
 
