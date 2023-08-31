@@ -7,7 +7,7 @@ export default function MusicSearch(props) {
   const [search, setSearch] = useState();
   const [data, setData] = useState([]);
 
-  useEffect(() => {
+  const searchCall = () => {
     axios
       .get("http://localhost:8080/youtube/search", {
         params: { word: search },
@@ -20,7 +20,21 @@ export default function MusicSearch(props) {
       .catch((error) => {
         console.log(error);
       });
-  }, [search]);
+  };
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8080/youtube/search", {
+  //       params: { word: search },
+  //     })
+  //     .then((res) => {
+  //       console.log("musicsearch, useEffect");
+  //       console.log(res.data);
+  //       setData(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [search]);
 
   const changeVideoId = (data) => {
     let tempVideoId = "";
@@ -28,6 +42,7 @@ export default function MusicSearch(props) {
     console.log(data);
     tempVideoId = data.videoId;
     let [a, b] = tempVideoId.split("=");
+    console.log(a);
     if (b) {
       props.setVideoId(b);
     }
@@ -51,6 +66,7 @@ export default function MusicSearch(props) {
           alignItems: "center",
           width: 200,
           margin: "auto",
+          marginBottom: "0.4rem",
         }}
       >
         <InputBase
@@ -61,7 +77,7 @@ export default function MusicSearch(props) {
           onChange={getValue}
         />
         <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-          <SearchIcon />
+          <SearchIcon onClick={searchCall} />
         </IconButton>
       </Paper>
       <Paper
@@ -69,6 +85,7 @@ export default function MusicSearch(props) {
           alignItems: "center",
           margin: "auto",
           marginTop: "0.4rem",
+          marginBottom: "0.4rem",
         }}
       >
         {search

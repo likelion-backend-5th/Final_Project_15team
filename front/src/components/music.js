@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import YouTube from "react-youtube";
-import axios from "axios";
 
 import MusicSearch from "./musicsearch";
 
@@ -13,18 +12,8 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
 function Music() {
-  // const [data, setData] = useState([]);
-
-  //   const [player, setPlayer] = useState(null);
-  //   const [videoTitle, setVideoTitle] = useState("");
-  //   const [progress, setProgress] = useState(0);
-  //   const [currentTime, setCurrentTime] = useState(0);
-  //   const [totalTime, setTotalTime] = useState(0);
-  //   const [isPlaying, setIsPlaying] = useState(false);
-  //   const [volume, setVolume] = useState(50);
   const [videoId, setVideoId] = useState();
   const [coverImg, setCoverImg] = useState();
-  // const [onReady, setOnReady] = useState();
   const [onStateChange, setOnStateChange] = useState();
   const [videoTitle, setVideoTitle] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -33,15 +22,6 @@ function Music() {
   const [isMuted, setIsMuted] = useState(false);
   const [mute, setMute] = useState();
 
-  // const _onReady = (event) => {
-  //   console.log(event);
-  //   // access to player in all event handlers via event.
-  //   if (event.data === 2 || null) {
-  //     event.target.playVideo();
-  //   } else if (event.data === 1) {
-  //     event.target.pauseVideo();
-  //   }
-  // };
   const _onStateChange = (event) => {
     console.log(event);
     if (event.data === 2 || null) {
@@ -70,29 +50,11 @@ function Music() {
     setVolume(volume);
   };
   const opts = {
-    height: "300",
-    width: "600",
+    height: "0",
+    width: "0",
     playerVars: { autoplay: 1 },
   };
-  // useEffect(() => {
-  //   let tempVideoId = "";
-  //   axios
-  //     .get("http://localhost:8080/feed")
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       setData(res.data);
-  //       tempVideoId = res.data[0].videoId;
-  //       let [a, b] = tempVideoId.split("=");
-  //       if (b) {
-  //         setVideoId(b);
-  //       }
-  //       setCoverImg(res.data[0].imageUrlPath);
-  //     })
-  //     .then(() => {})
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
+
   return (
     <>
       <YouTube
@@ -108,7 +70,6 @@ function Music() {
         }}
         onStateChange={(e) => {
           setOnStateChange(e);
-          // console.log(e.target);
           setVolumeControl(e.target);
         }}
       />
@@ -120,7 +81,8 @@ function Music() {
           backgroundColor: "#003a88",
           borderRadius: "1rem",
           padding: "0.8rem",
-          margin: "0.8rem",
+          margin: "auto",
+          marginBottom: "0.4rem",
           width: 500,
         }}
       >
@@ -134,26 +96,7 @@ function Music() {
           <CardContent sx={{ flex: "1 0 auto", textAlign: "center" }}>
             <div style={{ maxWidth: 200 }}>{videoTitle}</div>
           </CardContent>
-          {/* <div style={{ maxWidth: 200, margin: "auto" }}>
-            <input
-              type="range"
-              value={progress}
-              onChange={(e) => seekToTime(e.target.value)}
-              style={{ margin: "auto", width: 200 }}
-            />
-            <span>{formatTime(currentTime)}</span> /
-            <span>{formatTime(totalTime)}</span>
-          </div>
-          <div style={{ maxWidth: 200, margin: "auto" }}>
-            <input
-              type="range"
-              value={volume}
-              onChange={(e) => changeVolume(e.target.value)}
-              min="0"
-              max="100"
-              style={{ margin: "auto", width: 200 }}
-            />
-          </div> */}
+
           <Box
             sx={{
               display: "flex",
@@ -175,6 +118,17 @@ function Music() {
             <IconButton sx={{ color: "white" }}>
               <SkipNextIcon />
             </IconButton>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              pl: 1,
+              pb: 1,
+            }}
+            style={{ margin: "auto" }}
+          >
+            {" "}
             <IconButton
               sx={{ color: "white" }}
               onClick={() => _controlMute(mute)}
@@ -206,8 +160,7 @@ function Music() {
           alt="앨범커버"
         />
       </Card>
-      {/* <button onClick={() => _onReady(onReady)}>재생</button>
-      <button onClick={() => _onStateChange(onStateChange)}>상태</button> */}
+
       <MusicSearch setVideoId={setVideoId} setCoverImg={setCoverImg} />
     </>
   );
