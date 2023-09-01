@@ -1,5 +1,6 @@
 package com.example.Final_Project_mutso.entity;
 
+import com.example.Final_Project_mutso.dto.CommentDto;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -7,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Data
 
-public class Comment {
+public class Comment extends CommentDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

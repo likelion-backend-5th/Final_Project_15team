@@ -27,6 +27,12 @@ public class Feed {
 
     private String hashtag;
 
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
+    private List<FeedImage> image;
+
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
+    private List<FeedVideo> video;
+
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "feed_id", foreignKey = @ForeignKey(name = "FK_COMMENT_FEED"))
 //    private Feed feed;
@@ -35,4 +41,12 @@ public class Feed {
 //    private List<Comment> comments = new ArrayList<>();
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FeedLike> likes = new ArrayList<>();
+
+    //좋아요
+    public void addLikes(FeedLike like) {
+        this.likes.add(like);
+        like.setFeed(this);
+    }
 }
