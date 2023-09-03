@@ -5,6 +5,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 response: `{"roomId": 1,"sender": "d","message": "fff","time": "15:36"}`
 - 채팅방 삭제 : endPoint : `DELETE/chat/rooms/{id}` / response: void로 설정했기 때문에 반환값 없음
+- 메세지 보내기 : `Message/chat/messsage`(@MessageMapping("/chat/message"))
+- 채팅방 입장 : `Message/chat/enter`(@MessageMapping("/chat/enter"))
+- 채팅방 퇴장 : 
 
 
 
