@@ -42,8 +42,8 @@ public class FeedController {
     consumes = MediaType.MULTIPART_FORM_DATA_VALUE)//피드 생성
     // RESTful한 API는 행동의 결과로 반영된 자원의 상태를 반환함이 옳다
     public void create(
-            FeedDto dto,
-            @RequestParam("file") MultipartFile file
+            @RequestPart(value = "dto") FeedDto dto,
+            @RequestPart(value = "file") MultipartFile file
     ){
         feedService.createFeed(dto, file);
     }
