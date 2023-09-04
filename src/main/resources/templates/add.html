@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>add</title>
+</head>
+
+
+<body>
+
+<h1>등록</h1>
+<form th:action="@{/feed/add}" method="post" enctype="multipart/form-data" style="line-height: 50px"> <!--enctype="multipart/form-data"-->
+    <label for="title">제목: <input id="title" name="title"></label>
+    <br>
+    파일 선택 : <input type="file" multiple="multiple" name="files">
+    <br>
+    <label for="content">내용: <input id="content" name="content" style="width:1000px; height:200px;"></label>
+    <br>
+
+    <input type="submit">
+</form>
+</body>
+</html>

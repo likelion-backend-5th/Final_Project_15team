@@ -1,0 +1,87 @@
+<html>
+<head>
+  <title>Websocket Chatting</title>
+
+</head>
+<body onLoad="connect()">
+<div>
+  <h3 id="room-name"></h3>
+  <div id="conversationDiv">
+    <form id="message-form">
+      <input type="text" id="message" placeholder="Write a message..."/>
+      <button type="submit">Send</button>
+    </form>
+    <form id="message-image-form">
+      <input type="file" id="imageInput">
+      <button onclick="sendImage()">Send Image</button>
+      <img src = "http://localhost:8080/chat/file/1693380340776_%E1%84%86%E1%85%A5%E1%86%BA%E1%84%89%E1%85%A1%20zoom%E1%84%87%E1%85%A2%E1%84%80%E1%85%A7%E1%86%BC.png" >
+
+    </form>
+    <a href="/chat"></a>
+    <p id="response"></p>
+  </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="/js/stomp.js"></script>
+<script type="text/javascript">
+  let stompClient = null;
+  const pathname = window.location.pathname;
+  const roomId = parseInt(pathname.split("/")[2]);
+  const username = decodeURI(pathname.split("/")[3]);
+
+  function getRoomName() {
+    fetch(`/chat/rooms/${roomId}/name`).then((response) => {
+      response.json().then((responseBody) => {
+        console.log(responseBody);
+        document.getElementById('room-name').innerHTML = responseBody.roomName;
+      })
+    });
+  }
+
+  function connect() {
+    getRoomName();
+    const socket = new WebSocket('ws://localhost:8080/chatting');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+      console.log('Connected: ' + frame);
+      stompClient.subscribe(`/topic/${roomId}`, function (message) {
+        const jsonMessage = JSON.parse(message.body);
+        if (Array.isArray(jsonMessage)) initialMessages(jsonMessage)
+        else receiveMessage(jsonMessage);
+      });
+    });
+  }
+
+  function initialMessages(messageList) {
+    for (const message of messageList)
+      receiveMessage(message)
+  }
+
+  function receiveMessage(messageOutput) {
+    const response = document.getElementById('response');
+    const p = document.createElement('p');
+    p.style.wordWrap = 'break-word';
+    p.appendChild(document.createTextNode(messageOutput.username + ": "
+            + messageOutput.message + " (" + messageOutput.time + ")"));
+    response.appendChild(p);
+  }
+
+  document.getElementById("message-form").addEventListener("submit", (event) => {
+    event.preventDefault()
+    const messageInput = document.getElementById('message');
+    const message = messageInput.value
+    stompClient.send("/app/chat",
+            {
+              "Authorization": "Bearer JWT"
+            },
+            JSON.stringify({
+              'roomId': roomId,
+              'sender': username,
+              'message': message
+            }));
+    messageInput.value = null
+  })
+</script>
+</body>
+</html>
