@@ -2,8 +2,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import { Box, Paper, Button } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import { Box, Paper, Button, TextField } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 
@@ -43,17 +43,34 @@ let ChatDate = styled.div``;
 function ChatPage() {
   const { id } = useParams();
   const [data, setData] = useState([]);
+  const [me, setMe] = useState();
+  const [msg, setMsg] = useState();
+  const msgRef = useRef();
   useEffect(() => {
     axios
       .get("http://localhost:8080/chat/rooms/" + id + "/message")
       .then((res) => {
         console.log(res.data);
         setData(res.data);
+        setMe("me");
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  const sendMsg = () => {
+    const body = msgRef.current.focus;
+    console.log(body);
+    axios
+      .post("http://localhost:8080/chat/message", body)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <>
       <Appbars></Appbars>
@@ -66,27 +83,42 @@ function ChatPage() {
               margin: "1.2rem",
               marginRight: "0.4rem",
               padding: "1.2rem",
-            }}
-          >
+            }}>
             <TopWrap>{data.roomName}</TopWrap>
             <ContentWrap>
-              <>
-                <LeftChat>
-                  <ProfileImg></ProfileImg>
-                  <ChatContent>{data.chat}</ChatContent>
-                  <ChatDate>{data.date}</ChatDate>
-                </LeftChat>
-                <RightChat>
-                  <ChatContent>{data.chat}</ChatContent>
-                  <ChatDate>{data.date}</ChatDate>
-                  <ProfileImg></ProfileImg>
-                </RightChat>
-              </>
+              {data.map(function (i, b) {
+                if (i.sender !== me) {
+                  return (
+                    <LeftChat>
+                      <ProfileImg></ProfileImg>
+                      <ChatContent>{i.message}</ChatContent>
+                      <ChatDate>{i.time}</ChatDate>
+                    </LeftChat>
+                  );
+                } else {
+                  return (
+                    <RightChat>
+                      <ChatContent>{i.message}</ChatContent>
+                      <ChatDate>{i.time}</ChatDate>
+                      <ProfileImg></ProfileImg>
+                    </RightChat>
+                  );
+                }
+              })}
             </ContentWrap>
             <BottomWrap>
               <AddIcon></AddIcon>
-              <TextInput>채팅내용</TextInput>
-              <Button variant="contained">보내기</Button>
+              <TextInput>
+                <TextField
+                  value={msg}
+                  ref={msgRef}
+                  onChange={(e) => {
+                    setMsg(e.target.value);
+                  }}></TextField>
+              </TextInput>
+              <Button variant="contained" onClick={sendMsg}>
+                보내기
+              </Button>
             </BottomWrap>
           </Paper>
         </Box>
