@@ -122,4 +122,10 @@ public class UserService {
         return FollowDto.fromEntity(follow, userEntity);
     }
 
+    public UserEntity readUser(String userName) {
+        if (userRepository.findByUsername(userName).isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return userRepository.findByUsername(userName).get();
+    }
+
 }

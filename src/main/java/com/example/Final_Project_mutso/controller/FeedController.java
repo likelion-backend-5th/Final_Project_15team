@@ -82,16 +82,16 @@ public class FeedController {
 //        return "redirect:/feed";
     }
 
-    @PostMapping("/{feedId}/like")
-    public ResponseEntity<String> likeFeed(
-            @PathVariable("feedId") Long feedId,
-            Authentication authentication
-    ) {  // 매개변수명을 boardId로 변경
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        UserEntity loginedUser = userService.readUser(userDetails.getName());
-        myActivityService.likeBoard(loginedUser.getId(), boardId);
-        return ResponseEntity.ok("좋아요가 반영되었습니다.");
-    }
-
+//    @PostMapping("/{feedId}/like")
+//    public ResponseResult<?> insert(@RequestBody @Valid LikeRequestDTO likeRequestDTO) {
+//        likeService.insert(likeRequestDTO);
+//        return success(null);
+//    }
+//
+//    @DeleteMapping("/{feedId}/like")
+//    public ResponseResult<?> delete(@RequestBody @Valid LikeRequestDTO likeRequestDTO) {
+//        likeService.delete(likeRequestDTO);
+//        return success(null);
+//    }
 }
 

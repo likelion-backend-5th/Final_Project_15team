@@ -114,18 +114,5 @@ public class FeedService {
         }
     }
 
-    //좋아요 기능
-    public void likeFeed(Long id) {
-        Feed feed = feedRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + id));
-
-        FeedLike likes = FeedLike.builder()
-                .isLike(true)
-                .feed(feed)
-                .build();
-
-        feed.addLikes(likes);
-        feedRepository.save(feed);
-    }
 
 }
