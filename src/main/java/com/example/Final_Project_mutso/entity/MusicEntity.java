@@ -15,7 +15,7 @@ public class MusicEntity {
     private String musicName;
     private String artist;
     private String musicTime;
-    private String imageUrl;
+    private String imageUrlPath;
 
 
 }

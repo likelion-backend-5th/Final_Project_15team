@@ -18,7 +18,7 @@ public class YoutubeVideoDto {
         YoutubeVideoDto dto = new YoutubeVideoDto();
         dto.setArtist(entity.getArtist());
         dto.setVideoId(entity.getMusicId());
-        dto.setImageUrlPath(entity.getImageUrl());
+        dto.setImageUrlPath(entity.getImageUrlPath());
         dto.setTitle(entity.getMusicName());
         dto.setMusicTime(entity.getMusicTime());
         return dto;
