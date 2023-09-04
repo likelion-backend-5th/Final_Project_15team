@@ -53,7 +53,7 @@ public class YoutubeVideoService {
             }
         }).setApplicationName("youtube-cmdline-search-sample").build();
     }
-    public List<YoutubeVideoDto> search(String searchQuery, int maxSearch){
+    public List<YoutubeVideoDto> search(String searchQuery, Long maxSearch){
         log.info("Starting Youtube Search... " + searchQuery);
         List<YoutubeVideoDto> rvalue = new ArrayList<YoutubeVideoDto>();
         playList = new ArrayList<>();
@@ -67,7 +67,7 @@ public class YoutubeVideoService {
                 search.setType("video");
 
                 String youtubeFields = YOUTUBE_SEARCH_FIELDS;
-                search.setMaxResults(NUMBER_OF_VIDEOS_RETURNED);
+                search.setMaxResults(maxSearch);
 
                 if(youtubeFields != null && !youtubeFields.isEmpty()){
                     search.setFields(youtubeFields);
@@ -80,7 +80,7 @@ public class YoutubeVideoService {
                     for(SearchResult searches : searchResultList){
                         MusicEntity entity = new MusicEntity();
                         entity.setMusicName(searches.getSnippet().getTitle());
-                        entity.setImageUrl(searches.getSnippet().getThumbnails().getDefault().getUrl());
+                        entity.setImageUrlPath(searches.getSnippet().getThumbnails().getDefault().getUrl());
                         entity.setMusicId(GOOGLE_YOUTUBE_URL + searches.getId().getVideoId());
                         entity.setArtist(searches.getSnippet().getChannelTitle());
 
@@ -148,8 +148,7 @@ public class YoutubeVideoService {
         return playList.get(musicId-1);
     }
 
-    public List<String> getPlayList() {
-        List<String> myPlaylist = new ArrayList<>();
+    public List<MusicPlayList> getMyPlayList() {
         Optional<UserEntity> testUser = userRepository.findByUsername("test");
         if(testUser.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -159,10 +158,22 @@ public class YoutubeVideoService {
         if(optionalMusicPlayLists.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         List<MusicPlayList> musicPlayList = optionalMusicPlayLists.get();
-        for(MusicPlayList list : musicPlayList)
-            myPlaylist.add(list.getName());
 
-        return myPlaylist;
+        return musicPlayList;
 
+    }
+
+    public MusicPlayList getPlayList(String playListName) {
+        Optional<UserEntity> testUser = userRepository.findByUsername("test");
+        if(testUser.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        UserEntity user = testUser.get();
+
+        Optional<MusicPlayList> optionalMusicPlayList = playListRepository.findByUserAndName(user,playListName);
+        if(optionalMusicPlayList.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        MusicPlayList playList = optionalMusicPlayList.get();
+
+        return playList;
     }
 }
