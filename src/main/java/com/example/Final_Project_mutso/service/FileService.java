@@ -52,7 +52,7 @@ public class FileService {
 //             java.io.File saveFile = new java.io.File(uploadFolder+"\\"+fileName);
 
         java.io.File saveFile = new java.io.File(uploadFolder+"\\"+uniqueName + fileExtension);  // 적용 후
-        String fileUrl = String.format(System.getProperty("user.dir") + "\\src\\main\\resources\\static\\file\\%s", uniqueName+fileExtension);
+        String fileUrl = String.format(System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files\\%s", uniqueName+fileExtension);
 //            String fileUrl = uploadFolder+"\\"+fileName;
         try {
             file.transferTo(saveFile); // 실제 파일 저장메서드(filewriter 작업을 손쉽게 한방에 처리해준다.)
