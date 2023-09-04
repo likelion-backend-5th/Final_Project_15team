@@ -58,14 +58,19 @@ function CreateFeed() {
 
   const postFeed = (e) => {
     e.preventDefault();
-    let body = {
-      title: title,
-      content: content,
-      music: musicFile,
-      PnV: PnV,
-    };
+    const formData = new FormData();
+    const changedPnV = new Blob([PnV], { type: "multipart/form-data" });
+    formData.append("file", changedPnV);
+    const changedMusicFile = new Blob([musicFile], {
+      type: "multipart/form-data",
+    });
+    formData.append("musicFile", changedMusicFile);
+    const changedTitle = new Blob([title], { type: "application/json" });
+    formData.append("title", changedTitle);
+    const changedContent = new Blob([content], { type: "application/json" });
+    formData.append("content", changedContent);
     axios
-      .post("http://localhost:8080/feed/add", body)
+      .post("http://localhost:8080/feed/add", formData)
       .then((res) => {
         console.log(res.data);
       })
@@ -85,8 +90,7 @@ function CreateFeed() {
               width: "50rem",
               margin: "1.2rem",
               padding: "0.8rem",
-            }}
-          >
+            }}>
             <TopWrap>피드생성</TopWrap>
             <Paper elevation={3} style={{ textAlign: "center" }}>
               <TitleWrap>
@@ -130,8 +134,7 @@ function CreateFeed() {
                       <input
                         type="file"
                         onChange={uploadPnV}
-                        ref={PnVRef}
-                      ></input>
+                        ref={PnVRef}></input>
                       <IconButton>
                         <SendIcon />
                       </IconButton>
@@ -156,8 +159,7 @@ function CreateFeed() {
                       <input
                         type="file"
                         onChange={uploadMusic}
-                        ref={musicRef}
-                      ></input>
+                        ref={musicRef}></input>
                       <IconButton>
                         <SendIcon />
                       </IconButton>

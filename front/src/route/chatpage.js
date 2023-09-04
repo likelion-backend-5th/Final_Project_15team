@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
+import * as StompJs from "@stomp/stompjs";
 import { Box, Paper, Button, TextField } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -46,31 +47,62 @@ function ChatPage() {
   const [me, setMe] = useState();
   const [msg, setMsg] = useState();
   const msgRef = useRef();
+
+  const [chatList, setChatList] = useState([]);
+  const [chat, setChat] = useState("");
+  const client = useRef({});
+  const { apply_id } = useParams();
+  const connect = () => {
+    client.current = new StompJs.Client({
+      brokerURL: "ws://localhost:8080/ws/chat",
+      onConnect: () => {
+        subscribe();
+      },
+    });
+    client.current.activate();
+  };
+  const publish = (chat) => {
+    if (!client.current.connected) return;
+
+    client.current.publish({
+      destination: "/pub",
+      body: JSON.stringify({
+        applyId: apply_id,
+        chat: chat,
+      }),
+    });
+
+    setChat("");
+  };
+  const subscribe = () => {
+    client.current.subscribe("/sub" + apply_id, (body) => {
+      const json_body = JSON.parse(body.body);
+      setChatList((_chat_list) => [..._chat_list, json_body]);
+    });
+  };
+
+  const disconnect = () => {
+    client.current.deactivate();
+  };
+
+  const handleChange = (event) => {
+    // 채팅 입력 시 state에 값 설정
+    setChat(event.target.value);
+  };
+
+  const handleSubmit = (event, chat) => {
+    // 보내기 버튼 눌렀을 때 publish
+    event.preventDefault();
+
+    publish(chat);
+  };
+
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/chat/rooms/" + id + "/message")
-      .then((res) => {
-        console.log(res.data);
-        setData(res.data);
-        setMe("me");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    connect();
+
+    return () => disconnect();
   }, []);
 
-  const sendMsg = () => {
-    const body = msgRef.current.focus;
-    console.log(body);
-    axios
-      .post("http://localhost:8080/chat/message", body)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   return (
     <>
       <Appbars></Appbars>
@@ -110,13 +142,14 @@ function ChatPage() {
               <AddIcon></AddIcon>
               <TextInput>
                 <TextField
-                  value={msg}
-                  ref={msgRef}
-                  onChange={(e) => {
-                    setMsg(e.target.value);
-                  }}></TextField>
+                  value={chat}
+                  name={"chatInput"}
+                  onChange={handleChange}></TextField>
               </TextInput>
-              <Button variant="contained" onClick={sendMsg}>
+              <Button
+                variant="contained"
+                type={"submit"}
+                onClick={handleSubmit}>
                 보내기
               </Button>
             </BottomWrap>

@@ -52,6 +52,10 @@ function ChatList() {
   const [imgUrl, setImgUrl] = useState();
   const imgUrlRef = useRef();
   const [viewUploadImg, setViewUploadImg] = useState();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [roomName, setRoomName] = useState();
 
   const uploadImg = (e) => {
     e.preventDefault();
@@ -74,11 +78,6 @@ function ChatList() {
       });
   }, []);
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const [roomName, setRoomName] = useState();
   const createChat = (e) => {
     e.preventDefault();
     const formData = new FormData();
