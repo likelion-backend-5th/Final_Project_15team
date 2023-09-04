@@ -1,5 +1,5 @@
 # 채팅
-- 채팅방 생성 : endPoint : `POST/chat/room` / response: `{"id":"1","roomName":"name"}`
+- 채팅방 생성 : endPoint : `POST/chat/rooms` / response: `{"id":"1","roomName":"name"}`
 - 채팅방 리스트 조회 : endPoint : `GET/chat/rooms` / response: `{"id":"1","roomName":"name"}`
 - 채팅방 삭제 : endPoint : `DELETE/chat/rooms/{id}` / response: void로 설정했기 때문에 반환값 없음
 - 메세지 보내기 : `Message/chat/messsage`(@MessageMapping("/chat/message"))
