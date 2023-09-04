@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatMessageDto {
+    public enum MessageType {
+        ENTER, TALK, EXIT
+    }
+    private MessageType type; //메시지 타입
     private Long roomId;
     private String sender;
     private String message;
@@ -17,25 +21,25 @@ public class ChatMessageDto {
     private String fileUrl;
 
 
-    public static ChatMessageDto fromEntity(ChatMessage messageEntity) {
-        return new ChatMessageDto(
-                messageEntity.getRoomId(),
-                messageEntity.getSender(),
-                messageEntity.getMessage(),
-                messageEntity.getTime(),
-                messageEntity.getProfile(),
-                messageEntity.getFileUrl()
-        );
-    }
-
-    public ChatMessage newEntity() {
-        ChatMessage messageEntity = new ChatMessage();
-        messageEntity.setRoomId(roomId);
-        messageEntity.setSender(sender);
-        messageEntity.setMessage(message);
-        messageEntity.setTime(time);
-        messageEntity.setProfile(profile);
-        messageEntity.setFileUrl(fileUrl);
-        return messageEntity;
-    }
+//    public static ChatMessageDto fromEntity(ChatMessage messageEntity) {
+//        return new ChatMessageDto(
+//                messageEntity.getRoomId(),
+//                messageEntity.getSender(),
+//                messageEntity.getMessage(),
+//                messageEntity.getTime(),
+//                messageEntity.getProfile(),
+//                messageEntity.getFileUrl()
+//        );
+//    }
+//
+//    public ChatMessage newEntity() {
+//        ChatMessage messageEntity = new ChatMessage();
+//        messageEntity.setRoomId(roomId);
+//        messageEntity.setSender(sender);
+//        messageEntity.setMessage(message);
+//        messageEntity.setTime(time);
+//        messageEntity.setProfile(profile);
+//        messageEntity.setFileUrl(fileUrl);
+//        return messageEntity;
+//    }
 }

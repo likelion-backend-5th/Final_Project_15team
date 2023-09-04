@@ -28,7 +28,7 @@ public class MusicController {
 
         log.info(url);
 
-        model.addAttribute("videoEmbedUrl",url);
+        model.addAttribute("videoEmbedUrl",url.toString());
 
         return "player"; // Thymeleaf 템플릿 이름 반환
     }

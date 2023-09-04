@@ -5,21 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatRoomDto {
     private Long id;
     private String roomName;
-    private Integer memberNum;
+    private int userCount;
     private String imageUrl;
 
     public static ChatRoomDto fromEntity(ChattingRoom entity) {
-        return new ChatRoomDto(
-                entity.getId(),
-                entity.getRoomName(),
-                entity.getMemberNum(),
-                entity.getImageUrl()
-        );
+        ChatRoomDto dto = new ChatRoomDto();
+        dto.setId(entity.getId());
+        dto.setRoomName(entity.getRoomName());
+        dto.setUserCount(entity.getUserCount());
+        dto.setImageUrl(entity.getImageUrl());
+        return dto;
     }
 }

@@ -1,10 +1,11 @@
 # 채팅
 - 채팅방 생성 : endPoint : `POST/chat/rooms` / response: `{"id":"1","roomName":"name"}`
 - 채팅방 리스트 조회 : endPoint : `GET/chat/rooms` / response: `{"id":"1","roomName":"name"}`
-- 채팅방 메세지 조회 : endPoint : `GET/chat/rooms/{id}/message`   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-response: `{"roomId": 1,"sender": "d","message": "fff","time": "15:36"}`
 - 채팅방 삭제 : endPoint : `DELETE/chat/rooms/{id}` / response: void로 설정했기 때문에 반환값 없음
+- 메세지 보내기 : `Message/chat/messsage`(@MessageMapping("/chat/message"))
+- 채팅방 입장 : `Message/chat/enter`(@MessageMapping("/chat/enter"))
+- 유저 닉네임 불러오기 : `GET /chat/username` / response : String 형태의 username
+<img width="847" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/6a59dbf5-460f-48fc-a300-7cdda0c4af65">
 
 
 
@@ -73,14 +74,23 @@ response: `{"roomId": 1,"sender": "d","message": "fff","time": "15:36"}`
   ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/0483a0cb-89b1-42ef-a7f2-8b9d787f03ea)
 
 - 내 플레이  리스트 조회
+  
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/27664767-cc8f-4c08-a40c-74ffc809f10d)
 
-  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/b520c245-50af-4793-81c6-bfc36f646b78)
+  내 모든 플레이리스트들을 조회합니다.
+  
+- 나의 특정 플레이 리스트 조회
 
-- 플레이 리스트 공유 피드 생성
-  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/a6430e73-002b-4911-b629-996c4c7f16e1)
+  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/bba74f95-d3d9-4400-945a-c6ec8a47fda6)
 
-- 플레이 리스트 피드 목록 조회
-  ![제목 없음](https://github.com/likelion-backend-5th/Final_Project_15team/assets/109780232/b3f7643c-cddf-47d7-b231-d604fba70d9c)
+  youtube/myplaylist/{playlistname}
+  
+  나의 특정 플레이리스트를 조회합니다.
+
+  playlistname에 조회하고자 하는 플레이리스트의 이름을 넣으면 됩니다.
+
+
+  
 
   
 
