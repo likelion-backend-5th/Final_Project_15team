@@ -7,7 +7,7 @@ response: `{"roomId": 1,"sender": "d","message": "fff","time": "15:36"}`
 - 채팅방 삭제 : endPoint : `DELETE/chat/rooms/{id}` / response: void로 설정했기 때문에 반환값 없음
 - 메세지 보내기 : `Message/chat/messsage`(@MessageMapping("/chat/message"))
 - 채팅방 입장 : `Message/chat/enter`(@MessageMapping("/chat/enter"))
-- 채팅방 퇴장 : Websocket 세션이 종료될 시 Spring boot 내에서 유저 퇴장 메서드 발생
+- 유저 닉네임 불러오기 : `GET /chat/username` / response : ``
 
 
 
