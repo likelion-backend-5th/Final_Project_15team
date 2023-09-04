@@ -4,7 +4,8 @@
 - 채팅방 삭제 : endPoint : `DELETE/chat/rooms/{id}` / response: void로 설정했기 때문에 반환값 없음
 - 메세지 보내기 : `Message/chat/messsage`(@MessageMapping("/chat/message"))
 - 채팅방 입장 : `Message/chat/enter`(@MessageMapping("/chat/enter"))
-- 유저 닉네임 불러오기 : `GET /chat/username` / response : ``
+- 유저 닉네임 불러오기 : `GET /chat/username` / response : String 형태의 username
+<img width="847" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/6a59dbf5-460f-48fc-a300-7cdda0c4af65">
 
 
 
