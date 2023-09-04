@@ -26,7 +26,7 @@ public class ChatRestController {
 //    private final MessageService messageService;
 
     // 채팅방 생성하기
-    @PostMapping(value = "room", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "rooms", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ChatRoomDto> createRoom(
             @RequestPart ChatRoomDto chatRoomDto,
             @RequestPart("image") MultipartFile file
