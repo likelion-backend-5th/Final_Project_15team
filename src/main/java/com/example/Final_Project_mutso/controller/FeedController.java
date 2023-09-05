@@ -43,9 +43,12 @@ public class FeedController {
     // RESTful한 API는 행동의 결과로 반영된 자원의 상태를 반환함이 옳다
     public void create(
             @RequestPart(value = "dto") FeedDto dto,
-            @RequestPart(value = "file") MultipartFile file
+            @RequestPart(value = "file") MultipartFile file,
+            Authentication authentication
     ){
-        feedService.createFeed(dto, file);
+//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//        UserEntity loginedUser = userService.readUser(userDetails.getName());
+        feedService.createFeed(dto, file/*, loginedUser*/);
     }
 
 
@@ -64,10 +67,13 @@ public class FeedController {
     @PutMapping("/{feedId}") // 정보 수정
     public void update(
             @PathVariable("feedId") Long feedId,  // URL의 ID
-            FeedDto feedDto,  // HTTP Request Body
-            @RequestParam("file") MultipartFile file
+            @RequestPart("dto") FeedDto dto,  // HTTP Request Body
+            @RequestPart("file") MultipartFile file,
+            Authentication authentication
     ) {
-        feedService.updateFeed(feedId, feedDto);
+//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//        UserEntity loginedUser = userService.readUser(userDetails.getName());
+        feedService.updateFeed(feedId, dto);
         fileService.updateFile(feedId, file);
     }
 
@@ -82,16 +88,27 @@ public class FeedController {
 //        return "redirect:/feed";
     }
 
-//    @PostMapping("/{feedId}/like")
-//    public ResponseResult<?> insert(@RequestBody @Valid LikeRequestDTO likeRequestDTO) {
-//        likeService.insert(likeRequestDTO);
-//        return success(null);
-//    }
-//
-//    @DeleteMapping("/{feedId}/like")
-//    public ResponseResult<?> delete(@RequestBody @Valid LikeRequestDTO likeRequestDTO) {
-//        likeService.delete(likeRequestDTO);
-//        return success(null);
-//    }
+    @PostMapping("/{feedId}/like")  // 경로 변수명을 boardId로 변경
+    public ResponseEntity<String> likeFeed(
+            @PathVariable("feedId") Long feedId,
+            Authentication authentication
+    ) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        UserEntity loginedUser = userService.readUser(userDetails.getName());
+        feedService.likeFeed(feedId,loginedUser);
+        return ResponseEntity.ok("좋아요가 반영되었습니다.");
+    }
+
+    @PostMapping("/{feedId}/unlike")
+    public ResponseEntity<String> unlikeFeed(
+            @PathVariable("feedId") Long feedId,
+            Authentication authentication
+    ) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        UserEntity loginedUser = userService.readUser(userDetails.getName());
+        feedService.unlikeFeed(feedId, loginedUser);
+        return ResponseEntity.ok("좋아요가 취소되었습니다.");
+    }
+
 }
 

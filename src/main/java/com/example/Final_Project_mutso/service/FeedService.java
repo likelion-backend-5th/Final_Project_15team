@@ -2,10 +2,7 @@ package com.example.Final_Project_mutso.service;
 
 import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.dto.FeedListDto;
-import com.example.Final_Project_mutso.entity.Feed;
-import com.example.Final_Project_mutso.entity.FeedImage;
-import com.example.Final_Project_mutso.entity.FeedLike;
-import com.example.Final_Project_mutso.entity.FeedVideo;
+import com.example.Final_Project_mutso.entity.*;
 import com.example.Final_Project_mutso.repository.FeedImageRepository;
 import com.example.Final_Project_mutso.repository.FeedRepository;
 import com.example.Final_Project_mutso.repository.FeedVideoRepository;
@@ -32,12 +29,12 @@ public class FeedService {
     private final FeedVideoRepository feedVideoRepository;
     private final CommentService commentService;
 
-    public void createFeed(FeedDto dto, MultipartFile file) {
+    public void createFeed(FeedDto dto, MultipartFile file/*, UserEntity loginedUser*/) {
         Feed feed = new Feed();
-//        feed.setUser(dto.);
         feed.setTitle(dto.getTitle());
         feed.setContent(dto.getContent());
         feed.setHashtag(dto.getHashtag());
+//        feed.setUser(loginedUser);
         feedRepository.save(feed);
 
 
@@ -114,5 +111,31 @@ public class FeedService {
         }
     }
 
+    //좋아요 기능
+    public void likeFeed(Long feedId, UserEntity loginedUser) {
+        Feed feed = feedRepository.findById(feedId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
+
+        FeedLike likes = FeedLike.builder()
+                .isLike(YesOrNo.YES)
+                .feed(feed)
+                .build();
+
+        feed.addLikes(likes);
+        feedRepository.save(feed);
+    }
+
+    public void unlikeFeed(Long feedId, UserEntity loginedUser) {
+        Feed feed = feedRepository.findById(feedId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
+
+        FeedLike likes = FeedLike.builder()
+                .isLike(YesOrNo.NO)
+                .feed(feed)
+                .build();
+
+        feed.addLikes(likes);
+        feedRepository.save(feed);
+    }
 
 }
