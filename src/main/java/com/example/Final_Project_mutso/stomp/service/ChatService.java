@@ -42,7 +42,7 @@ public class ChatService {
     }
 
     // 채팅방 생성하기
-    public ChatRoomDto createChatRoom(ChatRoomDto chatRoomDto, MultipartFile image) throws IOException {
+    public ChatRoomDto createChatRoom(ChatRoomDto chatRoomDto, MultipartFile file) throws IOException {
         String profileDir = "back/chatRoom/";
         try {
             Files.createDirectories(Path.of(profileDir));
@@ -50,16 +50,16 @@ public class ChatService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         // 이미지를 업로드하고 고유한 파일 이름 생성
-        String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-        image.transferTo(Path.of(profileDir+fileName));
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        file.transferTo(Path.of(profileDir+fileName));
 
         // 이미지 URL 생성
         String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/room/image/") // 이미지 업로드 경로
+                .path("static/chatRoom/") // 이미지 업로드 경로
                 .path(fileName)
                 .toUriString();
 
-        // 4. Entity 업데이트 (정적 프로필 이미지를 회수할 수 있는 URL)
+        // 4. Entity 업데이트
         ChattingRoom chattingRoom = new ChattingRoom();
         chattingRoom.setRoomName(chatRoomDto.getRoomName());
         chattingRoom.setImageUrl(imageUrl);
