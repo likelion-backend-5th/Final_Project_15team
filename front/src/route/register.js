@@ -70,19 +70,21 @@ export default function Register() {
     e.preventDefault();
     let body = {
       name: name,
-      id: id,
+      username: id,
       password: password,
+      "password-check": password,
       nickname: nickname,
-      phone: phone,
+      phonenumber: phone,
       email: email,
     };
     axios
-      .post("http://localhost:8080/register", body)
+      .post("http://localhost:8080/users/register", {}, { params: body })
       .then((res) => {
         console.log(res.data);
+        navigate("/");
       })
       .catch((e) => {
-        console.log(e.res);
+        console.log(e);
         return "필수 데이터 채웠나요?";
       });
   };
@@ -137,6 +139,7 @@ export default function Register() {
                 />
                 <Button
                   variant="contained"
+                  type="button"
                   style={{ float: "right", marginTop: "0.4rem" }}>
                   중복확인
                 </Button>
@@ -154,6 +157,7 @@ export default function Register() {
                 />
                 <Button
                   variant="contained"
+                  type="button"
                   style={{ float: "right", marginTop: "0.4rem" }}>
                   중복확인
                 </Button>
@@ -228,10 +232,7 @@ export default function Register() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={() => {
-                navigate("/");
-              }}>
+              sx={{ mt: 3, mb: 2 }}>
               회원가입
             </Button>
           </Box>

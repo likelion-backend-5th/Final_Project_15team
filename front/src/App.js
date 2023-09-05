@@ -37,7 +37,7 @@ function App() {
         <Route path="/chatpage/:id" element={<ChatPage></ChatPage>} />
         <Route path="/feeddetail/:id" element={<FeedDetail></FeedDetail>} />
         <Route path="/createfeed" element={<CreateFeed></CreateFeed>} />
-        <Route path="/updatefeed" element={<UpdateFeed></UpdateFeed>} />
+        <Route path="/updatefeed/:id" element={<UpdateFeed></UpdateFeed>} />
         <Route path="/searchpage" element={<SearchPage></SearchPage>} />
       </Routes>
     </>

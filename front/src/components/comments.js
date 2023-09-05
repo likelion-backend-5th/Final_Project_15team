@@ -11,11 +11,10 @@ import CreateIcon from "@mui/icons-material/Create";
 
 let CommentBox = styled.div``;
 
-function Comments(commentData, parentData) {
+function Comments(commentData) {
   useEffect(() => {
-    setFeedId(parentData.feed);
+    setFeedId(commentData.id);
   }, []);
-  console.log(commentData.props);
   const [data, setData] = useState(commentData.props);
   const [reply, setReply] = useState();
   const [feedId, setFeedId] = useState();
@@ -52,6 +51,7 @@ function Comments(commentData, parentData) {
     setReply(e.target.value);
   };
   const sendReply = () => {
+    console.log(feedId);
     axios
       .post("http://localhost:8080/comment/" + feedId, reply)
       .then((res) => {
@@ -74,14 +74,12 @@ function Comments(commentData, parentData) {
                       marginTop: "0.4rem",
                       borderRadius: "1rem",
                       padding: "0.8rem",
-                    }}
-                  >
+                    }}>
                     <span
                       style={{
                         fontWeight: "bold",
                         marginRight: "0.8rem",
-                      }}
-                    >
+                      }}>
                       {i.nickname}
                     </span>
                     {i.comment}
@@ -115,8 +113,7 @@ function Comments(commentData, parentData) {
                     <IconButton
                       onClick={() => {
                         setCommentId(i.id);
-                      }}
-                    >
+                      }}>
                       <CloseIcon onClick={deleteComment} />
                     </IconButton>
                   </Paper>

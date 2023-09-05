@@ -53,8 +53,9 @@ function ChatPage() {
   const client = useRef({});
   const { apply_id } = useParams();
   const connect = () => {
+    console.log(id);
     client.current = new StompJs.Client({
-      brokerURL: "ws://localhost:8080/ws/chat",
+      brokerURL: "ws://localhost:8080/chatting",
       onConnect: () => {
         subscribe();
       },
