@@ -4,7 +4,9 @@ package com.example.Final_Project_mutso.controller;
 import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.dto.FeedListDto;
 import com.example.Final_Project_mutso.entity.CustomUserDetails;
+import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.entity.UserEntity;
+import com.example.Final_Project_mutso.repository.FeedRepository;
 import com.example.Final_Project_mutso.service.CommentService;
 import com.example.Final_Project_mutso.service.FeedService;
 import com.example.Final_Project_mutso.service.FileService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Slf4j
@@ -32,6 +35,7 @@ public class FeedController {
     private final CommentService commentService;
     private final FileService fileService;
     private final UserService userService;
+    private final FeedRepository feedRepository;
 
     @GetMapping
     public List<FeedListDto> getFeed() {
@@ -73,6 +77,8 @@ public class FeedController {
     ) {
 //        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 //        UserEntity loginedUser = userService.readUser(userDetails.getName());
+//        Feed feed = feedRepository.findByFeedId(feedId);
+//        if(loginedUser.equals(feed.getUser()))
         feedService.updateFeed(feedId, dto);
         fileService.updateFile(feedId, file);
     }
@@ -81,8 +87,13 @@ public class FeedController {
 
     @DeleteMapping("/{feedId}")//삭제
     public void delete(
-            @PathVariable("feedId") Long feedId
+            @PathVariable("feedId") Long feedId,
+            Authentication authentication
     ) {
+//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//        UserEntity loginedUser = userService.readUser(userDetails.getName());
+//        Feed feed = feedRepository.findByFeedId(feedId);
+//        if(loginedUser.equals(feed.getUser()))
         fileService.deleteFile(feedId);
         feedService.deleteFeed(feedId);
 //        return "redirect:/feed";

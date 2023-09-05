@@ -10,6 +10,8 @@ public interface FeedRepository extends JpaRepository<Feed, Long> {
     @Override
     Optional<Feed> findById(Long id);
 
+    Feed findByFeedId(Long id);
+
 //    Page<Feed> findAllByTitleContains(
 //            String title, Pageable pageable);
 }
