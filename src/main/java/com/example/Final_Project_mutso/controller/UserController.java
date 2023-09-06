@@ -1,8 +1,6 @@
 package com.example.Final_Project_mutso.controller;
 
-import com.example.Final_Project_mutso.dto.FollowDto;
-import com.example.Final_Project_mutso.dto.MypageDto;
-import com.example.Final_Project_mutso.dto.ProfileDto;
+import com.example.Final_Project_mutso.dto.*;
 import com.example.Final_Project_mutso.entity.Follow;
 import com.example.Final_Project_mutso.entity.UserEntity;
 import com.example.Final_Project_mutso.jwt.JwtRequestDto;
@@ -138,11 +136,18 @@ public class UserController {
         return userService.getUserFollows(username);
     }
 
-//    @GetMapping("/mypage/{username}/scrap")
-//    public ScrapDto getFeedScraps(
-//            @PathVariable("username") String username
-//    ) {
-//        return feedService.getFeedScraps(username);
-//    }
+    @PutMapping("/{id}/scrap")
+    public ResponseEntity<Map<String, String>> feedScrap(
+            @PathVariable("id") Long id
+    ) {
+        return userService.userScrap(id);
+    }
+
+    @GetMapping("/mypage/{id}/scrap")
+    public ScrapDto getFeedScraps(
+            @PathVariable("id") Long id
+    ) {
+        return userService.getFeedScrap(id);
+    }
 
 }

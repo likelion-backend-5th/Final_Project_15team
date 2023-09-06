@@ -2,14 +2,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import axios from "axios";
 
+import { useNavigate } from "react-router-dom";
 import React, { useState, useRef } from "react";
 import { Button, TextField, Box, Paper, IconButton } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 
 import Appbars from "../components/appbars";
-
-import SendIcon from "@mui/icons-material/Send";
 
 let WholeWrap = styled.div``;
 let TopWrap = styled.div`
@@ -22,17 +21,19 @@ let ContentWrap = styled.div``;
 let BottomWrap = styled.div``;
 
 function CreateFeed() {
+  const navigate = useNavigate();
   const [PnV, setPnV] = useState("");
   const PnVRef = useRef();
   const [musicFile, setMusicFile] = useState("");
   const musicRef = useRef();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [hashtag, setHashtag] = useState("");
   const [viewUploadPnV, setViewUploadPnV] = useState(false);
   const [viewUploadMusic, setViewUploadMusic] = useState(false);
 
   const uploadPnV = () => {
-    const file = PnVRef.current.file[0];
+    const file = PnVRef.current.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -55,19 +56,27 @@ function CreateFeed() {
   const OCContent = (e) => {
     setContent(e.target.value);
   };
+  const OCHashtag = (e) => {
+    setHashtag(e.target.value);
+  };
 
   const postFeed = (e) => {
     e.preventDefault();
-    let body = {
-      title: title,
-      content: content,
-      music: musicFile,
-      PnV: PnV,
-    };
+    const formData = new FormData();
+    const changedPnV = new Blob([PnV], { type: "multipart/form-data" });
+    formData.append("file", changedPnV);
+    const changedMusicFile = new Blob([musicFile], {
+      type: "multipart/form-data",
+    });
+    formData.append("musicFile", changedMusicFile);
+    const dto = JSON.stringify({ title, content, hashtag });
+    const changedDto = new Blob([dto], { type: "application/json" });
+    formData.append("dto", changedDto);
     axios
-      .post("http://localhost:8080/feed/add", body)
+      .post("http://localhost:8080/feed/add", formData)
       .then((res) => {
         console.log(res.data);
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -85,8 +94,7 @@ function CreateFeed() {
               width: "50rem",
               margin: "1.2rem",
               padding: "0.8rem",
-            }}
-          >
+            }}>
             <TopWrap>피드생성</TopWrap>
             <Paper elevation={3} style={{ textAlign: "center" }}>
               <TitleWrap>
@@ -111,6 +119,17 @@ function CreateFeed() {
                   onChange={OCContent}
                 />
               </ContentWrap>
+              <TitleWrap>
+                <TextField
+                  id="standard-multiline-flexible"
+                  label="해시태그"
+                  multiline
+                  maxRows={4}
+                  variant="standard"
+                  value={hashtag}
+                  onChange={OCHashtag}
+                />
+              </TitleWrap>
               <BottomWrap>
                 <div>
                   사진/동영상 추가 :{" "}
@@ -130,11 +149,7 @@ function CreateFeed() {
                       <input
                         type="file"
                         onChange={uploadPnV}
-                        ref={PnVRef}
-                      ></input>
-                      <IconButton>
-                        <SendIcon />
-                      </IconButton>
+                        ref={PnVRef}></input>
                     </form>
                   ) : null}
                 </div>
@@ -156,11 +171,7 @@ function CreateFeed() {
                       <input
                         type="file"
                         onChange={uploadMusic}
-                        ref={musicRef}
-                      ></input>
-                      <IconButton>
-                        <SendIcon />
-                      </IconButton>
+                        ref={musicRef}></input>
                     </form>
                   ) : null}
                 </div>

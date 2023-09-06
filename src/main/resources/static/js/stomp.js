@@ -28,9 +28,6 @@ const url = new URL(location.href).searchParams;
 const roomId = url.get('roomId');
 
 function connect(event){
-
-    username = document.querySelector('#name').value.trim();
-
     // usernamePage 에 hidden 속성 추가해서 가리고 chatPage를 등장시킴
     usernamePage.classList.add('hidden');
     chatPage.classList.remove('hidden');
@@ -39,6 +36,7 @@ function connect(event){
     let socket = new SockJS('/ws/chat');
     stompClient = Stomp.over(socket);
 
+    // onConnected - connect 콜백 함수
     stompClient.connect({},onConnected,onError);
 
     event.preventDefault();
@@ -47,10 +45,11 @@ function connect(event){
 function onConnected() {
 
     // sub 할 url => /sub/chat/room/roomId 로 구독한다
-    stompClient.subscribe('/sub/chat/room/' + roomId, onMessageReceived);
+    // onMessageReceived는 해당 토픽을 구독하는 사용자에게 메세지가(응답값) 왔을때 실행되는 콜백 함수
+    stompClient.subscribe('/topic/chat/room/enter' + roomId, onMessageReceived);
 
     // /pub/chat/enterUser 로 Json 형태의 메시지를 보냄
-    stompClient.send("/pub/chat/enterUser",
+    stompClient.send("/app/chat/enter",
         {},
         JSON.stringify({
             "roomId": roomId,
@@ -61,7 +60,6 @@ function onConnected() {
 
     // HTML 문서에서 특정 요소를 가리키는 변수
     connectingElement.classList.add('hidden');
-
 }
 
 
@@ -82,7 +80,7 @@ function sendMessage(event) {
             type: 'TALK'
         };
 
-        stompClient.send("/pub/chat/sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("/app/chat/message", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
     }
     event.preventDefault();
@@ -93,7 +91,7 @@ function getUserNickname() {
     // 이 부분에 서버로부터 현재 사용자의 닉네임을 가져오는 코드를 추가합니다.
     // 예를 들어, API 요청을 통해 닉네임을 가져올 수 있습니다.
     // 아래는 예시 코드일 뿐 실제 구현 방법은 백엔드에 따라 다를 수 있습니다.
-    let nickname = ""; // 서버로부터 닉네임을 가져오는 api 추가
+    let nickname = " "; // 서버로부터 닉네임을 가져오는 api 추가
     return nickname;
 }
 
@@ -151,16 +149,6 @@ function onMessageReceived(payload) {
     messageArea.scrollTop = messageArea.scrollHeight;
 }
 
-// 사용자의 이름을 기반으로 아바타의 색상을 결정하는 함수
-function getAvatarColor(messageSender) {
-    let hash = 0;
-    for (let i = 0; i < messageSender.length; i++) {
-        hash = 31 * hash + messageSender.charCodeAt(i);
-    }
-
-    let index = Math.abs(hash % colors.length);
-    return colors[index];
-}
-
+// 입장 버튼 눌렀을 때
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)

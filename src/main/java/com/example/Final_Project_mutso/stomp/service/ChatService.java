@@ -105,17 +105,24 @@ public class ChatService {
     public void increaseUser(Long roomId){
         // 접속한 방의 roomId 확인
         Optional<ChattingRoom> optionalChatRoom = chatRoomRepository.findById(roomId);
+        if(optionalChatRoom.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         ChattingRoom chatRoom = optionalChatRoom.get();
+        log.info("increaseUser 카운트 +1 하기 전까지 옴!");
         chatRoom.setUserCount(chatRoom.getUserCount()+1);
         chatRoomRepository.save(chatRoom);
+        log.info("increaseUser 카운트 결과 : " + chatRoom.getUserCount());
     }
 
     // 채팅방 인원 -1
     public void decreaseUser(Long roomId){
         Optional<ChattingRoom> optionalChatRoom = chatRoomRepository.findById(roomId);
+        if(optionalChatRoom.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         ChattingRoom chatRoom = optionalChatRoom.get();
         chatRoom.setUserCount(chatRoom.getUserCount()-1);
         chatRoomRepository.save(chatRoom);
+        log.info("decreaseUser 카운트 결과 : " + chatRoom.getUserCount());
     }
 
     // 채팅방 입장 시 사용되는 사용자 닉네임
@@ -125,6 +132,26 @@ public class ChatService {
 
         return user.getNickname();
     }
+
+    // 채팅방 인원수 확인하기
+    public int checkUserCount(Long roomId){
+        Optional<ChattingRoom> optionalChattingRoom = chatRoomRepository.findById(roomId);
+        if(optionalChattingRoom.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        ChattingRoom chattingRoom = optionalChattingRoom.get();
+        return chattingRoom.getUserCount();
+    }
+
+    // 채팅방 입장 시 url에 표시되는 닉네임 검증
+    // url에 입력한 username이 현재 사용자와 일치하지 않으면 400 오류를 뿜는 메소드
+    public void checkNickname(String nickname){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findAllByUsername(username);
+
+        if(!nickname.equals(username))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    }
+
 }
 
 

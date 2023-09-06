@@ -65,14 +65,15 @@ export default function Login() {
     } else {
       let body = { username: id, password: password };
       axios
-        .post("http://localhost:8080/login", body)
+        .post("http://localhost:8080/users/login", body)
         .then((res) => {
           console.log(res.data);
           const accessToken = res.data.access_token;
           setCookie("is_login", `${accessToken}`);
+          navigate("/");
         })
         .catch((e) => {
-          console.log(e.res.data);
+          console.log(e);
           return "아이디, 패스워드 확인";
         });
     }
