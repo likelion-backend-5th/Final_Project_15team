@@ -4,6 +4,7 @@ import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.dto.FeedListDto;
 import com.example.Final_Project_mutso.entity.*;
 import com.example.Final_Project_mutso.repository.FeedImageRepository;
+import com.example.Final_Project_mutso.repository.FeedLikeRepository;
 import com.example.Final_Project_mutso.repository.FeedRepository;
 import com.example.Final_Project_mutso.repository.FeedVideoRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class FeedService {
     private final FeedImageRepository feedImageRepository;
     private final FeedVideoRepository feedVideoRepository;
     private final CommentService commentService;
+    private final FeedLikeRepository feedLikeRepository;
 
     public void createFeed(FeedDto dto, MultipartFile file/*, UserEntity loginedUser*/) {
         Feed feed = new Feed();
@@ -116,26 +118,26 @@ public class FeedService {
         Feed feed = feedRepository.findById(feedId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
 
-        FeedLike likes = FeedLike.builder()
-                .isLike(YesOrNo.YES)
-                .feed(feed)
-                .build();
+        if(feedLikeRepository.findByUserId(loginedUser.getId()) == null){
+            FeedLike likes = FeedLike.builder()
+//                    .isLike(YesOrNo.YES)
+                    .user(loginedUser)
+                    .feed(feed)
+                    .build();
 
-        feed.addLikes(likes);
-        feedRepository.save(feed);
+            feed.addLikes(likes);
+            feedRepository.save(feed);
+        }
+        else {
+            FeedLike like = feedLikeRepository.findByUserId(loginedUser.getId());
+            feedLikeRepository.delete(like);
+        }
+
     }
 
-    public void unlikeFeed(Long feedId, UserEntity loginedUser) {
-        Feed feed = feedRepository.findById(feedId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
-
-        FeedLike likes = FeedLike.builder()
-                .isLike(YesOrNo.NO)
-                .feed(feed)
-                .build();
-
-        feed.addLikes(likes);
-        feedRepository.save(feed);
+    public int getCntFeedLikes(Long feedId) {
+        return feedLikeRepository.countFeedLikeByFeed_Id(feedId);
     }
+
 
 }

@@ -99,7 +99,7 @@ public class FeedController {
 //        return "redirect:/feed";
     }
 
-    @PostMapping("/{feedId}/like")  // 경로 변수명을 boardId로 변경
+    @PostMapping("/{feedId}/like")
     public ResponseEntity<String> likeFeed(
             @PathVariable("feedId") Long feedId,
             Authentication authentication
@@ -110,15 +110,11 @@ public class FeedController {
         return ResponseEntity.ok("좋아요가 반영되었습니다.");
     }
 
-    @PostMapping("/{feedId}/unlike")
-    public ResponseEntity<String> unlikeFeed(
-            @PathVariable("feedId") Long feedId,
-            Authentication authentication
+    @GetMapping("/{feedId}/like")
+    public void likeCnt(
+            @PathVariable("feedId") Long feedId
     ) {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        UserEntity loginedUser = userService.readUser(userDetails.getName());
-        feedService.unlikeFeed(feedId, loginedUser);
-        return ResponseEntity.ok("좋아요가 취소되었습니다.");
+        feedService.getCntFeedLikes(feedId);
     }
 
 }
