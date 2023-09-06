@@ -47,7 +47,8 @@ public class WebSocketMapping {
         headerAccessor.getSessionAttributes().put("roomId",message.getRoomId());
 
         message.setMessage(message.getSender() + "님이 입장하셨습니다.");
-        template.convertAndSend("/sub/chat/room/"+message.getRoomId(), message);
+        template.convertAndSend("/topic/chat/room/enter/"+message.getRoomId(), message);
+        log.info("roomId값 : "+message.getRoomId());
     }
 
     // 메세지 보내기
@@ -56,8 +57,8 @@ public class WebSocketMapping {
         log.info("chat : {}", message);
         String time = new SimpleDateFormat("HH:mm").format(new Date());
         message.setTime(time);
-        message.setMessage(message.getMessage());
-        template.convertAndSend("/sub/chat/room/"+message.getRoomId(), message);
+        message.setMessage(message.getSender()+" : "+message.getMessage()+" ("+time+")");
+        template.convertAndSend("/topic/chat/room/enter/"+message.getRoomId(), message);
     }
 
     //유저 퇴장 시에는 EventListener 를 통해서 유저 퇴장을 확인
