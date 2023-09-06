@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Builder
@@ -26,10 +27,16 @@ public class CustomUserDetails implements UserDetails {
     private String phonenumber;
     @Getter
     private String email;
+    @Getter
+    private UserEntity userEntity;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override
@@ -62,17 +69,31 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
-    public static CustomUserDetails
-    fromEntity(UserEntity entity) {
-        CustomUserDetails details = new CustomUserDetails();
-        details.id = entity.getId();
-        details.name = entity.getName();
-        details.username = entity.getUsername();
-        details.nickname = entity.getNickname();
-        details.password = entity.getPassword();
-        details.phonenumber = entity.getPhonenumber();
-        details.email = entity.getEmail();
-        return details;
+//    public static CustomUserDetails
+//    fromEntity(UserEntity entity) {
+//        CustomUserDetails details = new CustomUserDetails();
+//        details.id = entity.getId();
+//        details.name = entity.getName();
+//        details.username = entity.getUsername();
+//        details.nickname = entity.getNickname();
+//        details.password = entity.getPassword();
+//        details.phonenumber = entity.getPhonenumber();
+//        details.email = entity.getEmail();
+//        details.userEntity = entity;
+//        return details;
+//    }
+
+    public static CustomUserDetails fromEntity(UserEntity userEntity) {
+        return CustomUserDetails.builder()
+                .id(userEntity.getId())
+                .name(userEntity.getName())
+                .username(userEntity.getUsername())
+                .nickname(userEntity.getNickname())
+                .password(userEntity.getPassword())
+                .phonenumber(userEntity.getPhonenumber())
+                .email(userEntity.getEmail())
+                .userEntity(userEntity)
+                .build();
     }
 
     public UserEntity newEntity() {

@@ -35,4 +35,7 @@ public class Feed {
 //    private List<Comment> comments = new ArrayList<>();
     private List<Comment> comments;
 
+    @OneToMany
+    private List<UserEntity> userScrap;
+
 }
