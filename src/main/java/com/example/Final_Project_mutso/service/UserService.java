@@ -173,5 +173,11 @@ public class UserService {
 
         return ScrapDto.fromEntity(scrap, feed);
     }
+  
+    public UserEntity readUser(String userName) {
+        if (userRepository.findByUsername(userName).isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return userRepository.findByUsername(userName).get();
+    }
 
 }

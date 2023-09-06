@@ -12,13 +12,17 @@ public class FeedLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private YesOrNo isLike;
+
     @ManyToOne
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     public FeedLike() {
 

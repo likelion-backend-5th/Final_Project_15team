@@ -1,20 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-
-import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Stack,
-  Paper,
-  IconButton,
-  TextField,
-  Menu,
-  MenuItem,
-} from "@mui/material";
 import axios from "axios";
 
+import React, { useState, useEffect } from "react";
+import { Box, Stack, Paper, IconButton, Menu, MenuItem } from "@mui/material";
+
 import Appbars from "../components/appbars";
+import Comments from "../components/comments";
 
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import AddCommentIcon from "@mui/icons-material/AddComment";
@@ -57,7 +50,6 @@ let Username = styled.div`
 `;
 let Time = styled.div``;
 let BottomBox = styled.div``;
-let CommentBox = styled.div``;
 let LikeText = styled.div`
   margin-left: 5rem;
 `;
@@ -90,15 +82,7 @@ function Feeddetail() {
         setContent(res.data.content);
         setDate(res.data.date);
         setTime(res.data.time);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get("http://localhost:8080/comment")
-      .then((res) => {
-        console.log(res.data);
-        setComment(res.data);
+        setComment(res.data.comments);
       })
       .catch((error) => {
         console.log(error);
@@ -106,9 +90,14 @@ function Feeddetail() {
   }, []);
 
   const deleteFeed = () => {
-    axios.delete("http://localhost:8080/").catch((error) => {
-      console.log(error);
-    });
+    axios
+      .delete("http://localhost:8080/feed/" + id)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     setAnchorEl(null);
   };
 
@@ -228,43 +217,7 @@ function Feeddetail() {
                 <Title>{title}</Title>
                 <Contents>{content}</Contents>
                 <HashTag>해시태그 : #블랙핑크</HashTag>
-                {viewComment ? (
-                  <CommentBox>
-                    {comment
-                      ? comment.map(function (i, b) {
-                          return (
-                            <>
-                              <Paper
-                                elevation={3}
-                                style={{
-                                  marginTop: "0.4rem",
-                                  borderRadius: "1rem",
-                                  padding: "0.8rem",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    fontWeight: "bold",
-                                    marginRight: "0.8rem",
-                                  }}
-                                >
-                                  {i.nickname}
-                                </span>
-                                {i.comment}
-                              </Paper>
-                            </>
-                          );
-                        })
-                      : null}
-                    <TextField
-                      fullwidth
-                      style={{ width: "100%" }}
-                      id="fullwidth"
-                      label="댓글달기"
-                      variant="standard"
-                    />
-                  </CommentBox>
-                ) : null}
+                {viewComment ? <Comments props={comment} feed={id} /> : null}
               </Paper>
             </BottomBox>
           </FeedWrap>

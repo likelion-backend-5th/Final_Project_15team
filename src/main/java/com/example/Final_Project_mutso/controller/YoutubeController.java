@@ -29,16 +29,12 @@ public class YoutubeController {
     private static final String YOUTUBE_APIKEY = "AIzaSyAj95x7jyV6YJCg1owyMqMoRTN-PHe15-E";
 
     @GetMapping("/search")
-    public String searchByKeyword(
+    public List<YoutubeVideoDto> searchByKeyword(
             @RequestParam(value="word", required=true) String search,
-            @RequestParam(value="items", required=false, defaultValue="5") String items) throws JsonProcessingException {
-        int max = Integer.parseInt(items);
-        List<YoutubeVideoDto> searchList = service.search(search,max);
+            @RequestParam(value="items", required=false, defaultValue="10") Long items) throws JsonProcessingException {
+        List<YoutubeVideoDto> searchList = service.search(search,items);
 
-        // JSON으로 변환
-        String result = new ObjectMapper().writeValueAsString(searchList);
-        System.out.println(result);
-        return result;
+        return searchList;
     }
 
     @GetMapping("/search/{musicId}/{playlistname}/add")
@@ -50,9 +46,15 @@ public class YoutubeController {
     }
 
     @GetMapping("/myplaylist")
-    public List<String> getPlayList(){
-        return service.getPlayList();
+    public List<MusicPlayList> getMyPlayList(){
+        return service.getMyPlayList();
     }
 
+    @GetMapping("/myplaylist/{playlistname}")
+    public MusicPlayList getPlayList(
+            @PathVariable(value = "playlistname") String playListName
+    ){
+        return service.getPlayList(playListName);
+    }
 
 }
