@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   Paper,
@@ -49,11 +49,23 @@ let ContentWrap = styled.div``;
 function ChatList() {
   let navigate = useNavigate();
   let [data, setData] = useState([]);
+  const [imgUrl, setImgUrl] = useState();
+  const imgUrlRef = useRef();
+  const [viewUploadImg, setViewUploadImg] = useState();
+
+  const uploadImg = (e) => {
+    e.preventDefault();
+    if (e.target.files) {
+      const uploadImg = e.target.files[0];
+      setImgUrl(uploadImg);
+    }
+  };
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/chat/rooms")
       .then((res) => {
+        console.log("채팅방 get요청");
         console.log(res.data);
         setData(res.data);
       })
@@ -67,11 +79,22 @@ function ChatList() {
   const handleClose = () => setOpen(false);
 
   const [roomName, setRoomName] = useState();
-  const createChat = () => {
-    let body = { roomName };
-    axios.post("http://localhost:8080/chat/rooms", body).then((res) => {
-      console.log(res.data);
-    });
+  const createChat = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    const changedImgData = new Blob([imgUrl], { type: "multipart/form-data" });
+    formData.append("image", changedImgData);
+    const roomData = JSON.stringify({ roomName: roomName });
+    const changedRoomData = new Blob([roomData], { type: "application/json" });
+    formData.append("chatRoomDto", changedRoomData);
+    axios
+      .post("http://localhost:8080/chat/rooms", formData)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setOpen(false);
   };
   return (
@@ -86,8 +109,7 @@ function ChatList() {
               margin: "1.2rem",
               marginRight: "0.4rem",
               padding: " 1.2rem",
-            }}
-          >
+            }}>
             <TopWrap>
               <div style={{ margin: "auto", fontSize: "1.6rem" }}>채팅</div>
               <Icons>
@@ -98,14 +120,12 @@ function ChatList() {
                   open={open}
                   onClose={handleClose}
                   aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                >
+                  aria-describedby="modal-modal-description">
                   <Box sx={style}>
                     <Typography
                       id="modal-modal-title"
                       variant="h6"
-                      component="h2"
-                    >
+                      component="h2">
                       채팅방 생성
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
@@ -115,8 +135,9 @@ function ChatList() {
                         label="방이름"
                         varient="outlined"
                         value={roomName}
-                        onChange={(e) => setRoomName(e.target.value)}
-                      ></TextField>
+                        onChange={(e) =>
+                          setRoomName(e.target.value)
+                        }></TextField>
                       {/* <TextField
                         style={{ margin: "0.4rem" }}
                         id="count"
@@ -128,8 +149,23 @@ function ChatList() {
                       <div style={{ margin: "0.4rem" }}>
                         대표이미지
                         <IconButton>
-                          <AddIcon></AddIcon>
+                          <AddIcon
+                            onClick={() => {
+                              if (viewUploadImg) {
+                                setViewUploadImg(false);
+                              } else {
+                                setViewUploadImg(true);
+                              }
+                            }}></AddIcon>
                         </IconButton>
+                        {viewUploadImg ? (
+                          <form>
+                            <input
+                              type="file"
+                              onChange={uploadImg}
+                              ref={imgUrlRef}></input>
+                          </form>
+                        ) : null}
                       </div>
                       <Button variant="contained" onClick={createChat}>
                         생성하기
@@ -140,8 +176,7 @@ function ChatList() {
                 <IconButton
                   onClick={() => {
                     navigate("/chatdelete");
-                  }}
-                >
+                  }}>
                   <DeleteOutlineIcon></DeleteOutlineIcon>
                 </IconButton>
               </Icons>
@@ -152,22 +187,17 @@ function ChatList() {
                   width: "100%",
                   maxWidth: 360,
                   bgcolor: "background.paper",
-                }}
-              >
+                }}>
                 {data.map(function (i, b) {
                   return (
                     <>
                       <Button
                         onClick={() => {
                           navigate("/chatpage/" + i.id);
-                        }}
-                      >
+                        }}>
                         <ListItem alignItems="flex-start">
                           <ListItemAvatar>
-                            <Avatar
-                              alt="Remy Sharp"
-                              src="/static/images/avatar/1.jpg"
-                            />
+                            <Avatar alt="Remy Sharp" src={i.imageUrl} />
                           </ListItemAvatar>
                           <ListItemText
                             primary={i.roomName}
@@ -176,8 +206,7 @@ function ChatList() {
                                 {i.chat}
                                 {i.chatcount}명
                               </React.Fragment>
-                            }
-                          ></ListItemText>
+                            }></ListItemText>
                         </ListItem>
                         <Divider variant="inset" component="li" />
                       </Button>

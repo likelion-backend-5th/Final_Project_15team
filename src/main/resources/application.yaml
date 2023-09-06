@@ -25,7 +25,8 @@ spring:
   web:
     resources:
       # ?? ?? ?? ??
-      static-locations: file:media/,classpath:/static
+      static-locations: file:back/,classpath:/static
+
 
 jwt:
   secret: aaaabbbsdifqbvaesoioegwaaaabbbsdifqbvaesoioegwaaaabbbsdifqbvaesasdfqve

@@ -1,5 +1,7 @@
 # 채팅
-- 채팅방 생성 : endPoint : `POST/chat/rooms` / response: `{"id":"1","roomName":"name"}`
+- 채팅방 생성 : endPoint : `POST/chat/rooms` / response: `{"id": 3,"roomName": "room1","userCount": 0,"imageUrl": "이미지 url"}`
+<img width="853" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/602119ec-5cc5-4fec-b268-96ac1a5a0002">
+
 - 채팅방 리스트 조회 : endPoint : `GET/chat/rooms` / response: `{"id":"1","roomName":"name"}`
 - 채팅방 삭제 : endPoint : `DELETE/chat/rooms/{id}` / response: void로 설정했기 때문에 반환값 없음
 - 메세지 보내기 : `Message/chat/messsage`(@MessageMapping("/chat/message"))
@@ -13,12 +15,15 @@
 
 # 피드
 - 피드 생성 : `POST/feed/add`
-- ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/49856f73-66e9-467b-8952-5c4d1ee2d8bb)
+- ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/7990fc2c-5a70-49a2-afe6-6b5b8d2e25f5)
+- dto
+- {"title": "title", "content": "test", "hashtag": "#hash"}
 - 
 - 피드 목록 : `GET/feed`
 - 피드 상세 : `GET/feed/{feedId}`
 - 피드 수정 : `PUT/feed/{feedId}`
-- ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/d9bf7a40-6dd7-44a4-b959-4f81b7fa420e)
+- dto
+- {"title": "titlEdit", "content": "editTest", "hashtag": "#edit"}
 
 - 피드 삭제 : `DELETE/feed/{feedId}`
   
