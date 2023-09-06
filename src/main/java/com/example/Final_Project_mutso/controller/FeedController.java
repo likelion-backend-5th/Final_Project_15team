@@ -4,7 +4,6 @@ package com.example.Final_Project_mutso.controller;
 import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.dto.FeedListDto;
 import com.example.Final_Project_mutso.entity.CustomUserDetails;
-import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.entity.UserEntity;
 import com.example.Final_Project_mutso.repository.FeedRepository;
 import com.example.Final_Project_mutso.service.CommentService;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Slf4j
@@ -99,22 +97,22 @@ public class FeedController {
 //        return "redirect:/feed";
     }
 
-    @PostMapping("/{feedId}/like")
+    @PostMapping("/{feedId}/like")// 좋아요 클릭
     public ResponseEntity<String> likeFeed(
             @PathVariable("feedId") Long feedId,
             Authentication authentication
     ) {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        UserEntity loginedUser = userService.readUser(userDetails.getName());
-        feedService.likeFeed(feedId,loginedUser);
+//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//        UserEntity loginedUser = userService.readUser(userDetails.getName());
+        feedService.likeFeed(feedId/*,loginedUser*/);
         return ResponseEntity.ok("좋아요가 반영되었습니다.");
     }
 
-    @GetMapping("/{feedId}/like")
-    public void likeCnt(
+    @GetMapping("/{feedId}/like")// 좋아요 개수
+    public int likeCnt(
             @PathVariable("feedId") Long feedId
     ) {
-        feedService.getCntFeedLikes(feedId);
+        return feedService.getCntFeedLikes(feedId);
     }
 
 }

@@ -114,24 +114,30 @@ public class FeedService {
     }
 
     //좋아요 기능
-    public void likeFeed(Long feedId, UserEntity loginedUser) {
+    public void likeFeed(Long feedId/*, UserEntity loginedUser*/) {
         Feed feed = feedRepository.findById(feedId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
 
-        if(feedLikeRepository.findByUserId(loginedUser.getId()) == null){
-            FeedLike likes = FeedLike.builder()
-//                    .isLike(YesOrNo.YES)
-                    .user(loginedUser)
-                    .feed(feed)
-                    .build();
+//        if(feedLikeRepository.findByUserId(loginedUser.getId()) == null){
+//            FeedLike likes = FeedLike.builder()
+//                    .user(loginedUser)
+//                    .feed(feed)
+//                    .build();
+//
+//            feed.addLikes(likes);
+//            feedRepository.save(feed);
+//        }
+//        else {
+//            FeedLike like = feedLikeRepository.findByUserId(loginedUser.getId());
+//            feedLikeRepository.delete(like);
+//        }
 
-            feed.addLikes(likes);
-            feedRepository.save(feed);
-        }
-        else {
-            FeedLike like = feedLikeRepository.findByUserId(loginedUser.getId());
-            feedLikeRepository.delete(like);
-        }
+        FeedLike likes = FeedLike.builder()
+                .feed(feed)
+                .build();
+
+        feed.addLikes(likes);
+        feedRepository.save(feed);
 
     }
 
