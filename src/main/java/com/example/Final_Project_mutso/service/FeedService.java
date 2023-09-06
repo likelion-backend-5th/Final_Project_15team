@@ -1,16 +1,17 @@
 package com.example.Final_Project_mutso.service;
 
 import com.example.Final_Project_mutso.dto.FeedDto;
-import com.example.Final_Project_mutso.entity.Feed;
-import com.example.Final_Project_mutso.entity.FeedImage;
-import com.example.Final_Project_mutso.entity.FeedVideo;
+import com.example.Final_Project_mutso.dto.FeedListDto;
+import com.example.Final_Project_mutso.entity.*;
 import com.example.Final_Project_mutso.repository.FeedImageRepository;
 import com.example.Final_Project_mutso.repository.FeedRepository;
 import com.example.Final_Project_mutso.repository.FeedVideoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +29,12 @@ public class FeedService {
     private final FeedVideoRepository feedVideoRepository;
     private final CommentService commentService;
 
-    public void createFeed(FeedDto dto, MultipartFile file) {
+    public void createFeed(FeedDto dto, MultipartFile file/*, UserEntity loginedUser*/) {
         Feed feed = new Feed();
-//        feed.setUser(userEntity);
         feed.setTitle(dto.getTitle());
         feed.setContent(dto.getContent());
         feed.setHashtag(dto.getHashtag());
+//        feed.setUser(loginedUser);
         feedRepository.save(feed);
 
 
@@ -62,11 +63,13 @@ public class FeedService {
 
     }
 
-    public List<FeedDto> readFeedAll() {
-        List<FeedDto> feedList = new ArrayList<>();
+    public List<FeedListDto> readFeedAll() {
+        List<FeedListDto> feedList = new ArrayList<>();
         List<Feed> feeds = feedRepository.findAll();
         for (Feed feed: feeds) {
-            feedList.add(FeedDto.fromEntity(feed));
+            FeedListDto dto = FeedListDto.fromEntity(feed);
+            dto.setFileUrl(fileService.readFile(feed.getId()));
+            feedList.add(dto);
         }
         return feedList;
     }
@@ -77,7 +80,10 @@ public class FeedService {
                 = feedRepository.findById(id);
         if (optionalFeed.isPresent()) {
             Feed feed = optionalFeed.get();
-            return FeedDto.fromEntity(feed);
+            FeedDto dto = FeedDto.fromEntity(feed);
+            dto.setComments(commentService.readCommentAll(id));
+            dto.setFileUrl(fileService.readFile(id));
+            return dto;
         }
         return null;
 
@@ -103,6 +109,33 @@ public class FeedService {
             feedRepository.deleteById(id);
 
         }
+    }
+
+    //좋아요 기능
+    public void likeFeed(Long feedId, UserEntity loginedUser) {
+        Feed feed = feedRepository.findById(feedId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
+
+        FeedLike likes = FeedLike.builder()
+                .isLike(YesOrNo.YES)
+                .feed(feed)
+                .build();
+
+        feed.addLikes(likes);
+        feedRepository.save(feed);
+    }
+
+    public void unlikeFeed(Long feedId, UserEntity loginedUser) {
+        Feed feed = feedRepository.findById(feedId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
+
+        FeedLike likes = FeedLike.builder()
+                .isLike(YesOrNo.NO)
+                .feed(feed)
+                .build();
+
+        feed.addLikes(likes);
+        feedRepository.save(feed);
     }
 
 }

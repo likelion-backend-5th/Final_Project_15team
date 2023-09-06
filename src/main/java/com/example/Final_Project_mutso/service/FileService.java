@@ -32,7 +32,7 @@ public class FileService {
         System.out.println("용량크기(byte) : " + size);
         //서버에 저장할 파일이름 fileextension으로 .jsp이런식의  확장자 명을 구함
         String fileExtension = fileName.substring(fileName.lastIndexOf("."),fileName.length());
-        String uploadFolder = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+        String uploadFolder = System.getProperty("user.dir") + "\\files";
 
             /*
 		  파일 업로드시 파일명이 동일한 파일이 이미 존재할 수도 있고 사용자가
@@ -52,7 +52,7 @@ public class FileService {
 //             java.io.File saveFile = new java.io.File(uploadFolder+"\\"+fileName);
 
         java.io.File saveFile = new java.io.File(uploadFolder+"\\"+uniqueName + fileExtension);  // 적용 후
-        String fileUrl = String.format(System.getProperty("user.dir") + "\\src\\main\\resources\\static\\file\\%s", uniqueName+fileExtension);
+        String fileUrl = String.format(System.getProperty("user.dir") + "\\files\\%s", uniqueName+fileExtension);
 //            String fileUrl = uploadFolder+"\\"+fileName;
         try {
             file.transferTo(saveFile); // 실제 파일 저장메서드(filewriter 작업을 손쉽게 한방에 처리해준다.)

@@ -1,5 +1,7 @@
 package com.example.Final_Project_mutso.stomp.service;
 
+import com.example.Final_Project_mutso.entity.UserEntity;
+import com.example.Final_Project_mutso.repository.UserRepository;
 import com.example.Final_Project_mutso.stomp.dto.ChatMessageDto;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoomDto;
 import com.example.Final_Project_mutso.stomp.entity.ChatMessage;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,9 +30,11 @@ import java.util.*;
 public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final UserRepository userRepository;
 
     // 채팅방 조회하기
     public List<ChatRoomDto> getChatRooms() {
+
         List<ChatRoomDto> chatRoomDtoList = new ArrayList<>();
         for (ChattingRoom chatRoomEntity: chatRoomRepository.findAll())
             chatRoomDtoList.add(ChatRoomDto.fromEntity(chatRoomEntity));
@@ -37,73 +42,28 @@ public class ChatService {
     }
 
     // 채팅방 생성하기
-    public ChatRoomDto createChatRoom(ChatRoomDto chatRoomDto, MultipartFile image) {
+    public ChatRoomDto createChatRoom(ChatRoomDto chatRoomDto, MultipartFile file) throws IOException {
         String profileDir = "back/chatRoom/";
         try {
             Files.createDirectories(Path.of(profileDir));
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        // 이미지를 업로드하고 고유한 파일 이름 생성
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        file.transferTo(Path.of(profileDir+fileName));
 
-        // 2-2. 확장자를 포함한 이미지 이름 만들기 (profile.{확장자})
-        String originalFilename = image.getOriginalFilename();
-        String[] fileNameSplit = originalFilename.split("\\.");
-        String extension = fileNameSplit[fileNameSplit.length - 1]; //마지막 배열은 확장자가 되겠지?
-        String profileFilename = "chattingRoomImg." + extension;
-//        String profileFilename = image.getOriginalFilename();
+        // 이미지 URL 생성
+        String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("static/chatRoom/") // 이미지 업로드 경로
+                .path(fileName)
+                .toUriString();
 
-        // 2-3. 폴더와 파일 경로를 포함한 이름 만들기
-        String profilePath = profileDir + profileFilename;
-
-        // 3. MultipartFile 을 저장하기
-        try {
-            image.transferTo(Path.of(profilePath));
-        } catch (IOException e) {
-            log.info(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        // 4. Entity 업데이트 (정적 프로필 이미지를 회수할 수 있는 URL)
+        // 4. Entity 업데이트
         ChattingRoom chattingRoom = new ChattingRoom();
         chattingRoom.setRoomName(chatRoomDto.getRoomName());
-        chattingRoom.setImageUrl(String.format("/static/%s", profileFilename));
+        chattingRoom.setImageUrl(imageUrl);
         return ChatRoomDto.fromEntity(chatRoomRepository.save(chattingRoom));
-    }
-
-
-    // 채팅방 정보 불러오기
-    public ChatRoomDto findRoomById(Long id) {
-//        String auth = SecurityContextHolder.getContext().getAuthentication().getName();
-//        UserEntity user = userRepository.findAllByUsername(auth);
-
-        Optional<ChattingRoom> optionalChatRoom
-                = chatRoomRepository.findById(id);
-        if (optionalChatRoom.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        // 채팅방 멤버 수 불러오기
-        /*
-        1. chattingRoom DB에 userId 추가 및 연결하여 입장 시 userId 보이게 설정
-        2. db에 현재 참가중인 userId 개수 구하기
-        */
-        return ChatRoomDto.fromEntity(optionalChatRoom.get());
-    }
-
-
-    // 메세지 저장하기
-    public void saveChatMessage(ChatMessageDto chatMessageDto) {
-        chatMessageRepository.save(chatMessageDto.newEntity());
-    }
-
-    // 메시지 조회
-    public List<ChatMessageDto> readMessage(Long roomId){
-        List<ChatMessageDto> chatMessageDtoList = new ArrayList<>();
-        Optional<ChattingRoom> optionalChatRoom = chatRoomRepository.findById(roomId);
-        if (optionalChatRoom.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        for (ChatMessage chatMessage : chatMessageRepository.findAll()){
-            chatMessageDtoList.add(ChatMessageDto.fromEntity(chatMessage));
-        }
-        return chatMessageDtoList;
     }
 
     // 채팅방 삭제
@@ -112,16 +72,6 @@ public class ChatService {
         if(optionalChattingRoom.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         chatRoomRepository.deleteById(id);
-    }
-
-    public List<ChatMessageDto> getLast5Messages(Long roomId) {
-        List<ChatMessageDto> chatMessageDtos = new ArrayList<>();
-        List<ChatMessage> chatMessageEntities = chatMessageRepository.findTop5ByRoomIdOrderByIdDesc(roomId);
-        Collections.reverse(chatMessageEntities);
-        for (ChatMessage messageEntity: chatMessageEntities) {
-            chatMessageDtos.add(ChatMessageDto.fromEntity(messageEntity));
-        }
-        return chatMessageDtos;
     }
 
     // 파일 업로드 (받아오기)
@@ -147,4 +97,82 @@ public class ChatService {
         chatMessageRepository.save(message);
         return imageUrl;
     }
+
+
+
+    //--//
+    // 채팅방 인원 +1
+    public void increaseUser(Long roomId){
+        // 접속한 방의 roomId 확인
+        Optional<ChattingRoom> optionalChatRoom = chatRoomRepository.findById(roomId);
+        if(optionalChatRoom.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        ChattingRoom chatRoom = optionalChatRoom.get();
+        log.info("increaseUser 카운트 +1 하기 전까지 옴!");
+        chatRoom.setUserCount(chatRoom.getUserCount()+1);
+        chatRoomRepository.save(chatRoom);
+        log.info("increaseUser 카운트 결과 : " + chatRoom.getUserCount());
+    }
+
+    // 채팅방 인원 -1
+    public void decreaseUser(Long roomId){
+        Optional<ChattingRoom> optionalChatRoom = chatRoomRepository.findById(roomId);
+        if(optionalChatRoom.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        ChattingRoom chatRoom = optionalChatRoom.get();
+        chatRoom.setUserCount(chatRoom.getUserCount()-1);
+        chatRoomRepository.save(chatRoom);
+        log.info("decreaseUser 카운트 결과 : " + chatRoom.getUserCount());
+    }
+
+    // 채팅방 입장 시 사용되는 사용자 닉네임
+    public String getNickname(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findAllByUsername(username);
+
+        return user.getNickname();
+    }
+
+    // 채팅방 입장 시 url에 표시되는 닉네임 검증
+    // url에 입력한 username이 현재 사용자와 일치하지 않으면 400 오류를 뿜는 메소드
+    public void checkNickname(String nickname){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findAllByUsername(username);
+
+        if(!nickname.equals(username))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    }
+
 }
+
+
+// 메시지 조회
+//    public List<ChatMessageDto> readMessage(Long roomId){
+//        List<ChatMessageDto> chatMessageDtoList = new ArrayList<>();
+//        Optional<ChattingRoom> optionalChatRoom = chatRoomRepository.findById(roomId);
+//        if (optionalChatRoom.isEmpty())
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//        for (ChatMessage chatMessage : chatMessageRepository.findAll()){
+//            chatMessageDtoList.add(ChatMessageDto.fromEntity(chatMessage));
+//        }
+//        return chatMessageDtoList;
+//    }
+
+
+// 채팅방 정보 불러오기
+//    public ChatRoomDto findRoomById(Long id) {
+////        String auth = SecurityContextHolder.getContext().getAuthentication().getName();
+////        UserEntity user = userRepository.findAllByUsername(auth);
+//
+//        Optional<ChattingRoom> optionalChatRoom
+//                = chatRoomRepository.findById(id);
+//        if (optionalChatRoom.isEmpty())
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//        return ChatRoomDto.fromEntity(optionalChatRoom.get());
+//    }
+
+
+//    // 메세지 저장하기
+//    public void saveChatMessage(ChatMessageDto chatMessageDto) {
+//        chatMessageRepository.save(chatMessageDto.newEntity());
+//    }

@@ -38,7 +38,7 @@ function ChatDelete() {
   const deleteAll = () => {
     del.map(function (i, b) {
       axios
-        .delete("http://localhost:8080/chat/rooms/" + i)
+        .delete("http://localhost:8080/chat/rooms/" + i + "/delete")
         .then((res) => {
           console.log(res);
         })
@@ -46,11 +46,12 @@ function ChatDelete() {
           console.log(err);
         });
     });
+    navigate("/chatlist");
   };
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/feed")
+      .get("http://localhost:8080/chat/rooms")
       .then((res) => {
         console.log(res.data);
         setData(res.data);
@@ -71,8 +72,7 @@ function ChatDelete() {
               margin: "auto 0.4rem",
               marginTop: "0.4rem",
               padding: " 1.2rem",
-            }}
-          >
+            }}>
             <TopWrap>
               <div style={{ margin: "auto", fontSize: "1.6rem" }}>채팅</div>
               <IconButton>
@@ -92,8 +92,7 @@ function ChatDelete() {
                   width: "100%",
                   maxWidth: 360,
                   bgcolor: "background.paper",
-                }}
-              >
+                }}>
                 {data.map(function (i, b) {
                   return (
                     <>
@@ -115,7 +114,7 @@ function ChatDelete() {
                           />
                         </ListItemAvatar>
                         <ListItemText
-                          primary={i.title}
+                          primary={i.roomName}
                           secondary={<React.Fragment>{i.chat}</React.Fragment>}
                         />
                         {i.chatcount}
