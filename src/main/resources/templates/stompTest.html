@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+    <style>
+        #chat-container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        #chat-messages {
+            height: 200px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+<div id="chat-container">
+    <h2>Chat App</h2>
+    <div id="chat-messages"></div>
+    <input type="text" id="message-input" placeholder="Type a message...">
+    <button id="send-button">Send</button>
+    <button id="connect-button">connect</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<!--<script src="/static/js/stomp.js"></script>-->
+<!--<script th:inline="javascript">-->
+<!--    let nickname = /*[[${nickname}]]*/ 'Default Nickname';-->
+<!--    console.log(nickname);-->
+</script>
+
+<script>
+    // roomId 파라미터 가져오기
+    // 현재 페이지의 전체 URL
+    const pathname = window.location.pathname;
+    const roomId = parseInt(pathname.split("/")[4]);
+    const username = decodeURI(pathname.split("/")[5]);
+    // SockJS를 사용하여 /ws/chat 엔드포인트로 WebSocket 연결을 설정하고, 이 연결을 이용하여 서버와의 통신을 초기화
+    let stompClient = null;
+    let chatMessages = document.getElementById('chat-messages');
+    let messageInput = document.getElementById('message-input');
+    let sendButton = document.getElementById('send-button');
+    let connectButton = document.getElementById('connect-button');
+
+    function connect(event){
+        // 연결하고자하는 Socket 의 endPoint
+        let socket = new SockJS('/ws/chat');
+        stompClient = Stomp.over(socket);
+        console.log('STOMP 연결이 열렸습니다.');
+        console.log(roomId);
+
+        // onConnected - connect 콜백 함수
+        stompClient.connect({},onConnected);
+
+        event.preventDefault();
+    }
+
+    function onConnected() {
+        // sub 할 url => /sub/chat/room/roomId 로 구독한다
+        // onMessageReceived는 해당 토픽을 구독하는 사용자에게 메세지가(응답값) 왔을때 실행되는 콜백 함수
+        stompClient.subscribe('/topic/chat/room/enter/' + roomId, msgRecv);
+
+        // /pub/chat/enterUser 로 Json 형태의 메시지를 보냄
+        stompClient.send("/app/chat/enter",
+            {},
+            JSON.stringify({
+                "roomId": roomId,
+                sender: "testuser",
+                type: 'ENTER'
+            })
+        )
+    }
+
+    // 웹상에 표시
+    function msgRecv(payload) {
+        let chat = JSON.parse(payload.body)
+
+        let messageElement = document.createElement("div");
+        switch (chat.type) {
+            case 'ENTER':
+                messageElement.textContent = chat.message;
+                break;
+            case 'EXIT':
+                messageElement.textContent = chat.message;
+                break;
+            case 'TALK':
+                messageElement.textContent = chat.message;
+                break;
+        }
+
+        // 채팅 메시지 요소를 채팅 영역에 추가
+        chatMessages.appendChild(messageElement);
+        // 채팅 영역의 스크롤 위치를 맨 아래로 이동시켜서 최신 메시지를 표시
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+
+    function sendMessage() {
+        let messageContent = messageInput.value.trim();
+        if (messageContent && stompClient) {
+            let chatMessage = {
+                "roomId": roomId,
+                sender: "test1",
+                message: messageInput.value,
+                type: 'TALK'
+            };
+
+            stompClient.send("/app/chat/message", {}, JSON.stringify(chatMessage));
+            messageInput.value = '';
+        }
+    }
+
+    // function appendMessage(message) {
+    //     var messageElement = document.createElement('div');
+    //     messageElement.textContent = message;
+    //     chatMessages.appendChild(messageElement);
+    //     chatMessages.scrollTop = chatMessages.scrollHeight;
+    // }
+
+    connectButton.addEventListener('click', connect, true)
+    sendButton.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keyup', function (event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+</script>
+</body>
+</html>
