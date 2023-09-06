@@ -10,6 +10,7 @@ import PauseIcon from "@mui/icons-material/Pause";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 
 function Music() {
   const [videoId, setVideoId] = useState();
@@ -21,6 +22,28 @@ function Music() {
   const [volumeControl, setVolumeControl] = useState();
   const [isMuted, setIsMuted] = useState(false);
   const [mute, setMute] = useState();
+  const [playLoop, setPlayLoop] = useState();
+  const [loop, setLoop] = useState(false);
+  const [previous, setPrevious] = useState();
+  const [next, setNext] = useState();
+
+  const _playNext = (player) => {
+    player.nextVideo();
+  };
+  const _playPrevious = (player) => {
+    console.log("이전영상 재생");
+    player.previousVideo();
+  };
+
+  const _playLoop = (player) => {
+    if (loop) {
+      player.setLoop(false);
+      setLoop(false);
+    } else {
+      player.setLoop(true);
+      setLoop(true);
+    }
+  };
 
   const _onStateChange = (event) => {
     console.log(event);
@@ -67,6 +90,9 @@ function Music() {
           setVolume(e.target.playerInfo.volume);
           setIsMuted(e.target.playerInfo.muted);
           setMute(e.target);
+          setPlayLoop(e.target);
+          setPrevious(e.target);
+          setNext(e.target);
         }}
         onStateChange={(e) => {
           setOnStateChange(e);
@@ -84,15 +110,13 @@ function Music() {
           margin: "auto",
           marginBottom: "0.4rem",
           width: 500,
-        }}
-      >
+        }}>
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             margin: "auto",
-          }}
-        >
+          }}>
           <CardContent sx={{ flex: "1 0 auto", textAlign: "center" }}>
             <div style={{ maxWidth: 200 }}>{videoTitle}</div>
           </CardContent>
@@ -104,19 +128,35 @@ function Music() {
               pl: 1,
               pb: 1,
             }}
-            style={{ margin: "auto" }}
-          >
+            style={{ margin: "auto" }}>
             <IconButton sx={{ color: "white" }}>
-              <SkipPreviousIcon />
+              <SkipPreviousIcon
+                onClick={() => {
+                  _playPrevious(previous);
+                }}
+              />
             </IconButton>
             <IconButton
               sx={{ color: "white" }}
-              onClick={() => _onStateChange(onStateChange)}
-            >
+              onClick={() => _onStateChange(onStateChange)}>
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>
             <IconButton sx={{ color: "white" }}>
-              <SkipNextIcon />
+              <SkipNextIcon
+                onClick={() => {
+                  _playNext(next);
+                }}
+              />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                _playLoop(playLoop);
+              }}>
+              {loop ? (
+                <AllInclusiveIcon sx={{ color: "white" }} />
+              ) : (
+                <AllInclusiveIcon sx={{ color: "grey" }} />
+              )}
             </IconButton>
           </Box>
           <Box
@@ -126,13 +166,11 @@ function Music() {
               pl: 1,
               pb: 1,
             }}
-            style={{ margin: "auto" }}
-          >
+            style={{ margin: "auto" }}>
             {" "}
             <IconButton
               sx={{ color: "white" }}
-              onClick={() => _controlMute(mute)}
-            >
+              onClick={() => _controlMute(mute)}>
               {isMuted ? <VolumeOffIcon /> : <VolumeUpIcon />}
             </IconButton>
             <div style={{ maxWidth: 200, margin: "auto" }}>
