@@ -2,7 +2,7 @@ package com.example.Final_Project_mutso.entity;
 
 import com.example.Final_Project_mutso.stomp.entity.ChattingRoom;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;

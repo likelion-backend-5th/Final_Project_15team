@@ -3,11 +3,17 @@ package com.example.Final_Project_mutso.service;
 import com.example.Final_Project_mutso.dto.FollowDto;
 import com.example.Final_Project_mutso.dto.MypageDto;
 import com.example.Final_Project_mutso.dto.ProfileDto;
+import com.example.Final_Project_mutso.dto.ScrapDto;
+import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.entity.Follow;
+import com.example.Final_Project_mutso.entity.Scrap;
 import com.example.Final_Project_mutso.entity.UserEntity;
+import com.example.Final_Project_mutso.jwt.AuthenticationFacade;
+import com.example.Final_Project_mutso.repository.FeedRepository;
 import com.example.Final_Project_mutso.repository.FollowRepository;
+import com.example.Final_Project_mutso.repository.ScrapRepository;
 import com.example.Final_Project_mutso.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,10 +26,14 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
+    private final FeedRepository feedRepository;
+    private final ScrapRepository scrapRepository;
+
+    private final AuthenticationFacade authFacade;
 
     public MypageDto getMypage(String username) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
@@ -122,6 +132,48 @@ public class UserService {
         return FollowDto.fromEntity(follow, userEntity);
     }
 
+    private Feed findFeedOr404(Long id) {
+        return feedRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    public ResponseEntity<Map<String, String>> userScrap(Long id){
+        Map<String, String> responseBody = new HashMap<>();
+
+        Feed feed = findFeedOr404(id);
+        UserEntity userEntity = authFacade.getUser();
+        if (feed.getUserScrap().contains(userEntity))
+        {
+            feed.getUserScrap().remove(userEntity);
+            responseBody.put(userEntity.getUsername(), "님이 스크랩을 취소했습니다.");
+        }
+        else
+        {
+            feed.getUserScrap().add(userEntity);
+            responseBody.put(userEntity.getUsername(), "님이 스크랩을 추가했습니다.");
+            Scrap scrap = new Scrap();
+            scrap.setFeed(feed);
+            scrapRepository.save(scrap);
+        }
+        feedRepository.save(feed);
+
+        return ResponseEntity.ok(responseBody);
+    }
+
+    public ScrapDto getFeedScrap(Long id) {
+        Optional<Feed> optionalUser = feedRepository.findById(id);
+        if(optionalUser.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        Feed feed = optionalUser.get();
+
+        List<Scrap> scrapOptional = scrapRepository.findByFeed(feed);
+        if(scrapOptional.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        Scrap scrap = scrapOptional.get(0);
+
+        return ScrapDto.fromEntity(scrap, feed);
+    }
+  
     public UserEntity readUser(String userName) {
         if (userRepository.findByUsername(userName).isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
