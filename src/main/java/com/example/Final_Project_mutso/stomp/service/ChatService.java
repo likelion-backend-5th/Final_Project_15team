@@ -133,6 +133,15 @@ public class ChatService {
         return user.getNickname();
     }
 
+    // 채팅방 인원수 확인하기
+    public int checkUserCount(Long roomId){
+        Optional<ChattingRoom> optionalChattingRoom = chatRoomRepository.findById(roomId);
+        if(optionalChattingRoom.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        ChattingRoom chattingRoom = optionalChattingRoom.get();
+        return chattingRoom.getUserCount();
+    }
+
     // 채팅방 입장 시 url에 표시되는 닉네임 검증
     // url에 입력한 username이 현재 사용자와 일치하지 않으면 400 오류를 뿜는 메소드
     public void checkNickname(String nickname){
