@@ -61,4 +61,10 @@ public class ChatRestController {
     public String getNickname(){
         return chatService.getNickname();
     }
+
+    // 채팅방 인원 수 받아오기
+    @GetMapping("count/{roomId}")
+    public int getUserCount(@PathVariable("roomId") Long roomId){
+        return chatService.checkUserCount(roomId);
+    }
 }
