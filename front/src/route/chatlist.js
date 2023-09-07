@@ -56,6 +56,7 @@ function ChatList() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [roomName, setRoomName] = useState();
+  const [rerender, setRerender] = useState();
 
   const uploadImg = (e) => {
     e.preventDefault();
@@ -76,7 +77,7 @@ function ChatList() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [rerender]);
 
   const createChat = (e) => {
     e.preventDefault();
@@ -90,6 +91,7 @@ function ChatList() {
       .post("http://localhost:8080/chat/rooms", formData)
       .then((res) => {
         console.log(res.data);
+        setRerender(Math.random());
       })
       .catch((err) => {
         console.log(err);

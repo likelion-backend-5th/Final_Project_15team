@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
@@ -43,19 +43,28 @@ let ChatContent = styled.div``;
 let ChatDate = styled.div``;
 
 function ChatPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState([]);
 
   // let stompClient = null;
   // stompClient에 서버 연결, 메시지 전송, 구독 관련 값을 추가 할당하게 됨
   let stompClient = useRef({});
+  let socket = new SockJS("http://localhost:8080/ws/chat");
   const [chat, setChat] = useState("");
   const [msg, setMsg] = useState([]);
 
+  useEffect(() => {
+    connect();
+  }, []);
+
+  const disconnect = async () => {
+    socket.close(1000, "사용자가 나감");
+  };
   // 소켓 연결 함수
   const connect = () => {
     // 소켓 연결 설정
-    let socket = new SockJS("http://localhost:8080/ws/chat");
+
     stompClient.current = Stomp.over(socket);
 
     console.log("소켓연결 성공");
@@ -164,6 +173,13 @@ function ChatPage() {
               </Button>
               <Button variant="contained" onClick={connect}>
                 접속하기
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  disconnect().then(navigate("/chatlist"));
+                }}>
+                나가기
               </Button>
             </BottomWrap>
           </Paper>
