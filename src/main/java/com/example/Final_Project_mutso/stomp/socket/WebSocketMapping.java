@@ -61,6 +61,13 @@ public class WebSocketMapping {
         template.convertAndSend("/topic/chat/room/enter/"+message.getRoomId(), message);
     }
 
+    // 채팅방 나갈 때 메세지
+    @MessageMapping("/chat/exit")
+    public void exitMessage(@Payload ChatMessageDto message){
+        message.setMessage(message.getSender() + "님이 퇴장하셨습니다.");
+        template.convertAndSend("/topic/chat/room/enter/"+message.getRoomId(), message);
+    }
+
     //유저 퇴장 시에는 EventListener 를 통해서 유저 퇴장을 확인
     // SessionDisconnectEvent : WebSocket 세션이 종료될 때 발생하는 이벤트
     @EventListener
@@ -68,21 +75,20 @@ public class WebSocketMapping {
         log.info("DisconnectEvent : {}",event);
         // StompHeaderAccessor를 사용하여 필요한 정보를 추출하고, 연결이 끊긴 사용자의 정보를 확인하고 관련된 로직을 수행
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-
-        // stomp 세션에 있던 uuid 와 roomId 를 확인하여 채팅방 유저 리스트와 room에서 해당 유저를 삭제
         // 문자열로 저장했을 시
-        String roomIdString = (String) headerAccessor.getSessionAttributes().get("roomId");
-        if(roomIdString == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        Long roomId = Long.parseLong(roomIdString);
-
-//        Long roomId = (Long) headerAccessor.getSessionAttributes().get("roomId");
+//        String roomIdString = (String) headerAccessor.getSessionAttributes().get("roomId");
+//        if(roomIdString == null)
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//        Long roomId = Long.parseLong(roomIdString);
+        Long roomId = (Long) headerAccessor.getSessionAttributes().get("roomId");
 
         log.info("headAccessor : {}",headerAccessor);
 
         // 채팅방 유저 -1
         chatService.decreaseUser(roomId);
     }
+
+
 
 
     // 이미지 파일 누를 때 발생시키도록 설정?

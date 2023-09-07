@@ -23,6 +23,7 @@
     <input type="text" id="message-input" placeholder="Type a message...">
     <button id="send-button">Send</button>
     <button id="connect-button">connect</button>
+    <button id="disconnect-button">disconnect</button>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
@@ -38,25 +39,39 @@
     const pathname = window.location.pathname;
     const roomId = parseInt(pathname.split("/")[4]);
     const username = decodeURI(pathname.split("/")[5]);
-    // SockJS를 사용하여 /ws/chat 엔드포인트로 WebSocket 연결을 설정하고, 이 연결을 이용하여 서버와의 통신을 초기화
-    let stompClient = null;
+
     let chatMessages = document.getElementById('chat-messages');
     let messageInput = document.getElementById('message-input');
     let sendButton = document.getElementById('send-button');
-    let connectButton = document.getElementById('connect-button');
+    // let connectButton = document.getElementById('connect-button');
+    let disconnectButton = document.getElementById('disconnect-button');
 
-    function connect(event){
-        // 연결하고자하는 Socket 의 endPoint
-        let socket = new SockJS('/ws/chat');
-        stompClient = Stomp.over(socket);
+    // SockJS를 사용하여 /ws/chat 엔드포인트로 WebSocket 연결을 설정하고, 이 연결을 이용하여 서버와의 통신을 초기화
+    let socket = new SockJS('/ws/chat');
+    let stompClient = Stomp.over(socket);
+
+    // 드가자마자 연결
+    const connectCallback = (frame) => {
         console.log('STOMP 연결이 열렸습니다.');
         console.log(roomId);
+        onConnected();
+    };
 
-        // onConnected - connect 콜백 함수
-        stompClient.connect({},onConnected);
+    // onConnected - connect 콜백 함수
+    stompClient.connect({}, connectCallback);
 
-        event.preventDefault();
-    }
+    // function connect(event){
+    //     // 연결하고자하는 Socket 의 endPoint
+    //     let socket = new SockJS('/ws/chat');
+    //     stompClient = Stomp.over(socket);
+    //     console.log('STOMP 연결이 열렸습니다.');
+    //     console.log(roomId);
+    //
+    //     // onConnected - connect 콜백 함수
+    //     stompClient.connect({},onConnected);
+    //
+    //     event.preventDefault();
+    // }
 
     function onConnected() {
         // sub 할 url => /sub/chat/room/roomId 로 구독한다
@@ -113,14 +128,23 @@
         }
     }
 
-    // function appendMessage(message) {
-    //     var messageElement = document.createElement('div');
-    //     messageElement.textContent = message;
-    //     chatMessages.appendChild(messageElement);
-    //     chatMessages.scrollTop = chatMessages.scrollHeight;
-    // }
+    function disconnect() {
+        // 연결 종료 코드와 이유를 지정하여 연결을 끊음
+        socket.close(1000, '사용자가 나감');
+        stompClient.send("/app/chat/exit",
+            {},
+            JSON.stringify({
+                "roomId": roomId,
+                sender: "testuser",
+                type: 'EXIT'
+            })
+        )
+    }
 
-    connectButton.addEventListener('click', connect, true)
+
+    // '나가기' 버튼을 클릭하면 연결을 끊기
+    disconnectButton.addEventListener('click', disconnect);
+    // connectButton.addEventListener('click', connect, true)
     sendButton.addEventListener('click', sendMessage);
     messageInput.addEventListener('keyup', function (event) {
         if (event.key === 'Enter') {
