@@ -64,9 +64,10 @@ export default function Feedswrap() {
   const [like, setLike] = useState(false);
   const likes = 10;
   const [data, setData] = useState([]);
-  const navToDetail = (id) => {
-    navigate("/feeddetail/" + id);
-  };
+  const [rerender, setRerender] = useState();
+  // const navToDetail = (id) => {
+  //   navigate("/feeddetail/" + id);
+  // };
   useEffect(() => {
     axios
       .get("http://localhost:8080/feed")
@@ -78,7 +79,7 @@ export default function Feedswrap() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [rerender]);
   return (
     <Box
       sx={{
@@ -89,9 +90,10 @@ export default function Feedswrap() {
           return (
             <>
               <FeedWrap
-                onClick={() => {
-                  navToDetail(i.id);
-                }}>
+              // onClick={() => {
+              //   navToDetail(i.id);
+              // }}
+              >
                 <Paper
                   elevation={3}
                   style={{
@@ -158,7 +160,10 @@ export default function Feedswrap() {
                     <HashTag>{i.hashtag}</HashTag>
                     {commentIndex.includes(b) ? (
                       <>
-                        <Comments props={i.comments} feed={i.id}></Comments>
+                        <Comments
+                          props={i.comments}
+                          feed={i.id}
+                          setRerender={setRerender}></Comments>
                       </>
                     ) : null}
                   </Paper>
