@@ -1,9 +1,6 @@
 package com.example.Final_Project_mutso.service;
 
-import com.example.Final_Project_mutso.dto.FollowDto;
-import com.example.Final_Project_mutso.dto.MypageDto;
-import com.example.Final_Project_mutso.dto.ProfileDto;
-import com.example.Final_Project_mutso.dto.ScrapDto;
+import com.example.Final_Project_mutso.dto.*;
 import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.entity.Follow;
 import com.example.Final_Project_mutso.entity.Scrap;
@@ -133,15 +130,22 @@ public class UserService {
     }
 
     private Feed findFeedOr404(Long id) {
-        return feedRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Optional<Feed> optionalFeed = feedRepository.findById(id);
+        if (optionalFeed.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return optionalFeed.get();
+//        return feedRepository.findById(id)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public ResponseEntity<Map<String, String>> userScrap(Long id){
         Map<String, String> responseBody = new HashMap<>();
 
         Feed feed = findFeedOr404(id);
+
         UserEntity userEntity = authFacade.getUser();
+
         if (feed.getUserScrap().contains(userEntity))
         {
             feed.getUserScrap().remove(userEntity);
@@ -160,7 +164,7 @@ public class UserService {
         return ResponseEntity.ok(responseBody);
     }
 
-    public ScrapDto getFeedScrap(Long id) {
+    public ScrapDto getUserScraps(Long id) {
         Optional<Feed> optionalFeed = feedRepository.findById(id);
         if(optionalFeed.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
