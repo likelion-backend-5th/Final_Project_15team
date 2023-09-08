@@ -114,42 +114,42 @@
 
 # 마이페이지
 - 회원가입
-Post http://localhost:8080/users/register
+- Post http://localhost:8080/users/register
 
 params에 key랑 value 입력 (회원가입정보)
 
 - 로그인
-Post http://localhost:8080/users/login
+- Post http://localhost:8080/users/login
 
 body raw json username, password 입력하면 토큰 나옴
 
 - 토큰 검증 후 유저 데이터 전달
-Post http://localhost:8080/users/secure-resource
+- Post http://localhost:8080/users/secure-resource
 
 Authorization Bearer Token 토큰 입력
 ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/b96f9952-98d1-4abb-8557-29777b31b695)
 
 - 팔로우
-Put http://localhost:8080/users/mypage/{username}/follow
+- Put http://localhost:8080/users/mypage/{username}/follow
 
 auth bearer token 에서 토큰 입력 후 username에 팔로우 할 아이디 적으면 됨
 
 - 팔로우리스트
-Get http://localhost:8080/users/mypage/{username}/follow
+- Get http://localhost:8080/users/mypage/{username}/follow
 
 auth bearer token 에서 토큰 입력 후 username에는 팔로우 리스트 보고싶은 아이디 적으면 됨
 
 - 마이페이지
-Get http://localhost:8080/users/mypage/{username}
+- Get http://localhost:8080/users/mypage/{username}
 
 auth bearer token 에서 토큰 입력
 
 - 프로필
-Get http://localhost:8080/users/mypage/{username}/profile
+- Get http://localhost:8080/users/mypage/{username}/profile
 
 auth bearer token 에서 토큰 입력
 
 - 프로필 이미지
-Put http://localhost:8080/users/mypage/profile/imgupload
+- Put http://localhost:8080/users/mypage/profile/imgupload
 
 auth bearer token 에서 토큰 입력 후 body form-data key: image (file) value: 파일찾기
