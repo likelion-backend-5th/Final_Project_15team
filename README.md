@@ -12,6 +12,10 @@
   - (+ Multipartfile로 받은 파일 저장 후 이미지 url 생성 및 반환 하는 역할)
 <img width="852" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/cf823899-a8a3-4a63-868d-71bd884fe01c">
 
+- 인원수 조회 (채팅방 정보 Dto) : `GET/chat/rooms` / response: `{"id":"1","roomName":"name","userCount":2,"imageUrl":"url"}`
+<img width="858" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/f3449adc-dee2-41d9-a42a-35ab4fb337e2">
+
+
 - 메세지 보내기 : `/app/chat/messsage`(@MessageMapping("/chat/message"))
 - 소켓 연결 끊기 (채팅방 나가기) : `app/chat/eixt` (@MessageMapping("/chat/exit"))
 - 채팅방 입장 : `/chat/room/enter/{roomId}`
