@@ -1,13 +1,25 @@
 # 채팅
-- 채팅방 생성 : endPoint : `POST/chat/rooms` / response: `{"id": 3,"roomName": "room1","userCount": 0,"imageUrl": "이미지 url"}`
+- 채팅방 생성 : `POST/chat/rooms` / response: `{"id": 3,"roomName": "room1","userCount": 0,"imageUrl": "이미지 url"}`
 <img width="853" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/602119ec-5cc5-4fec-b268-96ac1a5a0002">
 
-- 채팅방 리스트 조회 : endPoint : `GET/chat/rooms` / response: `{"id":"1","roomName":"name"}`
-- 채팅방 삭제 : endPoint : `DELETE/chat/rooms/{id}` / response: void로 설정했기 때문에 반환값 없음
-- 메세지 보내기 : `Message/chat/messsage`(@MessageMapping("/chat/message"))
-- 채팅방 입장 : `Message/chat/enter`(@MessageMapping("/chat/enter"))
+- 채팅방 리스트 조회 : `GET/chat/rooms` / response: `{"id":"1","roomName":"name"}`
+<img width="855" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/351d6684-cea7-4f3e-9590-734a7eef87ea">
+
 - 유저 닉네임 불러오기 : `GET /chat/username` / response : String 형태의 username
 <img width="847" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/6a59dbf5-460f-48fc-a300-7cdda0c4af65">
+
+- 채팅방 미디어 파일 전송하기 : `POST /chat/image` / response : String 형태의 이미지 url
+  - (+ Multipartfile로 받은 파일 저장 후 이미지 url 생성 및 반환 하는 역할)
+<img width="852" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/cf823899-a8a3-4a63-868d-71bd884fe01c">
+
+- 인원수 조회 (채팅방 정보 Dto) : `GET/chat/rooms` / response: `{"id":"1","roomName":"name","userCount":2,"imageUrl":"url"}`
+<img width="858" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/f3449adc-dee2-41d9-a42a-35ab4fb337e2">
+
+
+- 메세지 보내기 : `/app/chat/messsage`(@MessageMapping("/chat/message"))
+- 소켓 연결 끊기 (채팅방 나가기) : `app/chat/eixt` (@MessageMapping("/chat/exit"))
+- 채팅방 입장 : `/chat/room/enter/{roomId}`
+- 채팅방 입장 메세지 : `/app/chat/enter`(@MessageMapping("/chat/enter"))
 
 
 
@@ -102,29 +114,42 @@
 
 # 마이페이지
 - 회원가입
-Post http://localhost:8080/users/register
+- Post http://localhost:8080/users/register
+
 params에 key랑 value 입력 (회원가입정보)
 
 - 로그인
-Post http://localhost:8080/users/login
+- Post http://localhost:8080/users/login
+
 body raw json username, password 입력하면 토큰 나옴
 
+- 토큰 검증 후 유저 데이터 전달
+- Post http://localhost:8080/users/secure-resource
+
+Authorization Bearer Token 토큰 입력
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/b96f9952-98d1-4abb-8557-29777b31b695)
+
 - 팔로우
-Put http://localhost:8080/users/mypage/{username}/follow
+- Put http://localhost:8080/users/mypage/{username}/follow
+
 auth bearer token 에서 토큰 입력 후 username에 팔로우 할 아이디 적으면 됨
 
 - 팔로우리스트
-Get http://localhost:8080/users/mypage/{username}/follow
+- Get http://localhost:8080/users/mypage/{username}/follow
+
 auth bearer token 에서 토큰 입력 후 username에는 팔로우 리스트 보고싶은 아이디 적으면 됨
 
 - 마이페이지
-Get http://localhost:8080/users/mypage/{username}
+- Get http://localhost:8080/users/mypage/{username}
+
 auth bearer token 에서 토큰 입력
 
 - 프로필
-Get http://localhost:8080/users/mypage/{username}/profile
+- Get http://localhost:8080/users/mypage/{username}/profile
+
 auth bearer token 에서 토큰 입력
 
 - 프로필 이미지
-Put http://localhost:8080/users/mypage/profile/imgupload
+- Put http://localhost:8080/users/mypage/profile/imgupload
+
 auth bearer token 에서 토큰 입력 후 body form-data key: image (file) value: 파일찾기

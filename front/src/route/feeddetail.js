@@ -69,9 +69,11 @@ function Feeddetail() {
   const [date, setDate] = useState();
   const [time, setTime] = useState();
   const [content, setContent] = useState();
+  const [hashtag, setHashtag] = useState();
   const [comment, setComment] = useState([]);
-  const [viewComment, setViewComment] = useState(false);
+  const [viewComment, setViewComment] = useState(true);
   const { id } = useParams();
+  const [rerender, setRerender] = useState();
   useEffect(() => {
     axios
       .get("http://localhost:8080/feed/" + id)
@@ -83,17 +85,19 @@ function Feeddetail() {
         setDate(res.data.date);
         setTime(res.data.time);
         setComment(res.data.comments);
+        setHashtag(res.data.hashtag);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [rerender]);
 
   const deleteFeed = () => {
     axios
       .delete("http://localhost:8080/feed/" + id)
       .then((res) => {
         console.log(res);
+        navigate("/mypage");
       })
       .catch((error) => {
         console.log(error);
@@ -117,8 +121,7 @@ function Feeddetail() {
           margin: "auto",
           marginTop: "1.2rem ",
           maxWidth: 500,
-        }}
-      >
+        }}>
         <Stack spacing={2}>
           <FeedWrap>
             <Paper
@@ -126,8 +129,7 @@ function Feeddetail() {
               style={{
                 borderRadius: "1rem",
                 padding: "0.8rem",
-              }}
-            >
+              }}>
               <ProfileImg>ㅁ</ProfileImg>
               <Username>{nickname}</Username>
               <Time>
@@ -139,8 +141,7 @@ function Feeddetail() {
                   aria-controls={open ? "basic-menu" : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
-                  onClick={handleClick}
-                ></MoreHorizIcon>
+                  onClick={handleClick}></MoreHorizIcon>
 
                 <Menu
                   id="basic-menu"
@@ -149,13 +150,11 @@ function Feeddetail() {
                   onClose={handleClose}
                   MenuListProps={{
                     "aria-labelledby": "basic-button",
-                  }}
-                >
+                  }}>
                   <MenuItem
                     onClick={() => {
-                      navigate("/updatefeed");
-                    }}
-                  >
+                      navigate("/updatefeed/" + id);
+                    }}>
                     수정하기
                   </MenuItem>
                   <MenuItem onClick={deleteFeed}>삭제하기</MenuItem>
@@ -172,8 +171,7 @@ function Feeddetail() {
                 height: "10rem",
                 marginTop: "0.8rem",
                 marginBottom: "0.8rem",
-              }}
-            >
+              }}>
               a
             </div>
             <BottomBox>
@@ -182,8 +180,7 @@ function Feeddetail() {
                 style={{
                   borderRadius: "1rem",
                   padding: "0.8rem",
-                }}
-              >
+                }}>
                 <LCwrap>
                   <Icons>
                     <IconButton
@@ -193,13 +190,13 @@ function Feeddetail() {
                         } else {
                           setLike(true);
                         }
-                      }}
-                    >
+                      }}>
                       {like ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
                     </IconButton>
                     <IconButton>
                       <AddCommentIcon
                         onClick={() => {
+                          console.log(comment);
                           if (viewComment) {
                             setViewComment(false);
                           } else {
@@ -216,8 +213,10 @@ function Feeddetail() {
                 </LCwrap>
                 <Title>{title}</Title>
                 <Contents>{content}</Contents>
-                <HashTag>해시태그 : #블랙핑크</HashTag>
-                {viewComment ? <Comments props={comment} feed={id} /> : null}
+                <HashTag>{hashtag}</HashTag>
+                {viewComment ? (
+                  <Comments props={comment} id={id} setRerender={setRerender} />
+                ) : null}
               </Paper>
             </BottomBox>
           </FeedWrap>

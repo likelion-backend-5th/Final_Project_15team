@@ -11,25 +11,28 @@ import CreateIcon from "@mui/icons-material/Create";
 
 let CommentBox = styled.div``;
 
-function Comments(commentData, parentData) {
-  useEffect(() => {
-    setFeedId(parentData.feed);
-  }, []);
-  console.log(commentData.props);
+function Comments(commentData) {
   const [data, setData] = useState(commentData.props);
   const [reply, setReply] = useState();
   const [feedId, setFeedId] = useState();
   const [commentId, setCommentId] = useState();
   const [putComment, setPutComment] = useState();
   const [viewPutComment, setViewPutComment] = useState(false);
+
+  useEffect(() => {
+    setFeedId(commentData.id);
+  }, []);
   const updateComment = () => {
+    const formData = new FormData();
+    formData.append("content", putComment);
     axios
-      .patch(
+      .put(
         "http://localhost:8080/comment/" + feedId + "/" + commentId,
-        putComment
+        formData
       )
       .then((res) => {
         console.log(res);
+        commentData.setRerender(Math.random());
       })
       .catch((err) => {
         console.log(err);
@@ -38,11 +41,13 @@ function Comments(commentData, parentData) {
   const putCommentHandler = (e) => {
     setPutComment(e.target.value);
   };
+
   const deleteComment = () => {
     axios
       .delete("http://localhost:8080/comment/" + feedId + "/" + commentId)
       .then((res) => {
         console.log(res);
+        commentData.setRerender(Math.random());
       })
       .catch((err) => {
         console.log(err.message);
@@ -52,10 +57,16 @@ function Comments(commentData, parentData) {
     setReply(e.target.value);
   };
   const sendReply = () => {
+    const formData = new FormData();
+    formData.append("content", reply);
     axios
-      .post("http://localhost:8080/comment/" + feedId, reply)
+      .post("http://localhost:8080/comment/" + feedId, formData)
       .then((res) => {
+        console.log("댓글 생성");
         console.log(res);
+        commentData.setRerender(Math.random());
+        window.location.reload();
+        setReply("");
       })
       .catch((err) => {
         console.log(err);
@@ -69,22 +80,21 @@ function Comments(commentData, parentData) {
               return (
                 <>
                   <Paper
+                    key={b}
                     elevation={3}
                     style={{
                       marginTop: "0.4rem",
                       borderRadius: "1rem",
                       padding: "0.8rem",
-                    }}
-                  >
+                    }}>
                     <span
                       style={{
                         fontWeight: "bold",
                         marginRight: "0.8rem",
-                      }}
-                    >
+                      }}>
                       {i.nickname}
                     </span>
-                    {i.comment}
+                    {i.content}
                     <IconButton>
                       <CreateIcon
                         onClick={() => {
@@ -107,7 +117,10 @@ function Comments(commentData, parentData) {
                           value={putComment}
                           onChange={putCommentHandler}
                         />
-                        <IconButton>
+                        <IconButton
+                          onClick={() => {
+                            setCommentId(i.id);
+                          }}>
                           <SendIcon onClick={updateComment} />
                         </IconButton>
                       </div>
@@ -115,8 +128,7 @@ function Comments(commentData, parentData) {
                     <IconButton
                       onClick={() => {
                         setCommentId(i.id);
-                      }}
-                    >
+                      }}>
                       <CloseIcon onClick={deleteComment} />
                     </IconButton>
                   </Paper>

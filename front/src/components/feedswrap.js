@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Stack, Paper, IconButton } from "@mui/material";
 import axios from "axios";
 
@@ -58,40 +59,47 @@ let Contents = styled.div`
 `;
 
 export default function Feedswrap() {
+  const navigate = useNavigate();
   const [commentIndex, setCommentIndex] = useState([]);
   const [like, setLike] = useState(false);
   const likes = 10;
   const [data, setData] = useState([]);
-  const [viewComment, setViewComment] = useState(false);
+  const [rerender, setRerender] = useState();
+  // const navToDetail = (id) => {
+  //   navigate("/feeddetail/" + id);
+  // };
   useEffect(() => {
     axios
       .get("http://localhost:8080/feed")
       .then((res) => {
         console.log(res.data);
-        setData(res.data);
+        const reverse = res.data.reverse();
+        setData(reverse);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [rerender]);
   return (
     <Box
       sx={{
         margin: "auto",
-      }}
-    >
+      }}>
       <Stack spacing={2}>
         {data.map(function (i, b) {
           return (
             <>
-              <FeedWrap>
+              <FeedWrap
+              // onClick={() => {
+              //   navToDetail(i.id);
+              // }}
+              >
                 <Paper
                   elevation={3}
                   style={{
                     borderRadius: "1rem",
                     padding: "0.8rem",
-                  }}
-                >
+                  }}>
                   <ProfileImg>ㅁ</ProfileImg>
                   <Username>{i.nickname}</Username>
                   <Time>
@@ -106,9 +114,8 @@ export default function Feedswrap() {
                     height: "10rem",
                     marginTop: "0.8rem",
                     marginBottom: "0.8rem",
-                  }}
-                >
-                  a
+                  }}>
+                  <img src={i.fileUrl} />a
                 </div>
                 <BottomBox>
                   <Paper
@@ -116,8 +123,7 @@ export default function Feedswrap() {
                     style={{
                       borderRadius: "1rem",
                       padding: "0.8rem",
-                    }}
-                  >
+                    }}>
                     <LCwrap>
                       <Icons>
                         <IconButton
@@ -127,8 +133,7 @@ export default function Feedswrap() {
                             } else {
                               setLike(true);
                             }
-                          }}
-                        >
+                          }}>
                           {like ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
                         </IconButton>
                         <IconButton>
@@ -152,10 +157,13 @@ export default function Feedswrap() {
                     </LCwrap>
                     <Title>{i.title}</Title>
                     <Contents>{i.content}</Contents>
-                    <HashTag>해시태그 : #블랙핑크</HashTag>
+                    <HashTag>{i.hashtag}</HashTag>
                     {commentIndex.includes(b) ? (
                       <>
-                        <Comments props={i.comments} feed={i.id}></Comments>
+                        <Comments
+                          props={i.comments}
+                          feed={i.id}
+                          setRerender={setRerender}></Comments>
                       </>
                     ) : null}
                   </Paper>

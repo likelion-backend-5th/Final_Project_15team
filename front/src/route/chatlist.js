@@ -52,6 +52,11 @@ function ChatList() {
   const [imgUrl, setImgUrl] = useState();
   const imgUrlRef = useRef();
   const [viewUploadImg, setViewUploadImg] = useState();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [roomName, setRoomName] = useState();
+  const [rerender, setRerender] = useState();
 
   const uploadImg = (e) => {
     e.preventDefault();
@@ -72,13 +77,8 @@ function ChatList() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [rerender]);
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const [roomName, setRoomName] = useState();
   const createChat = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -91,6 +91,7 @@ function ChatList() {
       .post("http://localhost:8080/chat/rooms", formData)
       .then((res) => {
         console.log(res.data);
+        setRerender(Math.random());
       })
       .catch((err) => {
         console.log(err);
