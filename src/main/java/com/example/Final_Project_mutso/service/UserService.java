@@ -151,9 +151,9 @@ public class UserService {
         {
             feed.getUserScrap().add(userEntity);
             responseBody.put(userEntity.getUsername(), "님이 스크랩을 추가했습니다.");
-            Scrap scrap = new Scrap();
-            scrap.setFeed(feed);
-            scrapRepository.save(scrap);
+            Scrap userScrapList = new Scrap();
+            userScrapList.getScrapList().add(feed);
+            scrapRepository.save(userScrapList);
         }
         feedRepository.save(feed);
 
@@ -161,15 +161,15 @@ public class UserService {
     }
 
     public ScrapDto getFeedScrap(Long id) {
-        Optional<Feed> optionalUser = feedRepository.findById(id);
-        if(optionalUser.isEmpty())
+        Optional<Feed> optionalFeed = feedRepository.findById(id);
+        if(optionalFeed.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        Feed feed = optionalUser.get();
+        Feed feed = optionalFeed.get();
 
-        List<Scrap> scrapOptional = scrapRepository.findByFeed(feed);
-        if(scrapOptional.isEmpty())
+        List<Scrap> optionalScrap = scrapRepository.findByFeed(feed);
+        if(optionalScrap.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        Scrap scrap = scrapOptional.get(0);
+        Scrap scrap = optionalScrap.get(0);
 
         return ScrapDto.fromEntity(scrap, feed);
     }
