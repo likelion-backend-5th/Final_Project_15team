@@ -2,6 +2,7 @@ package com.example.Final_Project_mutso.service;
 
 import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.dto.FeedListDto;
+import com.example.Final_Project_mutso.dto.HashtagDto;
 import com.example.Final_Project_mutso.entity.*;
 import com.example.Final_Project_mutso.repository.FeedImageRepository;
 import com.example.Final_Project_mutso.repository.FeedLikeRepository;
@@ -30,15 +31,17 @@ public class FeedService {
     private final FeedVideoRepository feedVideoRepository;
     private final CommentService commentService;
     private final FeedLikeRepository feedLikeRepository;
+    private final HashtagService hashtagService;
 
-    public void createFeed(FeedDto dto, MultipartFile file/*, UserEntity loginedUser*/) {
+    public void createFeed(FeedDto dto, HashtagDto hashtag, MultipartFile file/*, UserEntity loginedUser*/) {
+
         Feed feed = new Feed();
         feed.setTitle(dto.getTitle());
         feed.setContent(dto.getContent());
-        feed.setHashtag(dto.getHashtag());
 //        feed.setUser(loginedUser);
         feedRepository.save(feed);
 
+        hashtagService.save(hashtag.getTagName());
 
         if (!file.isEmpty()) { // 첨부 파일이 존재한다면
             String fileName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
@@ -98,7 +101,7 @@ public class FeedService {
             Feed feedEntity = optionalFeed.get();
             feedEntity.setTitle(feedDto.getTitle());
             feedEntity.setContent(feedDto.getContent());
-            feedEntity.setHashtag(feedDto.getHashtag());
+//            feedEntity.setHashtag(feedDto.getHashtag());
 
             feedRepository.save(feedEntity);
         }
@@ -141,8 +144,18 @@ public class FeedService {
 
     }
 
+    //좋아요 개수
     public int getCntFeedLikes(Long feedId) {
         return feedLikeRepository.countFeedLikeByFeed_Id(feedId);
+    }
+
+    public List<FeedDto> searchHashtag(String keyword) {
+
+
+        List<FeedDto> feedList = new ArrayList<>();
+
+
+        return feedList;
     }
 
 

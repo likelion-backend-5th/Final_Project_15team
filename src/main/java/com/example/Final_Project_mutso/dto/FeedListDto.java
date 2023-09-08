@@ -27,7 +27,7 @@ public class FeedListDto {
         feedDto.setId(feed.getId());
         feedDto.setTitle(feed.getTitle());
         feedDto.setContent(feed.getContent());
-        feedDto.setHashtag(feed.getHashtag());
+//        feedDto.setHashtag(feed.getHashtag());
         feedDto.setFileUrl(feedDto.getFileUrl());
 //        feedDto.setImage(feed.getImage());
 //        feedDto.setVideo(feed.getVideo());

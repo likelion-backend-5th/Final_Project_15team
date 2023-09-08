@@ -25,7 +25,10 @@ public class Feed {
 
     private String time;
 
-    private String hashtag;
+//    private String hashtag;
+
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
+    private List<FeedHashtag> hashtag;
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<FeedImage> image;

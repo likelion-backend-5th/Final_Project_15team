@@ -18,7 +18,7 @@ public class FeedDto {
     private String content;
     private String date;
     private String time;
-    private String hashtag;
+//    private String hashtag;
 //    private String file;
     private List<CommentDto> comments;
     private String fileUrl;
@@ -32,7 +32,7 @@ public class FeedDto {
         feedDto.setId(feed.getId());
         feedDto.setTitle(feed.getTitle());
         feedDto.setContent(feed.getContent());
-        feedDto.setHashtag(feed.getHashtag());
+//        feedDto.setHashtag(feed.getHashtag());
 //        feedDto.setImage(feed.getImage());
 //        feedDto.setVideo(feed.getVideo());
         List<CommentDto> commentsList = new ArrayList<>(); //comment 정보를 담기 위한 list
