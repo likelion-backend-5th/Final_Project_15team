@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "chat_messages")
 public class ChatMessage {
     public enum MessageType {
-        ENTER, TALK, EXIT
+        ENTER, TALK, EXIT, FILE
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +21,5 @@ public class ChatMessage {
     private String sender;
     private String message;
     private String time;
-    private String profile;
     private String fileUrl;
 }
