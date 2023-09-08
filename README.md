@@ -8,7 +8,7 @@
 - 유저 정보 불러오기 : `GET /chat/userInfo` / response : `{ "username": "","nickname": "","profileImage": ""}`
 <img width="853" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/3b7b5741-15f8-47ec-931b-040566d28348">
 
-- 채팅방 미디어 파일 전송하기 : `POST /chat/image` / response : String 형태의 이미지 url
+- 채팅방 미디어 파일 전송하기 : `POST /chat/image` / response : 
   - (+ Multipartfile로 받은 파일 저장 후 이미지 url 생성 및 반환 하는 역할)
 <img width="852" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/94bc2028-6f29-4952-9ac1-5de6dec789d5">
 
