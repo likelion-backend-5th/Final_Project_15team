@@ -157,17 +157,17 @@ public class UserController {
     }
 
     @PutMapping("/{id}/scrap")
-    public ResponseEntity<Map<String, String>> feedScrap(
+    public ResponseEntity<Map<String, String>> userScrap(
             @PathVariable("id") Long id
     ) {
         return userService.userScrap(id);
     }
 
     @GetMapping("/mypage/{id}/scrap")
-    public ScrapDto getFeedScraps(
+    public ScrapDto getUserScraps(
             @PathVariable("id") Long id
     ) {
-        return userService.getFeedScrap(id);
+        return userService.getUserScraps(id);
     }
 
 }

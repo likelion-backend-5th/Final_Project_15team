@@ -13,6 +13,7 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -121,8 +122,15 @@ public class JpaUserDetailsManager implements UserDetailsManager {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        userEntity.setProfileImage(String.format("/static/%s/%s",username,profileFilename));
+
+        String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/static/{username}/{profileFilename}")
+                .buildAndExpand(username, profileFilename)
+                .toUriString();
+        userEntity.setProfileImage(imageUrl);
         userRepository.save(userEntity);
+//        userEntity.setProfileImage(String.format("/static/%s/%s",username,profileFilename));
+//        userRepository.save(userEntity);
     }
 
 }
