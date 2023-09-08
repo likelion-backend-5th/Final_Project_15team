@@ -121,6 +121,11 @@ params에 key랑 value 입력 (회원가입정보)
 Post http://localhost:8080/users/login
 body raw json username, password 입력하면 토큰 나옴
 
+- 토큰 검증 후 유저 데이터 전달
+Post http://localhost:8080/users/secure-resource
+Authorization Bearer Token 토큰 입력
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/b96f9952-98d1-4abb-8557-29777b31b695)
+
 - 팔로우
 Put http://localhost:8080/users/mypage/{username}/follow
 auth bearer token 에서 토큰 입력 후 username에 팔로우 할 아이디 적으면 됨
