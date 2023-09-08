@@ -10,7 +10,7 @@
 
 - 채팅방 미디어 파일 전송하기 : `POST /chat/image` / response : String 형태의 이미지 url
   - (+ Multipartfile로 받은 파일 저장 후 이미지 url 생성 및 반환 하는 역할)
-<img width="852" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/cf823899-a8a3-4a63-868d-71bd884fe01c">
+<img width="852" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/94bc2028-6f29-4952-9ac1-5de6dec789d5">
 
 - 인원수 조회 (채팅방 정보 Dto) : `GET/chat/rooms` / response: `{"id":"1","roomName":"name","userCount":2,"imageUrl":"url"}`
 <img width="858" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/f3449adc-dee2-41d9-a42a-35ab4fb337e2">
