@@ -30,7 +30,7 @@ let TopWrap = styled.div`
 // let Icons = styled.div``;
 let ContentWrap = styled.div``;
 
-function ChatDelete() {
+function ChatDelete(props) {
   let navigate = useNavigate();
   let [data, setData] = useState([]);
   let [del, setDel] = useState([]);
@@ -62,7 +62,7 @@ function ChatDelete() {
   }, []);
   return (
     <>
-      <Appbars />
+      <Appbars username={props.username} setUsername={props.setUsername} />
       <WholeWrap>
         <Box style={{ display: "flex" }}>
           <Paper

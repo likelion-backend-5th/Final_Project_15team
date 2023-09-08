@@ -20,7 +20,7 @@ let TitleWrap = styled.div``;
 let ContentWrap = styled.div``;
 let BottomWrap = styled.div``;
 
-function CreateFeed() {
+function CreateFeed(props) {
   const navigate = useNavigate();
   const [PnV, setPnV] = useState("");
   const PnVRef = useRef();
@@ -85,7 +85,9 @@ function CreateFeed() {
 
   return (
     <>
-      <Appbars></Appbars>
+      <Appbars
+        username={props.username}
+        setUsername={props.setUsername}></Appbars>
       <WholeWrap>
         <Box style={{ display: "flex" }}>
           <Paper

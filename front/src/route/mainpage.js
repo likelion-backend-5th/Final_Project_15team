@@ -17,11 +17,11 @@ let MainWrap = styled.div`
   // max-width: 1300px;
   margin: auto;
   // background: #00457e;
-  background: #bbd2ec;
+  // background: #bbd2ec;
   padding: 1rem;
 `;
 
-function Mainpage() {
+function Mainpage(props) {
   const cookies = new Cookies();
   const [JWT, setJWT] = useState();
   //쿠키에 있는 값을 꺼낼때
@@ -30,15 +30,16 @@ function Mainpage() {
   };
   useEffect(() => {
     setJWT(getCookie("is_login"));
+    check();
   }, []);
   const check = () => {
     axios
-      .get("http://localhost:8080/users/mypage/" + "aa", {
-        headers: JWT,
-        data: "",
+      .post("http://localhost:8080/users/secure-resource", {
+        headers: { Authorization: `Bearer ${JWT}` },
       })
       .then((res) => {
-        console.log(res);
+        console.log(res.data.username);
+        props.setUsername(res.data.username);
       })
       .catch((err) => {
         console.log(err);
@@ -46,9 +47,10 @@ function Mainpage() {
   };
   return (
     <>
-      <Appbars></Appbars>
+      <Appbars
+        username={props.username}
+        setUsername={props.setUsername}></Appbars>
       <MainWrap>
-        <button onClick={check}>유저정보요청</button>
         <div style={{ maxWidth: 800 }}>
           <CenterBox>
             <Searchbox></Searchbox>
