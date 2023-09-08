@@ -5,8 +5,8 @@
 - 채팅방 리스트 조회 : `GET/chat/rooms` / response: `{"id":"1","roomName":"name"}`
 <img width="855" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/351d6684-cea7-4f3e-9590-734a7eef87ea">
 
-- 유저 닉네임 불러오기 : `GET /chat/username` / response : String 형태의 username
-<img width="847" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/6a59dbf5-460f-48fc-a300-7cdda0c4af65">
+- 유저 정보 불러오기 : `GET /chat/userInfo` / response : `{ "username": "","nickname": "","profileImage": ""}`
+<img width="853" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/3b7b5741-15f8-47ec-931b-040566d28348">
 
 - 채팅방 미디어 파일 전송하기 : `POST /chat/image` / response : String 형태의 이미지 url
   - (+ Multipartfile로 받은 파일 저장 후 이미지 url 생성 및 반환 하는 역할)
