@@ -100,7 +100,9 @@ export default function Feedswrap() {
                     borderRadius: "1rem",
                     padding: "0.8rem",
                   }}>
-                  <ProfileImg>ㅁ</ProfileImg>
+                  <ProfileImg>
+                    <img />
+                  </ProfileImg>
                   <Username>{i.nickname}</Username>
                   <Time>
                     {i.date} {i.time}

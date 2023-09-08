@@ -20,7 +20,7 @@ let Title = styled.div`
   padding: 1.2rem;
 `;
 
-function Scrap() {
+function Scrap(props) {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
@@ -35,7 +35,9 @@ function Scrap() {
   }, []);
   return (
     <>
-      <Appbars></Appbars>
+      <Appbars
+        username={props.username}
+        setUsername={props.setUsername}></Appbars>
       <Box style={{ display: "flex" }}>
         <Paper
           elevation={3}
@@ -44,8 +46,7 @@ function Scrap() {
             padding: "0.8rem",
             width: "100%",
             maxWidth: "50rem",
-          }}
-        >
+          }}>
           <Title>스크랩</Title>
           <List sx={{ width: "100%", bgcolor: "background.paper" }}>
             {data.map(function (i, b) {
@@ -53,8 +54,7 @@ function Scrap() {
                 <>
                   <ListItem
                     alignItems="flex-start"
-                    style={{ textAlign: "center" }}
-                  >
+                    style={{ textAlign: "center" }}>
                     <ListItemText primary={i.title} />
                   </ListItem>
                   <Divider

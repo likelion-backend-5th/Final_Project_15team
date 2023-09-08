@@ -81,7 +81,7 @@ export default function Register() {
       .post("http://localhost:8080/users/register", {}, { params: body })
       .then((res) => {
         console.log(res.data);
-        navigate("/");
+        navigate("/login");
       })
       .catch((e) => {
         console.log(e);
