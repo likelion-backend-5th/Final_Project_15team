@@ -1,11 +1,14 @@
 package com.example.Final_Project_mutso.service;
 
+
 import com.example.Final_Project_mutso.dto.*;
 import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.entity.Follow;
 import com.example.Final_Project_mutso.entity.Scrap;
 import com.example.Final_Project_mutso.entity.UserEntity;
+
 import com.example.Final_Project_mutso.jwt.AuthenticationFacade;
+import com.example.Final_Project_mutso.jwt.JwtTokenUtils;
 import com.example.Final_Project_mutso.repository.FeedRepository;
 import com.example.Final_Project_mutso.repository.FollowRepository;
 import com.example.Final_Project_mutso.repository.ScrapRepository;
@@ -14,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -24,13 +30,17 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
     private final FeedRepository feedRepository;
     private final ScrapRepository scrapRepository;
 
     private final AuthenticationFacade authFacade;
+
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenUtils jwtTokenUtils;
+
 
     public MypageDto getMypage(String username) {
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
@@ -184,4 +194,15 @@ public class UserService {
         return userRepository.findByUsername(userName).get();
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        return CustomUserDetails.fromEntity(findUserByUsernameOr404(username));
+    }
+
+    private UserEntity findUserByUsernameOr404(String username) {
+        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return optionalUser.get();
+    }
 }

@@ -18,6 +18,9 @@ public class ChattingRoom {
     private String imageUrl;
     private int userCount;
 
-    @ManyToMany(mappedBy = "rooms")
-    private List<UserEntity> users;
+    @ManyToOne
+    private UserEntity user;
+
+//    @ManyToMany(mappedBy = "rooms")
+//    private List<UserEntity> users;
 }

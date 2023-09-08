@@ -1,6 +1,7 @@
 package com.example.Final_Project_mutso.stomp.service;
 
 import com.example.Final_Project_mutso.entity.UserEntity;
+import com.example.Final_Project_mutso.jwt.AuthenticationFacade;
 import com.example.Final_Project_mutso.repository.UserRepository;
 import com.example.Final_Project_mutso.stomp.dto.ChatMessageDto;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoomDto;
@@ -27,12 +28,11 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
-    private final ChatMessageRepository chatMessageRepository;
+    private final AuthenticationFacade authFacade;
     private final UserRepository userRepository;
 
     // 채팅방 목록 조회
     public List<ChatRoomDto> getChatRooms() {
-
         List<ChatRoomDto> chatRoomDtoList = new ArrayList<>();
         for (ChattingRoom chatRoomEntity: chatRoomRepository.findAll())
             chatRoomDtoList.add(ChatRoomDto.fromEntity(chatRoomEntity));
@@ -50,6 +50,8 @@ public class ChatService {
 
     // 채팅방 생성하기
     public ChatRoomDto createChatRoom(ChatRoomDto chatRoomDto, MultipartFile file) throws IOException {
+        UserEntity user = authFacade.getUser();
+
         String profileDir = "back/chatRoom/";
         try {
             Files.createDirectories(Path.of(profileDir));
