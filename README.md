@@ -117,11 +117,13 @@
 - Post http://localhost:8080/users/register
 
 params에 key랑 value 입력 (회원가입정보)
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/5c5423ea-0968-497c-bc1d-7fde707e2ba5)
 
 - 로그인
 - Post http://localhost:8080/users/login
 
 body raw json username, password 입력하면 토큰 나옴
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/02ed8961-9f5b-4f7e-81a2-83f60789e5db)
 
 - 토큰 검증 후 유저 데이터 전달
 - Post http://localhost:8080/users/secure-resource
@@ -133,21 +135,25 @@ Authorization Bearer Token 토큰 입력
 - Put http://localhost:8080/users/mypage/{username}/follow
 
 auth bearer token 에서 토큰 입력 후 username에 팔로우 할 아이디 적으면 됨
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/fe52d3ba-a5f3-47a5-81cf-81a0b86450b6)
 
 - 팔로우리스트
 - Get http://localhost:8080/users/mypage/{username}/follow
 
 auth bearer token 에서 토큰 입력 후 username에는 팔로우 리스트 보고싶은 아이디 적으면 됨
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/087790b6-5e26-4c10-9c35-00c25fbfb98b)
 
 - 마이페이지
 - Get http://localhost:8080/users/mypage/{username}
 
 auth bearer token 에서 토큰 입력
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/f7d67d8e-ee9c-45b8-a7dc-31bc6b38b900)
 
 - 프로필
 - Get http://localhost:8080/users/mypage/{username}/profile
 
 auth bearer token 에서 토큰 입력
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/813519eb-9fac-47ae-9c76-fa6a462abbc8)
 
 - 프로필 이미지
 - Put http://localhost:8080/users/mypage/profile/imgupload
