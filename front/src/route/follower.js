@@ -22,7 +22,7 @@ let Title = styled.div`
   padding: 1.2rem;
 `;
 
-function Follows() {
+function Follows(props) {
   let [follow, setFollow] = useState([]);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ function Follows() {
   }, []);
   return (
     <>
-      <Appbars></Appbars>
+      <Appbars username={props.username} setUsername={props.setUsername} />
       <Box style={{ display: "flex" }}>
         <Paper
           elevation={3}
@@ -47,8 +47,7 @@ function Follows() {
             padding: "0.8rem",
             width: "100%",
             maxWidth: "50rem",
-          }}
-        >
+          }}>
           <Title>팔로워</Title>
           <List sx={{ width: "100%", bgcolor: "background.paper" }}>
             {follow.map(function (i, b) {

@@ -10,6 +10,7 @@ import com.example.Final_Project_mutso.repository.FollowRepository;
 import com.example.Final_Project_mutso.repository.UserRepository;
 import com.example.Final_Project_mutso.service.UserService;
 import com.example.Final_Project_mutso.service.JpaUserDetailsManager;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -57,6 +58,25 @@ public class UserController {
         JwtTokenDto response = new JwtTokenDto();
         response.setToken(jwtTokenUtils.generateToken(userDetails));
         return response;
+    }
+
+    @PostMapping("/secure-resource")
+    public ResponseEntity<UserDetails> secureResource(@RequestHeader("Authorization") String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or missing token");
+        }
+
+        String jwtToken = token.substring(7); // "Bearer " 이후의 토큰 부분 추출
+
+        if (jwtTokenUtils.validate(jwtToken)) {
+            Claims claims = jwtTokenUtils.parseClaims(jwtToken);
+            String username = claims.getSubject();
+            UserDetails userDetails = userDetailsManager.loadUserByUsername(username);
+
+            return ResponseEntity.ok(userDetails);
+        } else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
     }
 
     @PostMapping("/register")
@@ -137,17 +157,17 @@ public class UserController {
     }
 
     @PutMapping("/{id}/scrap")
-    public ResponseEntity<Map<String, String>> feedScrap(
+    public ResponseEntity<Map<String, String>> userScrap(
             @PathVariable("id") Long id
     ) {
         return userService.userScrap(id);
     }
 
     @GetMapping("/mypage/{id}/scrap")
-    public ScrapDto getFeedScraps(
+    public ScrapDto getUserScraps(
             @PathVariable("id") Long id
     ) {
-        return userService.getFeedScrap(id);
+        return userService.getUserScraps(id);
     }
 
 }

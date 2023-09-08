@@ -60,7 +60,7 @@ let Contents = styled.div`
   margin: 0.5rem;
 `;
 
-function Feeddetail() {
+function Feeddetail(props) {
   let navigate = useNavigate();
   const [like, setLike] = useState(false);
   const likes = 10;
@@ -71,8 +71,9 @@ function Feeddetail() {
   const [content, setContent] = useState();
   const [hashtag, setHashtag] = useState();
   const [comment, setComment] = useState([]);
-  const [viewComment, setViewComment] = useState(false);
+  const [viewComment, setViewComment] = useState(true);
   const { id } = useParams();
+  const [rerender, setRerender] = useState();
   useEffect(() => {
     axios
       .get("http://localhost:8080/feed/" + id)
@@ -89,7 +90,7 @@ function Feeddetail() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [rerender]);
 
   const deleteFeed = () => {
     axios
@@ -114,7 +115,7 @@ function Feeddetail() {
   };
   return (
     <>
-      <Appbars></Appbars>
+      <Appbars username={props.username} setUsername={props.setUsername} />
       <Box
         sx={{
           margin: "auto",
@@ -195,6 +196,7 @@ function Feeddetail() {
                     <IconButton>
                       <AddCommentIcon
                         onClick={() => {
+                          console.log(comment);
                           if (viewComment) {
                             setViewComment(false);
                           } else {
@@ -212,7 +214,9 @@ function Feeddetail() {
                 <Title>{title}</Title>
                 <Contents>{content}</Contents>
                 <HashTag>{hashtag}</HashTag>
-                {viewComment ? <Comments props={comment} id={id} /> : null}
+                {viewComment ? (
+                  <Comments props={comment} id={id} setRerender={setRerender} />
+                ) : null}
               </Paper>
             </BottomBox>
           </FeedWrap>
