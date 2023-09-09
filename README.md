@@ -54,6 +54,8 @@
   }
 - 댓글 삭제 : `DELETE/comment/{feedId}/{commentId}`
 
+- 해시태그 검색 : `GET/feed/hashSearch`
+  ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/7de720ee-2a05-4d0c-8885-181cbd20d5b4)
 
 
 # 뮤직플레이어
