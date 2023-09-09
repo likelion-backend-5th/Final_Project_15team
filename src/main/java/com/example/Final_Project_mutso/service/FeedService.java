@@ -2,12 +2,8 @@ package com.example.Final_Project_mutso.service;
 
 import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.dto.FeedListDto;
-import com.example.Final_Project_mutso.dto.HashtagDto;
 import com.example.Final_Project_mutso.entity.*;
-import com.example.Final_Project_mutso.repository.FeedImageRepository;
-import com.example.Final_Project_mutso.repository.FeedLikeRepository;
-import com.example.Final_Project_mutso.repository.FeedRepository;
-import com.example.Final_Project_mutso.repository.FeedVideoRepository;
+import com.example.Final_Project_mutso.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringTokenizer;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,9 +28,11 @@ public class FeedService {
     private final FeedVideoRepository feedVideoRepository;
     private final CommentService commentService;
     private final FeedLikeRepository feedLikeRepository;
-    private final HashtagService hashtagService;
+//    private final HashtagService hashtagService;
+    private final HashtagRepository hashtagRepository;
+    private final FeedHashtagRepository feedHashtagRepository;
 
-    public void createFeed(FeedDto dto, HashtagDto hashtag, MultipartFile file/*, UserEntity loginedUser*/) {
+    public void createFeed(FeedDto dto, String tags, MultipartFile file/*, UserEntity loginedUser*/) {
 
         Feed feed = new Feed();
         feed.setTitle(dto.getTitle());
@@ -41,7 +40,27 @@ public class FeedService {
 //        feed.setUser(loginedUser);
         feedRepository.save(feed);
 
-        hashtagService.save(hashtag.getTagName());
+        String[] str = tags.split(" ");
+
+        for(int i=0; i<str.length; i++) {
+            Optional<Hashtag> opHash = hashtagRepository.findByTagName(str[i]);
+            Hashtag hashtag;
+            if(opHash.isEmpty()){
+                hashtag = new Hashtag();
+                hashtag.setTagName(str[i]);
+                hashtagRepository.save(hashtag);
+            } else {
+                hashtag = opHash.get();
+            }
+
+            FeedHashtag feedHashtag = new FeedHashtag();
+            feedHashtag.setHashtag(hashtag);
+            feedHashtag.setFeed(feed);
+            feedHashtagRepository.save(feedHashtag);
+
+        }
+
+//        hashtagService.save(hashtag.getTagName());
 
         if (!file.isEmpty()) { // 첨부 파일이 존재한다면
             String fileName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
@@ -101,7 +120,6 @@ public class FeedService {
             Feed feedEntity = optionalFeed.get();
             feedEntity.setTitle(feedDto.getTitle());
             feedEntity.setContent(feedDto.getContent());
-//            feedEntity.setHashtag(feedDto.getHashtag());
 
             feedRepository.save(feedEntity);
         }

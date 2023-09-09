@@ -3,7 +3,6 @@ package com.example.Final_Project_mutso.controller;
 
 import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.dto.FeedListDto;
-import com.example.Final_Project_mutso.dto.HashtagDto;
 import com.example.Final_Project_mutso.repository.FeedRepository;
 import com.example.Final_Project_mutso.service.CommentService;
 import com.example.Final_Project_mutso.service.FeedService;
@@ -47,7 +46,7 @@ public class FeedController {
     // RESTful한 API는 행동의 결과로 반영된 자원의 상태를 반환함이 옳다
     public void create(
             @RequestPart(value = "dto") FeedDto dto,
-            @RequestPart(value = "hashtag") HashtagDto hashtag,
+            @RequestPart(value = "hashtag") String hashtag,
             @RequestPart(value = "file") MultipartFile file,
             Authentication authentication
     ){

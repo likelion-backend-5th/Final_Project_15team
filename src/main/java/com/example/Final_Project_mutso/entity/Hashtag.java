@@ -14,7 +14,7 @@ public class Hashtag {
     private Long id;
 
     @OneToMany(mappedBy = "hashtag", cascade = CascadeType.ALL)
-    private List<FeedHashtag> hashtag;
+    private List<FeedHashtag> feedHashtag;
 
     String tagName;
 }
