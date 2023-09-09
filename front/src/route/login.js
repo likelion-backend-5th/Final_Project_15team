@@ -68,8 +68,12 @@ export default function Login() {
         .post("http://localhost:8080/users/login", body)
         .then((res) => {
           console.log(res.data);
-          const accessToken = res.data.access_token;
+          const accessToken = res.data.token;
           setCookie("is_login", `${accessToken}`);
+          console.log(accessToken);
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${accessToken}`;
           navigate("/");
         })
         .catch((e) => {

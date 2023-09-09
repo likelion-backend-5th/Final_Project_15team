@@ -12,23 +12,27 @@ import CreateIcon from "@mui/icons-material/Create";
 let CommentBox = styled.div``;
 
 function Comments(commentData) {
-  useEffect(() => {
-    setFeedId(commentData.id);
-  }, []);
   const [data, setData] = useState(commentData.props);
   const [reply, setReply] = useState();
   const [feedId, setFeedId] = useState();
   const [commentId, setCommentId] = useState();
   const [putComment, setPutComment] = useState();
   const [viewPutComment, setViewPutComment] = useState(false);
+
+  useEffect(() => {
+    setFeedId(commentData.id);
+  }, []);
   const updateComment = () => {
+    const formData = new FormData();
+    formData.append("content", putComment);
     axios
-      .patch(
+      .put(
         "http://localhost:8080/comment/" + feedId + "/" + commentId,
-        putComment
+        formData
       )
       .then((res) => {
         console.log(res);
+        commentData.setRerender(Math.random());
       })
       .catch((err) => {
         console.log(err);
@@ -37,11 +41,13 @@ function Comments(commentData) {
   const putCommentHandler = (e) => {
     setPutComment(e.target.value);
   };
+
   const deleteComment = () => {
     axios
       .delete("http://localhost:8080/comment/" + feedId + "/" + commentId)
       .then((res) => {
         console.log(res);
+        commentData.setRerender(Math.random());
       })
       .catch((err) => {
         console.log(err.message);
@@ -51,11 +57,16 @@ function Comments(commentData) {
     setReply(e.target.value);
   };
   const sendReply = () => {
-    console.log(feedId);
+    const formData = new FormData();
+    formData.append("content", reply);
     axios
-      .post("http://localhost:8080/comment/" + feedId, reply)
+      .post("http://localhost:8080/comment/" + feedId, formData)
       .then((res) => {
+        console.log("댓글 생성");
         console.log(res);
+        commentData.setRerender(Math.random());
+        window.location.reload();
+        setReply("");
       })
       .catch((err) => {
         console.log(err);
@@ -69,6 +80,7 @@ function Comments(commentData) {
               return (
                 <>
                   <Paper
+                    key={b}
                     elevation={3}
                     style={{
                       marginTop: "0.4rem",
@@ -82,7 +94,7 @@ function Comments(commentData) {
                       }}>
                       {i.nickname}
                     </span>
-                    {i.comment}
+                    {i.content}
                     <IconButton>
                       <CreateIcon
                         onClick={() => {
@@ -105,7 +117,10 @@ function Comments(commentData) {
                           value={putComment}
                           onChange={putCommentHandler}
                         />
-                        <IconButton>
+                        <IconButton
+                          onClick={() => {
+                            setCommentId(i.id);
+                          }}>
                           <SendIcon onClick={updateComment} />
                         </IconButton>
                       </div>

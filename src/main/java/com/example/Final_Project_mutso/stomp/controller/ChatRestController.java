@@ -2,6 +2,7 @@ package com.example.Final_Project_mutso.stomp.controller;
 
 import com.example.Final_Project_mutso.stomp.dto.ChatMessageDto;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoomDto;
+import com.example.Final_Project_mutso.stomp.dto.UserInfoDto;
 import com.example.Final_Project_mutso.stomp.service.ChatService;
 //import com.example.Final_Project_mutso.stomp.service.MessageService;
 //import com.example.Final_Project_mutso.stomp.service.MessageService;
@@ -24,10 +25,9 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class ChatRestController {
     private final ChatService chatService;
-//    private final MessageService messageService;
 
     // 채팅방 생성하기
-    @PostMapping(value = "rooms", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/rooms", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ChatRoomDto> createRoom(
             @RequestPart ChatRoomDto chatRoomDto,
             @RequestPart("image") MultipartFile file
@@ -36,35 +36,30 @@ public class ChatRestController {
         return ResponseEntity.ok(chatService.createChatRoom(chatRoomDto , file));
     }
 
-    // 채팅방 목록 조회하기
+    // 채팅방 목록 조회
     @GetMapping("/rooms")
     public ResponseEntity<List<ChatRoomDto>> getChatRooms(){
         return ResponseEntity.ok(chatService.getChatRooms());
     }
 
-
-    // 채팅방 삭제
-    @DeleteMapping("room/{id}/delete")
-    public void deleteChatRoom(@PathVariable("id") Long id){
-        chatService.deleteChatRoom(id);
+    // 채팅방 단독 조회
+    @GetMapping("/room/{roomId}")
+    public ChatRoomDto getChatRoom(@PathVariable("roomId") Long roomId){
+        return chatService.findRoomById(roomId);
     }
 
-
-    // 파일 업로드
-    @PostMapping(value = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadFile(@RequestParam("file") MultipartFile image) throws IOException {
-        return chatService.uploadFile(image);
+    // 채팅 파일 업로드
+    @PostMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ChatMessageDto uploadFile(
+            @RequestParam("file") MultipartFile image,
+            ChatMessageDto dto
+    ) throws IOException {
+        return chatService.uploadFile(image,dto);
     }
 
-    // 닉네임 받아오기
-    @GetMapping("username")
-    public String getNickname(){
-        return chatService.getNickname();
-    }
-
-    // 채팅방 인원 수 받아오기
-    @GetMapping("count/{roomId}")
-    public int getUserCount(@PathVariable("roomId") Long roomId){
-        return chatService.checkUserCount(roomId);
+    // 채팅방에 필요한 유저 정보 조회하기
+    @GetMapping("/userInfo")
+    public UserInfoDto getUserInfo(UserInfoDto dto){
+        return chatService.getUserInfo(dto);
     }
 }

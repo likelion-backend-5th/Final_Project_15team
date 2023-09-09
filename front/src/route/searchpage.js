@@ -29,12 +29,14 @@ const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-function SearchPage() {
+function SearchPage(props) {
   const [dense] = React.useState(false);
   const [secondary] = React.useState(false);
   return (
     <>
-      <Appbars></Appbars>
+      <Appbars
+        username={props.username}
+        setUsername={props.setUsername}></Appbars>
       <Box style={{ display: "flex" }}>
         <Paper
           elevation={3}
