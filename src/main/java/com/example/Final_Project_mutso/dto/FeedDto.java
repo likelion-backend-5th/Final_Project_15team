@@ -3,6 +3,7 @@ package com.example.Final_Project_mutso.dto;
 import com.example.Final_Project_mutso.entity.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +14,7 @@ public class FeedDto {
     private Long id;
     private String title;
     private String content;
-    private String date;
-    private String time;
+    private LocalDateTime dateTime;
     private List<FeedHashtagDto> hashtag;
 //    private String file;
     private List<CommentDto> comments;
@@ -29,6 +29,7 @@ public class FeedDto {
         feedDto.setId(feed.getId());
         feedDto.setTitle(feed.getTitle());
         feedDto.setContent(feed.getContent());
+        feedDto.setDateTime(feed.getDateTime());
         List<CommentDto> commentsList = new ArrayList<>(); //comment 정보를 담기 위한 list
         for(CommentDto e : feed.getComments()){
             commentsList.add(e);
