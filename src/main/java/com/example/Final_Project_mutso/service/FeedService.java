@@ -14,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.StringTokenizer;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -167,11 +166,18 @@ public class FeedService {
         return feedLikeRepository.countFeedLikeByFeed_Id(feedId);
     }
 
-    public List<FeedDto> searchHashtag(String keyword) {
+    public List<FeedListDto> searchHashtag(String keyword) {
 
+        List<FeedListDto> feedList = new ArrayList<>();
+        Optional<Hashtag> hashtag = hashtagRepository.findByTagName(keyword);
+        List<FeedHashtag> feedHashtagList = feedHashtagRepository.findAllByHashtag(hashtag.get());
 
-        List<FeedDto> feedList = new ArrayList<>();
-
+        for (FeedHashtag feedHashtag: feedHashtagList) {
+            Feed feed = feedHashtag.getFeed();
+            FeedListDto dto = FeedListDto.fromEntity(feed);
+            dto.setFileUrl(fileService.readFile(feed.getId()));
+            feedList.add(dto);
+        }
 
         return feedList;
     }

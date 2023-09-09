@@ -118,12 +118,12 @@ public class FeedController {
     }
 
     @GetMapping("/hashSearch")
-    public List<FeedDto> searchHash(
+    public List<FeedListDto> searchHash(
             @RequestPart String keyword,
             @RequestParam(value = "page", defaultValue = "1") int page
     ) {
         Pageable pageable = PageRequest.of(page - 1, 5, Sort.by("id").descending()); // 한 페이지에 표시할 게시글 수를 5로 설정, ID 역순으로 정렬
-        List<FeedDto> feedPage = feedService.searchHashtag(keyword);
+        List<FeedListDto> feedPage = feedService.searchHashtag(keyword);
         return feedPage;
     }
 
