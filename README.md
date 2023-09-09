@@ -27,15 +27,19 @@
 
 # 피드
 - 피드 생성 : `POST/feed/add`
-- ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/7990fc2c-5a70-49a2-afe6-6b5b8d2e25f5)
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/41cdcb80-d919-4166-b308-d78b99c121e8)
 - dto
-- {"title": "title", "content": "test", "hashtag": "#hash"}
-- 
+- {"title": "title", "content": "test"}
+- hashtag
+- #hash #test
+
 - 피드 목록 : `GET/feed`
 - 피드 상세 : `GET/feed/{feedId}`
 - 피드 수정 : `PUT/feed/{feedId}`
 - dto
-- {"title": "titlEdit", "content": "editTest", "hashtag": "#edit"}
+- {"title": "titlEdit", "content": "editTest"}
+- hashtag
+- #hash #test2
 
 - 피드 삭제 : `DELETE/feed/{feedId}`
   
