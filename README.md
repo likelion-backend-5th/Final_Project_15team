@@ -27,7 +27,7 @@
 
 # 피드
 - 피드 생성 : `POST/feed/add`
-![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/41cdcb80-d919-4166-b308-d78b99c121e8)
+- ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/41cdcb80-d919-4166-b308-d78b99c121e8)
 - dto
 - {"title": "title", "content": "test"}
 - hashtag
@@ -55,7 +55,7 @@
 - 댓글 삭제 : `DELETE/comment/{feedId}/{commentId}`
 
 - 해시태그 검색 : `GET/feed/hashSearch`
-  ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/7de720ee-2a05-4d0c-8885-181cbd20d5b4)
+- ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/7de720ee-2a05-4d0c-8885-181cbd20d5b4)
 
 
 # 뮤직플레이어
