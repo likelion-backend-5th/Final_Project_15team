@@ -2,7 +2,9 @@ package com.example.Final_Project_mutso.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +23,14 @@ public class Feed {
 
     private String content;
 
-    private String date;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime dateTime;
 
-    private String time;
 
-    private String hashtag;
+//    private String hashtag;
+
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
+    private List<FeedHashtag> feedHashtag;
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<FeedImage> image;
