@@ -57,7 +57,7 @@ export default function MusicSearch(props) {
     item.title.toLowerCase().includes(search)
   );
   return (
-    <>
+    <div style={{ margin: "1rem" }}>
       <Paper
         component="form"
         sx={{
@@ -67,8 +67,7 @@ export default function MusicSearch(props) {
           width: 200,
           margin: "auto",
           marginBottom: "0.4rem",
-        }}
-      >
+        }}>
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           placeholder="검색어를 입력해주세요"
@@ -86,12 +85,13 @@ export default function MusicSearch(props) {
           margin: "auto",
           marginTop: "0.4rem",
           marginBottom: "0.4rem",
-        }}
-      >
+        }}>
         {search
           ? searched.map((i) => {
               return (
-                <Button onClick={() => changeVideoId(i)}>
+                <Button
+                  style={{ display: "block", margin: "auto" }}
+                  onClick={() => changeVideoId(i)}>
                   <Paper
                     sx={{
                       p: "2px 4px",
@@ -99,8 +99,7 @@ export default function MusicSearch(props) {
                       margin: "auto",
                       marginTop: "0.4rem",
                       padding: 1,
-                    }}
-                  >
+                    }}>
                     {i.title}
                   </Paper>
                 </Button>
@@ -108,6 +107,6 @@ export default function MusicSearch(props) {
             })
           : null}
       </Paper>
-    </>
+    </div>
   );
 }

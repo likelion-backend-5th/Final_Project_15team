@@ -10,7 +10,10 @@ import AddIcon from "@mui/icons-material/Add";
 
 import Appbars from "../components/appbars";
 
-let WholeWrap = styled.div``;
+let WholeWrap = styled.div`
+  max-width: 800px;
+  margin: auto;
+`;
 let TopWrap = styled.div`
   text-align: center;
   padding: 0.8rem;
@@ -89,7 +92,7 @@ function CreateFeed(props) {
   };
 
   return (
-    <>
+    <div>
       <Appbars
         username={props.username}
         setUsername={props.setUsername}></Appbars>
@@ -101,96 +104,100 @@ function CreateFeed(props) {
               width: "50rem",
               margin: "1.2rem",
               padding: "0.8rem",
+              textAlign: "center",
             }}>
             <TopWrap>피드생성</TopWrap>
-            <Paper elevation={3} style={{ textAlign: "center" }}>
-              <TitleWrap>
-                <TextField
-                  id="standard-multiline-flexible"
-                  label="제목"
-                  multiline
-                  maxRows={4}
-                  variant="standard"
-                  value={title}
-                  onChange={OCTitle}
-                />
-              </TitleWrap>
-              <ContentWrap>
-                <TextField
-                  id="standard-multiline-static"
-                  label="피드내용"
-                  multiline
-                  rows={4}
-                  variant="standard"
-                  value={content}
-                  onChange={OCContent}
-                />
-              </ContentWrap>
-              <TitleWrap>
-                <TextField
-                  id="standard-multiline-flexible"
-                  label="해시태그"
-                  multiline
-                  maxRows={4}
-                  variant="standard"
-                  value={hashtag}
-                  onChange={OCHashtag}
-                />
-              </TitleWrap>
-              <BottomWrap>
-                <div>
-                  사진/동영상 추가 :{" "}
-                  <IconButton>
-                    <AddIcon
-                      onClick={() => {
-                        if (viewUploadPnV) {
-                          setViewUploadPnV(false);
-                        } else {
-                          setViewUploadPnV(true);
-                        }
-                      }}
-                    />
-                  </IconButton>
-                  {viewUploadPnV ? (
-                    <form>
-                      <input
-                        type="file"
-                        onChange={uploadPnV}
-                        ref={PnVRef}></input>
-                    </form>
-                  ) : null}
-                </div>
-                <div>
-                  음원 추가 :{" "}
-                  <IconButton>
-                    <AddIcon
-                      onClick={() => {
-                        if (viewUploadMusic) {
-                          setViewUploadMusic(false);
-                        } else {
-                          setViewUploadMusic(true);
-                        }
-                      }}
-                    />
-                  </IconButton>
-                  {viewUploadMusic ? (
-                    <form>
-                      <input
-                        type="file"
-                        onChange={uploadMusic}
-                        ref={musicRef}></input>
-                    </form>
-                  ) : null}
-                </div>
-                <Button variant="contained" onClick={postFeed}>
-                  게시하기
-                </Button>
-              </BottomWrap>
-            </Paper>
+            {/* <Paper elevation={3} style={{ textAlign: "center" }}> */}
+            <TitleWrap>
+              <TextField
+                id="standard-multiline-flexible"
+                label="제목"
+                multiline
+                maxRows={4}
+                variant="standard"
+                value={title}
+                onChange={OCTitle}
+                sx={{ width: 400 }}
+              />
+            </TitleWrap>
+            <ContentWrap>
+              <TextField
+                id="standard-multiline-static"
+                label="피드내용"
+                multiline
+                rows={4}
+                variant="standard"
+                value={content}
+                onChange={OCContent}
+                sx={{ width: 400 }}
+              />
+            </ContentWrap>
+            <TitleWrap>
+              <TextField
+                id="standard-multiline-flexible"
+                label="해시태그"
+                multiline
+                maxRows={4}
+                variant="standard"
+                value={hashtag}
+                onChange={OCHashtag}
+                sx={{ width: 400 }}
+              />
+            </TitleWrap>
+            <BottomWrap>
+              <div>
+                사진/동영상 추가 :{" "}
+                <IconButton>
+                  <AddIcon
+                    onClick={() => {
+                      if (viewUploadPnV) {
+                        setViewUploadPnV(false);
+                      } else {
+                        setViewUploadPnV(true);
+                      }
+                    }}
+                  />
+                </IconButton>
+                {viewUploadPnV ? (
+                  <form>
+                    <input
+                      type="file"
+                      onChange={uploadPnV}
+                      ref={PnVRef}></input>
+                  </form>
+                ) : null}
+              </div>
+              <div>
+                음원 추가 :{" "}
+                <IconButton>
+                  <AddIcon
+                    onClick={() => {
+                      if (viewUploadMusic) {
+                        setViewUploadMusic(false);
+                      } else {
+                        setViewUploadMusic(true);
+                      }
+                    }}
+                  />
+                </IconButton>
+                {viewUploadMusic ? (
+                  <form>
+                    <input
+                      type="file"
+                      onChange={uploadMusic}
+                      ref={musicRef}></input>
+                  </form>
+                ) : null}
+              </div>
+              <Button variant="contained" onClick={postFeed}>
+                게시하기
+              </Button>
+            </BottomWrap>
           </Paper>
+          {/* </Paper> */}
         </Box>
       </WholeWrap>
-    </>
+    </div>
   );
 }
 export default CreateFeed;

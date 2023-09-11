@@ -102,13 +102,12 @@ function ChatList(props) {
     <>
       <Appbars username={props.username} setUsername={props.setUsername} />
       <WholeWrap>
-        <Box style={{ display: "flex" }}>
+        <Box style={{ display: "flex", marginTop: "1.2rem" }}>
           <Paper
             elevation={3}
             style={{
               width: "50%",
-              margin: "1.2rem",
-              marginRight: "0.4rem",
+              margin: "auto",
               padding: " 1.2rem",
             }}>
             <TopWrap>
@@ -205,7 +204,7 @@ function ChatList(props) {
                             secondary={
                               <React.Fragment>
                                 {i.chat}
-                                {i.chatcount}명
+                                {i.chatCount}명
                               </React.Fragment>
                             }></ListItemText>
                         </ListItem>
