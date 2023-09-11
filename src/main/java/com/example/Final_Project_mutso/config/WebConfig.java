@@ -9,7 +9,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry){
-        registry.addMapping("/**");
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:8080/", "http://localhost:3000") // 허용할 origin을 설정합니다.
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 허용할 HTTP 메서드를 설정합니다.
+                .allowedHeaders("Authorization") // 허용할 요청 헤더를 설정합니다.
+                .allowCredentials(true); // 인증 정보 허용 여부를 설정합니다.
     }
 
     // js 파일 연결

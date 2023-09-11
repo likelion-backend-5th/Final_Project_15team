@@ -63,15 +63,20 @@ function CreateFeed(props) {
   const postFeed = (e) => {
     e.preventDefault();
     const formData = new FormData();
+
     const changedPnV = new Blob([PnV], { type: "multipart/form-data" });
     formData.append("file", changedPnV);
     const changedMusicFile = new Blob([musicFile], {
       type: "multipart/form-data",
     });
     formData.append("musicFile", changedMusicFile);
-    const dto = JSON.stringify({ title, content, hashtag });
+
+    const dto = JSON.stringify({ title, content });
     const changedDto = new Blob([dto], { type: "application/json" });
     formData.append("dto", changedDto);
+
+    const changedTags = new Blob([hashtag]);
+    formData.append("tags", changedTags);
     axios
       .post("http://localhost:8080/feed/add", formData)
       .then((res) => {
