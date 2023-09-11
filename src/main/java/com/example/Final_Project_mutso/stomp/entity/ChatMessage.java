@@ -1,5 +1,6 @@
 package com.example.Final_Project_mutso.stomp.entity;
 
+import com.example.Final_Project_mutso.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,4 +23,8 @@ public class ChatMessage {
     private String message;
     private String time;
     private String fileUrl;
+
+    @ManyToOne
+    private UserEntity user;
+
 }

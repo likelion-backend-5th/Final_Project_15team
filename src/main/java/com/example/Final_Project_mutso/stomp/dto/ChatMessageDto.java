@@ -19,6 +19,7 @@ public class ChatMessageDto {
     private String time;
     private String fileUrl;
 
+
     public static ChatMessageDto fromEntity(ChatMessage entity){
         ChatMessageDto dto = new ChatMessageDto();
         dto.setFileUrl(entity.getFileUrl());

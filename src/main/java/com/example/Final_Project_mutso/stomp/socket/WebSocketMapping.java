@@ -17,6 +17,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +34,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class WebSocketMapping {
     // STOMP over WebSocket
     private final SimpMessagingTemplate template;
@@ -47,7 +49,7 @@ public class WebSocketMapping {
             SimpMessageHeaderAccessor headerAccessor
     ){
         // 입장하는 순간 채팅방 유저 +1
-        chatService.increaseUser(message.getRoomId());
+//        chatService.increaseUser(message.getRoomId());
 
         // 반환 결과를 socket session에 저장
         headerAccessor.getSessionAttributes().put("roomId",message.getRoomId());
@@ -92,7 +94,7 @@ public class WebSocketMapping {
         log.info("headAccessor : {}",headerAccessor);
 
         // 채팅방 유저 -1
-        chatService.decreaseUser(roomId);
+//        chatService.decreaseUser(roomId);
     }
 
     // 채팅 이미지 보내기
