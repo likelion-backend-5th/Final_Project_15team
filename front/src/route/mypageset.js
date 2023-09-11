@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button, Grid, TextField, Box, Paper } from "@mui/material";
 
 import Appbars from "../components/appbars";
@@ -28,16 +28,64 @@ let ProfileImg = styled.div`
 `;
 let BottomWrap = styled.div``;
 
-function MypageSet() {
+function MypageSet(props) {
   let navigate = useNavigate();
   const [nickname, setNickname] = useState("");
   const [intro, setIntro] = useState("");
+  const [viewImgEdit, setViewImgEdit] = useState(false);
+  const [imgUrl, setImgUrl] = useState();
+  const imgUrlRef = useRef();
+  const [data, setData] = useState();
+  const [rerender, setRerender] = useState();
+
+  useEffect(() => {
+    console.log(props.username);
+    axios
+      .get("http://localhost:8080/users/mypage/" + props.username + "/profile")
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [rerender]);
 
   const OCNickname = (e) => {
     setNickname(e.target.value);
   };
   const OCIntro = (e) => {
     setIntro(e.target.value);
+  };
+  const OCImgEdit = () => {
+    if (viewImgEdit) {
+      setViewImgEdit(false);
+    } else {
+      setViewImgEdit(true);
+    }
+  };
+
+  const uploadImg = (e) => {
+    e.preventDefault();
+    if (e.target.files) {
+      const uploadImg = e.target.files[0];
+      setImgUrl(uploadImg);
+    }
+  };
+
+  const setProfileImg = () => {
+    const formData = new FormData();
+    const changedImgData = new Blob([imgUrl], { type: "multipart/form-data" });
+    formData.append("image", changedImgData);
+    axios
+      .put("http://localhost:8080/users/mypage/profile/imgupload", formData)
+      .then((res) => {
+        console.log(res.data);
+        setRerender(Math.random());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleSubmit = (e) => {
@@ -59,7 +107,9 @@ function MypageSet() {
 
   return (
     <>
-      <Appbars></Appbars>
+      <Appbars
+        username={props.username}
+        setUsername={props.setUsername}></Appbars>
       <WholeWrap>
         <Box style={{ display: "flex" }}>
           <Paper
@@ -67,8 +117,22 @@ function MypageSet() {
             style={{ width: "50%", margin: "1.2rem", marginRight: "0.4rem" }}>
             <TopWrap>프로필 편집</TopWrap>
             <ProfileWrap>
-              <ProfileImg>ㅁ</ProfileImg>
-              대표이미지 수정
+              <ProfileImg>
+                {data ? <img src={data.profileImage} /> : null}
+              </ProfileImg>
+              <Button onClick={OCImgEdit}>대표이미지 수정</Button>
+
+              {viewImgEdit ? (
+                <>
+                  <form>
+                    <input
+                      type="file"
+                      onChange={uploadImg}
+                      ref={imgUrlRef}></input>
+                    <Button onClick={setProfileImg}>변경</Button>
+                  </form>
+                </>
+              ) : null}
             </ProfileWrap>
             <BottomWrap>
               <Box

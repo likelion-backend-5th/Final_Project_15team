@@ -42,7 +42,7 @@ let ProfileImg = styled.div`
 let ChatContent = styled.div``;
 let ChatDate = styled.div``;
 
-function ChatPage() {
+function ChatPage(props) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState([]);
@@ -53,6 +53,7 @@ function ChatPage() {
   let socket = new SockJS("http://localhost:8080/ws/chat");
   const [chat, setChat] = useState("");
   const [msg, setMsg] = useState([]);
+  const [rerender, setRerender] = useState();
 
   useEffect(() => {
     connect();
@@ -86,7 +87,7 @@ function ChatPage() {
       {},
       JSON.stringify({
         roomId: id,
-        sender: "testuser",
+        sender: props.username,
         type: "ENTER",
       })
     );
@@ -103,7 +104,7 @@ function ChatPage() {
         break;
       case "EXIT":
         messageElement.textContent = getMsg.message;
-
+        console.log(getMsg.message);
         break;
       case "TALK":
         messageElement.textContent = getMsg.message;
@@ -125,7 +126,7 @@ function ChatPage() {
     if (chat && stompClient) {
       let chatMessage = {
         roomId: id,
-        sender: "testuser",
+        sender: props.username,
         message: chat,
         type: "TALK",
       };
@@ -142,7 +143,7 @@ function ChatPage() {
 
   return (
     <>
-      <Appbars></Appbars>
+      <Appbars username={props.username} setUsername={props.setUsername} />
       <WholeWrap>
         <Box style={{ display: "flex" }}>
           <Paper

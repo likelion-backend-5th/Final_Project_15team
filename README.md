@@ -5,12 +5,12 @@
 - 채팅방 리스트 조회 : `GET/chat/rooms` / response: `{"id":"1","roomName":"name"}`
 <img width="855" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/351d6684-cea7-4f3e-9590-734a7eef87ea">
 
-- 유저 닉네임 불러오기 : `GET /chat/username` / response : String 형태의 username
-<img width="847" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/6a59dbf5-460f-48fc-a300-7cdda0c4af65">
+- 유저 정보 불러오기 : `GET /chat/userInfo` / response : `{ "username": "","nickname": "","profileImage": ""}`
+<img width="853" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/3b7b5741-15f8-47ec-931b-040566d28348">
 
-- 채팅방 미디어 파일 전송하기 : `POST /chat/image` / response : String 형태의 이미지 url
+- 채팅방 미디어 파일 전송하기 : `POST /chat/image` / response : 
   - (+ Multipartfile로 받은 파일 저장 후 이미지 url 생성 및 반환 하는 역할)
-<img width="852" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/cf823899-a8a3-4a63-868d-71bd884fe01c">
+<img width="852" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/94bc2028-6f29-4952-9ac1-5de6dec789d5">
 
 - 인원수 조회 (채팅방 정보 Dto) : `GET/chat/rooms` / response: `{"id":"1","roomName":"name","userCount":2,"imageUrl":"url"}`
 <img width="858" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/f3449adc-dee2-41d9-a42a-35ab4fb337e2">
@@ -27,15 +27,19 @@
 
 # 피드
 - 피드 생성 : `POST/feed/add`
-- ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/7990fc2c-5a70-49a2-afe6-6b5b8d2e25f5)
+- ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/41cdcb80-d919-4166-b308-d78b99c121e8)
 - dto
-- {"title": "title", "content": "test", "hashtag": "#hash"}
-- 
+- {"title": "title", "content": "test"}
+- hashtag
+- #hash #test
+
 - 피드 목록 : `GET/feed`
 - 피드 상세 : `GET/feed/{feedId}`
 - 피드 수정 : `PUT/feed/{feedId}`
 - dto
-- {"title": "titlEdit", "content": "editTest", "hashtag": "#edit"}
+- {"title": "titlEdit", "content": "editTest"}
+- hashtag
+- #hash #test2
 
 - 피드 삭제 : `DELETE/feed/{feedId}`
   
@@ -50,6 +54,8 @@
   }
 - 댓글 삭제 : `DELETE/comment/{feedId}/{commentId}`
 
+- 해시태그 검색 : `GET/feed/hashSearch`
+- ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/7de720ee-2a05-4d0c-8885-181cbd20d5b4)
 
 
 # 뮤직플레이어
@@ -117,11 +123,13 @@
 - Post http://localhost:8080/users/register
 
 params에 key랑 value 입력 (회원가입정보)
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/5c5423ea-0968-497c-bc1d-7fde707e2ba5)
 
 - 로그인
 - Post http://localhost:8080/users/login
 
 body raw json username, password 입력하면 토큰 나옴
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/02ed8961-9f5b-4f7e-81a2-83f60789e5db)
 
 - 토큰 검증 후 유저 데이터 전달
 - Post http://localhost:8080/users/secure-resource
@@ -133,23 +141,28 @@ Authorization Bearer Token 토큰 입력
 - Put http://localhost:8080/users/mypage/{username}/follow
 
 auth bearer token 에서 토큰 입력 후 username에 팔로우 할 아이디 적으면 됨
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/fe52d3ba-a5f3-47a5-81cf-81a0b86450b6)
 
 - 팔로우리스트
 - Get http://localhost:8080/users/mypage/{username}/follow
 
 auth bearer token 에서 토큰 입력 후 username에는 팔로우 리스트 보고싶은 아이디 적으면 됨
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/087790b6-5e26-4c10-9c35-00c25fbfb98b)
 
 - 마이페이지
 - Get http://localhost:8080/users/mypage/{username}
 
 auth bearer token 에서 토큰 입력
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/f7d67d8e-ee9c-45b8-a7dc-31bc6b38b900)
 
 - 프로필
 - Get http://localhost:8080/users/mypage/{username}/profile
 
 auth bearer token 에서 토큰 입력
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/813519eb-9fac-47ae-9c76-fa6a462abbc8)
 
 - 프로필 이미지
 - Put http://localhost:8080/users/mypage/profile/imgupload
 
 auth bearer token 에서 토큰 입력 후 body form-data key: image (file) value: 파일찾기
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/281fad83-bf83-4ffd-9289-43d7319b87b5)

@@ -1,11 +1,9 @@
 package com.example.Final_Project_mutso.dto;
 
-import com.example.Final_Project_mutso.entity.Comment;
-import com.example.Final_Project_mutso.entity.Feed;
-import com.example.Final_Project_mutso.entity.FeedImage;
-import com.example.Final_Project_mutso.entity.FeedVideo;
+import com.example.Final_Project_mutso.entity.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -13,13 +11,8 @@ public class FeedListDto {
     private Long id;
     private String title;
     private String content;
-    private String date;
-    private String time;
-    private String hashtag;
+    private List<FeedHashtagDto> hashtag;
     private String fileUrl;
-//    private List<FeedImage> image;
-//    private List<FeedVideo> video;
-//    private UserEntity user;
 
 
     public static FeedListDto fromEntity(Feed feed) {
@@ -27,13 +20,12 @@ public class FeedListDto {
         feedDto.setId(feed.getId());
         feedDto.setTitle(feed.getTitle());
         feedDto.setContent(feed.getContent());
-        feedDto.setHashtag(feed.getHashtag());
         feedDto.setFileUrl(feedDto.getFileUrl());
-//        feedDto.setImage(feed.getImage());
-//        feedDto.setVideo(feed.getVideo());
-//        feedDto.setComments(feed.getComments());
-//        feedDto.setUser(feed.getUser());
-
+        List<FeedHashtagDto> hashtagList = new ArrayList<>(); //comment 정보를 담기 위한 list
+        for(FeedHashtag e : feed.getFeedHashtag()){
+            hashtagList.add(FeedHashtagDto.fromEntity(e));
+        }
+        feedDto.setHashtag(hashtagList);
 
         return feedDto;
     }

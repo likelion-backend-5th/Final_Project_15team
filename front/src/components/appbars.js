@@ -1,16 +1,13 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Switch,
   AppBar,
   Box,
   Toolbar,
   Typography,
   IconButton,
-  FormGroup,
   MenuItem,
   Menu,
   Button,
-  FormControlLabel,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -19,13 +16,17 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { useNavigate } from "react-router-dom";
 
-export default function Appbars() {
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+function Appbars(props) {
+  const [auth, setAuth] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
+  useEffect(() => {
+    if (props.username) {
+      setAuth(true);
+    } else {
+      setAuth(false);
+    }
+  }, [props.username]);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,21 +35,14 @@ export default function Appbars() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleLogout = () => {
+    navigate("/");
+    window.location.reload();
+  };
+
   let navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={auth}
-              onChange={handleChange}
-              aria-label="login switch"
-            />
-          }
-          label={auth ? "Logout" : "Login"}
-        />
-      </FormGroup>
       <AppBar position="static" sx={{ background: "#5B61A1" }}>
         <Toolbar>
           <IconButton
@@ -59,8 +53,7 @@ export default function Appbars() {
             sx={{ mr: 2 }}
             onClick={() => {
               navigate("/");
-            }}
-          >
+            }}>
             <HomeIcon></HomeIcon>
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -72,8 +65,7 @@ export default function Appbars() {
                 size="large"
                 onClick={() => {
                   navigate("/createfeed");
-                }}
-              >
+                }}>
                 <AddIcon style={{ color: "white" }} />
               </IconButton>
               <IconButton
@@ -82,8 +74,7 @@ export default function Appbars() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
-                color="inherit"
-              >
+                color="inherit">
                 <AccountCircle />
               </IconButton>
               <IconButton
@@ -91,8 +82,7 @@ export default function Appbars() {
                 onClick={() => {
                   navigate("/chatlist");
                 }}
-                color="inherit"
-              >
+                color="inherit">
                 <ChatIcon />
               </IconButton>
               <Menu
@@ -108,17 +98,15 @@ export default function Appbars() {
                   horizontal: "right",
                 }}
                 open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
+                onClose={handleClose}>
                 <MenuItem
                   onClick={() => {
                     navigate("/mypage");
-                  }}
-                >
+                  }}>
                   Profile
                 </MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
           )}
@@ -129,8 +117,7 @@ export default function Appbars() {
                 sx={{ background: "white", color: "blue" }}
                 onClick={() => {
                   navigate("/login");
-                }}
-              >
+                }}>
                 Login
               </Button>
             </div>
@@ -140,3 +127,5 @@ export default function Appbars() {
     </Box>
   );
 }
+
+export default Appbars;

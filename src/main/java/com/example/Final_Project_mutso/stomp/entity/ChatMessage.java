@@ -1,5 +1,6 @@
 package com.example.Final_Project_mutso.stomp.entity;
 
+import com.example.Final_Project_mutso.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "chat_messages")
 public class ChatMessage {
     public enum MessageType {
-        ENTER, TALK, EXIT
+        ENTER, TALK, EXIT, FILE
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,9 @@ public class ChatMessage {
     private String sender;
     private String message;
     private String time;
-    private String profile;
     private String fileUrl;
+
+    @ManyToOne
+    private UserEntity user;
+
 }

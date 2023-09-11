@@ -1,5 +1,6 @@
 package com.example.Final_Project_mutso.stomp.socket;
 
+import com.example.Final_Project_mutso.stomp.entity.ChatMessage;
 import com.example.Final_Project_mutso.stomp.service.ChatService;
 import com.example.Final_Project_mutso.stomp.dto.ChatMessageDto;
 import com.example.Final_Project_mutso.stomp.dto.ChatRoomDto;
@@ -9,16 +10,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +34,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class WebSocketMapping {
     // STOMP over WebSocket
     private final SimpMessagingTemplate template;
@@ -41,9 +49,9 @@ public class WebSocketMapping {
             SimpMessageHeaderAccessor headerAccessor
     ){
         // 입장하는 순간 채팅방 유저 +1
-        chatService.increaseUser(message.getRoomId());
+//        chatService.increaseUser(message.getRoomId());
 
-        // 반환 결과를 socket session 에 userUUID 로 저장
+        // 반환 결과를 socket session에 저장
         headerAccessor.getSessionAttributes().put("roomId",message.getRoomId());
 
         message.setMessage(message.getSender() + "님이 입장하셨습니다.");
@@ -64,8 +72,9 @@ public class WebSocketMapping {
     // 채팅방 나갈 때 메세지
     @MessageMapping("/chat/exit")
     public void exitMessage(@Payload ChatMessageDto message){
-        message.setMessage(message.getSender() + "님이 퇴장하셨습니다.");
+        message.setMessage(message.getSender() + " 님이 퇴장하셨습니다.");
         template.convertAndSend("/topic/chat/room/enter/"+message.getRoomId(), message);
+        log.info("exit roomId : "+message.getRoomId());
     }
 
     //유저 퇴장 시에는 EventListener 를 통해서 유저 퇴장을 확인
@@ -85,22 +94,13 @@ public class WebSocketMapping {
         log.info("headAccessor : {}",headerAccessor);
 
         // 채팅방 유저 -1
-        chatService.decreaseUser(roomId);
+//        chatService.decreaseUser(roomId);
     }
 
-
-
-
-    // 이미지 파일 누를 때 발생시키도록 설정?
-//    @MessageMapping("/sendBinary")
-//    @SendTo("/topic/binaryMessages")
-//    public BinaryMessage handlerBinaryMessage(@Payload byte[] binaryData) {
-//        // 파일 저장
-//        // 이진 데이터처리 (이미지 처리)
-//        return handlerBinaryMessage(binaryData);
-//
-//    }
-
-
-
+    // 채팅 이미지 보내기
+    @MessageMapping("/chat/sendImage")
+    public void sendImage(@Payload ChatMessageDto message) {
+        template.convertAndSend("/topic/chat/room/enter/"+message.getRoomId(), message.getFileUrl());
+        log.info("url : "+message.getFileUrl());
+    }
 }

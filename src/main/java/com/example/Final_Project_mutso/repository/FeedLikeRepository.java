@@ -11,4 +11,7 @@ public interface FeedLikeRepository
         extends JpaRepository<FeedLike, Long> {
 //    @Override
     FeedLike findByUserId(Long id);
+
+    int countFeedLikeByFeed_Id(Long id);
+
 }

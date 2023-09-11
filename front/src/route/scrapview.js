@@ -29,7 +29,7 @@ let Title = styled.div`
 let Content = styled.div``;
 let Hashtag = styled.div``;
 
-function ScrapView() {
+function ScrapView(props) {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
@@ -44,7 +44,7 @@ function ScrapView() {
   }, []);
   return (
     <>
-      <Appbars></Appbars>
+      <Appbars username={props.username} setUsername={props.setUsername} />
       <WholeWrap>
         <Box style={{ display: "flex" }}>
           <Paper
@@ -54,8 +54,7 @@ function ScrapView() {
               margin: "1.2rem",
               marginRight: "0.4rem",
               padding: "1.2rem",
-            }}
-          >
+            }}>
             <TopWrap>
               <ProfileImg>a</ProfileImg>
               {data.nickname}
@@ -66,8 +65,7 @@ function ScrapView() {
                 style={{
                   margin: "0.4rem",
                   padding: "0.8rem",
-                }}
-              >
+                }}>
                 <Title>{data.title}</Title>
                 <Content>{data.content}</Content>
                 <Hashtag>#해시태그</Hashtag>

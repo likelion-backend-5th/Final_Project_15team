@@ -3,9 +3,8 @@ package com.example.Final_Project_mutso.service;
 import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.dto.FeedListDto;
 import com.example.Final_Project_mutso.entity.*;
-import com.example.Final_Project_mutso.repository.FeedImageRepository;
-import com.example.Final_Project_mutso.repository.FeedRepository;
-import com.example.Final_Project_mutso.repository.FeedVideoRepository;
+import com.example.Final_Project_mutso.jwt.AuthenticationFacade;
+import com.example.Final_Project_mutso.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,38 +28,52 @@ public class FeedService {
     private final FeedImageRepository feedImageRepository;
     private final FeedVideoRepository feedVideoRepository;
     private final CommentService commentService;
+    private final FeedLikeRepository feedLikeRepository;
+    private final FeedHashtagService feedHashtagService;
+//    private final AuthenticationFacade authFacade;
 
-    public void createFeed(FeedDto dto, MultipartFile file/*, UserEntity loginedUser*/) {
+    public void createFeed(FeedDto dto, String tags, MultipartFile file) {
+
+//        UserEntity user = authFacade.getUser();
+//        System.out.println(user);
+
         Feed feed = new Feed();
         feed.setTitle(dto.getTitle());
         feed.setContent(dto.getContent());
-        feed.setHashtag(dto.getHashtag());
-//        feed.setUser(loginedUser);
+        feed.setDateTime(LocalDateTime.now());
+//        feed.setUser(user);
         feedRepository.save(feed);
 
-
-        if (!file.isEmpty()) { // 첨부 파일이 존재한다면
-            String fileName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
-            String fileExtension = fileName.substring(fileName.lastIndexOf("."),fileName.length());
-
-            if (fileExtension.equals(".jpg")||fileExtension.equals(".png")){// 확장자가 이미지일 때
-                String url = fileService.createFile(file);
-                FeedImage feedImage = new FeedImage();
-                feedImage.setFeed(feed);
-                feedImage.setImageUrl(url);
-                feedImageRepository.save(feedImage);
-            } else if (fileExtension.equals(".mp4")||fileExtension.equals(".avi")){ //영상 확장자일 때
-                String url = fileService.createFile(file);
-                FeedVideo feedVideo = new FeedVideo();
-                feedVideo.setFeed(feed);
-                feedVideo.setVideoUrl(url);
-                feedVideoRepository.save(feedVideo);
-            }
-            else{
-                System.out.println(".jpg, .png, .mp4, .avi 확장자 파일을 선택해주세요");
-            }
-
+        if (!tags.isEmpty()) {
+            feedHashtagService.createFeedHashtag(feed, tags);
         }
+
+//        hashtagService.save(hashtag.getTagName());
+
+        fileService.identFile(file, feed);
+
+//        if (!file.isEmpty()) { // 첨부 파일이 존재한다면
+//            String fileName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
+//            String fileExtension = fileName.substring(fileName.lastIndexOf("."),fileName.length());
+//
+//            if (fileExtension.equals(".jpg")||fileExtension.equals(".png")){// 확장자가 이미지일 때
+//                String url = fileService.createFile(file);
+//                FeedImage feedImage = new FeedImage();
+//                feedImage.setFeed(feed);
+//                feedImage.setImageUrl(url);
+//                feedImageRepository.save(feedImage);
+//            } else if (fileExtension.equals(".mp4")||fileExtension.equals(".avi")){ //영상 확장자일 때
+//                String url = fileService.createFile(file);
+//                FeedVideo feedVideo = new FeedVideo();
+//                feedVideo.setFeed(feed);
+//                feedVideo.setVideoUrl(url);
+//                feedVideoRepository.save(feedVideo);
+//            }
+//            else{
+//                System.out.println(".jpg, .png, .mp4, .avi 확장자 파일을 선택해주세요");
+//            }
+//
+//        }
 
     }
 
@@ -96,10 +110,10 @@ public class FeedService {
             Feed feedEntity = optionalFeed.get();
             feedEntity.setTitle(feedDto.getTitle());
             feedEntity.setContent(feedDto.getContent());
-            feedEntity.setHashtag(feedDto.getHashtag());
 
             feedRepository.save(feedEntity);
         }
+
 
     }
 
@@ -112,30 +126,36 @@ public class FeedService {
     }
 
     //좋아요 기능
-    public void likeFeed(Long feedId, UserEntity loginedUser) {
+    public void likeFeed(Long feedId/*, UserEntity loginedUser*/) {
         Feed feed = feedRepository.findById(feedId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
 
+//        if(feedLikeRepository.findByUserId(loginedUser.getId()) == null){
+//            FeedLike likes = FeedLike.builder()
+//                    .user(loginedUser)
+//                    .feed(feed)
+//                    .build();
+//
+//            feed.addLikes(likes);
+//            feedRepository.save(feed);
+//        }
+//        else {
+//            FeedLike like = feedLikeRepository.findByUserId(loginedUser.getId());
+//            feedLikeRepository.delete(like);
+//        }
+
         FeedLike likes = FeedLike.builder()
-                .isLike(YesOrNo.YES)
                 .feed(feed)
                 .build();
 
         feed.addLikes(likes);
         feedRepository.save(feed);
+
     }
 
-    public void unlikeFeed(Long feedId, UserEntity loginedUser) {
-        Feed feed = feedRepository.findById(feedId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
-
-        FeedLike likes = FeedLike.builder()
-                .isLike(YesOrNo.NO)
-                .feed(feed)
-                .build();
-
-        feed.addLikes(likes);
-        feedRepository.save(feed);
+    //좋아요 개수
+    public int getCntFeedLikes(Long feedId) {
+        return feedLikeRepository.countFeedLikeByFeed_Id(feedId);
     }
 
 }

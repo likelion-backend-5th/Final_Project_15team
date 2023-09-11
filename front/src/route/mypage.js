@@ -37,7 +37,7 @@ let TopWrap = styled.div`
   padding: 1.2rem;
 `;
 
-function Mypage() {
+function Mypage(props) {
   let navigate = useNavigate();
   const [follower] = useState(11);
   const [following] = useState(9);
@@ -58,7 +58,7 @@ function Mypage() {
 
   return (
     <>
-      <Appbars />
+      <Appbars username={props.username} setUsername={props.setUsername} />
       <WholeWrap>
         <Paper elevation={3} style={{ padding: "0.8rem", margin: "0.8rem" }}>
           <TopWrap>
@@ -69,8 +69,7 @@ function Mypage() {
                   <IconButton
                     onClick={() => {
                       navigate("/follower");
-                    }}
-                  >
+                    }}>
                     팔로워
                   </IconButton>
                 </th>
@@ -79,8 +78,7 @@ function Mypage() {
                   <IconButton
                     onClick={() => {
                       navigate("/following");
-                    }}
-                  >
+                    }}>
                     팔로잉
                   </IconButton>
                 </th>
@@ -89,8 +87,7 @@ function Mypage() {
                   <IconButton
                     onClick={() => {
                       navigate("/scrap");
-                    }}
-                  >
+                    }}>
                     스크랩
                   </IconButton>
                 </th>
@@ -111,8 +108,7 @@ function Mypage() {
               onClick={() => {
                 navigate("/mypageset");
               }}
-              color="inherit"
-            >
+              color="inherit">
               <SettingsIcon></SettingsIcon>
             </IconButton>
           </TopWrap>
@@ -123,23 +119,20 @@ function Mypage() {
                 "& > :not(style)": {
                   m: 1,
                 },
-              }}
-            >
+              }}>
               <List
                 sx={{
                   width: "100%",
                   // maxWidth: 360,
                   bgcolor: "background.paper",
-                }}
-              >
+                }}>
                 {data.map(function (i, b) {
                   return (
                     <>
                       <Button
                         onClick={() => {
                           navigate("/feeddetail/" + i.id);
-                        }}
-                      >
+                        }}>
                         <ListItem alignItems="flex-start">
                           <ListItemText primary={i.title} />
                         </ListItem>

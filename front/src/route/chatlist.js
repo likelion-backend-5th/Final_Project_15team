@@ -46,7 +46,7 @@ let TopWrap = styled.div`
 let Icons = styled.div``;
 let ContentWrap = styled.div``;
 
-function ChatList() {
+function ChatList(props) {
   let navigate = useNavigate();
   let [data, setData] = useState([]);
   const [imgUrl, setImgUrl] = useState();
@@ -100,7 +100,7 @@ function ChatList() {
   };
   return (
     <>
-      <Appbars />
+      <Appbars username={props.username} setUsername={props.setUsername} />
       <WholeWrap>
         <Box style={{ display: "flex" }}>
           <Paper

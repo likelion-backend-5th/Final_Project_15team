@@ -60,7 +60,7 @@ let Contents = styled.div`
   margin: 0.5rem;
 `;
 
-function Feeddetail() {
+function Feeddetail(props) {
   let navigate = useNavigate();
   const [like, setLike] = useState(false);
   const likes = 10;
@@ -115,7 +115,7 @@ function Feeddetail() {
   };
   return (
     <>
-      <Appbars></Appbars>
+      <Appbars username={props.username} setUsername={props.setUsername} />
       <Box
         sx={{
           margin: "auto",

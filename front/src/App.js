@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 import Login from "./route/login.js";
 import Register from "./route/register.js";
@@ -20,25 +21,95 @@ import SearchPage from "./route/searchpage.js";
 import Following from "./route/following.js";
 
 function App() {
+  const [username, setUsername] = useState();
   return (
     <>
       <Routes>
-        <Route path="/" element={<Mainpage />} />
+        <Route
+          path="/"
+          element={<Mainpage username={username} setUsername={setUsername} />}
+        />
         <Route path="/login" element={<Login></Login>} />
         <Route path="/register" element={<Register></Register>} />
-        <Route path="/mypage" element={<Mypage></Mypage>} />
-        <Route path="/mypageset" element={<MypageSet></MypageSet>} />
-        <Route path="/follower" element={<Follower></Follower>} />
-        <Route path="/following" element={<Following></Following>} />
-        <Route path="/scrap" element={<Scrap></Scrap>} />
-        <Route path="/scrapview" element={<ScrapView></ScrapView>} />
-        <Route path="/chatlist" element={<ChatList></ChatList>} />
-        <Route path="/chatdelete" element={<ChatDelete></ChatDelete>} />
-        <Route path="/chatpage/:id" element={<ChatPage></ChatPage>} />
-        <Route path="/feeddetail/:id" element={<FeedDetail></FeedDetail>} />
-        <Route path="/createfeed" element={<CreateFeed></CreateFeed>} />
-        <Route path="/updatefeed/:id" element={<UpdateFeed></UpdateFeed>} />
-        <Route path="/searchpage" element={<SearchPage></SearchPage>} />
+        {username ? (
+          <>
+            {" "}
+            <Route
+              path="/mypage"
+              element={<Mypage username={username} setUsername={setUsername} />}
+            />
+            <Route
+              path="/mypageset"
+              element={
+                <MypageSet username={username} setUsername={setUsername} />
+              }
+            />
+            <Route
+              path="/follower"
+              element={
+                <Follower username={username} setUsername={setUsername} />
+              }
+            />
+            <Route
+              path="/following"
+              element={
+                <Following username={username} setUsername={setUsername} />
+              }
+            />
+            <Route
+              path="/scrap"
+              element={<Scrap username={username} setUsername={setUsername} />}
+            />
+            <Route
+              path="/scrapview"
+              element={
+                <ScrapView username={username} setUsername={setUsername} />
+              }
+            />
+            <Route
+              path="/chatlist"
+              element={
+                <ChatList username={username} setUsername={setUsername} />
+              }
+            />
+            <Route
+              path="/chatdelete"
+              element={
+                <ChatDelete username={username} setUsername={setUsername} />
+              }
+            />
+            <Route
+              path="/chatpage/:id"
+              element={
+                <ChatPage username={username} setUsername={setUsername} />
+              }
+            />
+            <Route
+              path="/feeddetail/:id"
+              element={
+                <FeedDetail username={username} setUsername={setUsername} />
+              }
+            />
+            <Route
+              path="/createfeed"
+              element={
+                <CreateFeed username={username} setUsername={setUsername} />
+              }
+            />
+            <Route
+              path="/updatefeed/:id"
+              element={
+                <UpdateFeed username={username} setUsername={setUsername} />
+              }
+            />
+            <Route
+              path="/searchpage"
+              element={
+                <SearchPage username={username} setUsername={setUsername} />
+              }
+            />
+          </>
+        ) : null}
       </Routes>
     </>
   );

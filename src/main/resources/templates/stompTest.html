@@ -22,8 +22,9 @@
     <div id="chat-messages"></div>
     <input type="text" id="message-input" placeholder="Type a message...">
     <button id="send-button">Send</button>
-    <button id="connect-button">connect</button>
     <button id="disconnect-button">disconnect</button>
+    <input type="file" id="fileInput">
+    <button id="upload-button" onclick="uploadFile()">Upload</button>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
@@ -45,6 +46,14 @@
     let sendButton = document.getElementById('send-button');
     // let connectButton = document.getElementById('connect-button');
     let disconnectButton = document.getElementById('disconnect-button');
+    let fileInput = document.getElementById('fileInput');
+    let uploadButton = document.getElementById('upload-button');
+
+
+    // 받아온 토큰 값
+    // const token = "";
+    //
+    let headers = {Authorization: sessionStorage.getItem('access_token')};
 
     // SockJS를 사용하여 /ws/chat 엔드포인트로 WebSocket 연결을 설정하고, 이 연결을 이용하여 서버와의 통신을 초기화
     let socket = new SockJS('/ws/chat');
@@ -52,26 +61,18 @@
 
     // 드가자마자 연결
     const connectCallback = (frame) => {
-        console.log('STOMP 연결이 열렸습니다.');
+        console.log('STOMP 연결 성공.');
         console.log(roomId);
         onConnected();
     };
 
-    // onConnected - connect 콜백 함수
-    stompClient.connect({}, connectCallback);
+    // 토큰을 포함한 헤더 객체 설정
+    // const headers = {
+    //     Authorization: `Bearer ${token}` // 토큰을 "Bearer" 스타일로 포함
+    // };
 
-    // function connect(event){
-    //     // 연결하고자하는 Socket 의 endPoint
-    //     let socket = new SockJS('/ws/chat');
-    //     stompClient = Stomp.over(socket);
-    //     console.log('STOMP 연결이 열렸습니다.');
-    //     console.log(roomId);
-    //
-    //     // onConnected - connect 콜백 함수
-    //     stompClient.connect({},onConnected);
-    //
-    //     event.preventDefault();
-    // }
+    // onConnected - connect 콜백 함수
+    stompClient.connect(headers, connectCallback);
 
     function onConnected() {
         // sub 할 url => /sub/chat/room/roomId 로 구독한다
@@ -80,7 +81,7 @@
 
         // /pub/chat/enterUser 로 Json 형태의 메시지를 보냄
         stompClient.send("/app/chat/enter",
-            {},
+            headers,
             JSON.stringify({
                 "roomId": roomId,
                 sender: "testuser",
@@ -123,28 +124,46 @@
                 type: 'TALK'
             };
 
-            stompClient.send("/app/chat/message", {}, JSON.stringify(chatMessage));
+            stompClient.send("/app/chat/message", headers, JSON.stringify(chatMessage));
             messageInput.value = '';
         }
     }
 
     function disconnect() {
-        // 연결 종료 코드와 이유를 지정하여 연결을 끊음
-        socket.close(1000, '사용자가 나감');
+        stompClient.unsubscribe('/topic/chat/room/enter/' + roomId, msgRecv);
         stompClient.send("/app/chat/exit",
-            {},
+            headers,
             JSON.stringify({
                 "roomId": roomId,
                 sender: "testuser",
                 type: 'EXIT'
             })
         )
+        // 연결 종료 코드와 이유를 지정하여 연결을 끊음
+        socket.close(1000, '사용자가 나감');
+    }
+
+
+    // 서버로 이미지 URL 전송
+
+    function sendImage() {
+        let url = 'http://localhost:8080/static/message/1694092894473_New Piskel (5).png'; // 생성된 이미지 URL
+        // 이미지 엘리먼트를 생성하고 URL을 설정
+        const imageElement = document.createElement('img');
+        imageElement.src = url;
+
+        // 이미지를 채팅 영역에 추가
+        chatMessages.appendChild(imageElement);
+
+        // 서버로 이미지 URL 전송
+        stompClient.send("/app/chat/sendImage", headers, url);
     }
 
 
     // '나가기' 버튼을 클릭하면 연결을 끊기
     disconnectButton.addEventListener('click', disconnect);
     // connectButton.addEventListener('click', connect, true)
+    uploadButton.addEventListener('click', sendImage);
     sendButton.addEventListener('click', sendMessage);
     messageInput.addEventListener('keyup', function (event) {
         if (event.key === 'Enter') {
