@@ -8,7 +8,7 @@ import com.example.Final_Project_mutso.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -102,13 +102,14 @@ public class FeedService {
     }
 
     //좋아요 기능
-    public void likeFeed(Long feedId) {
+    public ResponseEntity<String> likeFeed(Long feedId) {
         Feed feed = feedRepository.findById(feedId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
 
         UserEntity loginedUser = authFacade.getUser();
 
-        if(feedLikeRepository.findByUserId(loginedUser.getId()) == null){
+        Optional<FeedLike> feedLike = feedLikeRepository.findByUserId(loginedUser.getId());
+        if(feedLike.isEmpty()){
             FeedLike likes = FeedLike.builder()
                     .user(loginedUser)
                     .feed(feed)
@@ -116,18 +117,19 @@ public class FeedService {
 
             feed.addLikes(likes);
             feedRepository.save(feed);
+            return ResponseEntity.ok("좋아요가 반영되었습니다.");
         }
         else {
-            FeedLike like = feedLikeRepository.findByUserId(loginedUser.getId());
-            feedLikeRepository.delete(like);
+            feedLikeRepository.delete(feedLike.get());
+            return ResponseEntity.ok("좋아요가 취소되었습니다.");
         }
 
-        FeedLike likes = FeedLike.builder()
-                .feed(feed)
-                .build();
-
-        feed.addLikes(likes);
-        feedRepository.save(feed);
+//        FeedLike likes = FeedLike.builder()
+//                .feed(feed)
+//                .build();
+//
+//        feed.addLikes(likes);
+//        feedRepository.save(feed);
 
     }
 

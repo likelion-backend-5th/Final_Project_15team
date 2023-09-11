@@ -100,8 +100,7 @@ public class FeedController {
                 @PathVariable("feedId") Long feedId,
                 Authentication authentication
     ) {
-            feedService.likeFeed(feedId);
-            return ResponseEntity.ok("좋아요가 반영되었습니다.");
+            return feedService.likeFeed(feedId);
         }
 
     @GetMapping("/{feedId}/like")// 좋아요 개수

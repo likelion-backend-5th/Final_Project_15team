@@ -97,7 +97,7 @@ public class CommentService {
 
         UserEntity loginedUser = authFacade.getUser();
 
-        if (comment.getUser().equals(loginedUser)) {
+        if (comment.getUser().getId().equals(loginedUser.getId())) {
             comment.setContent(dto.getContent());
             CommentDto.fromEntity(commentRepository.save(comment));
             ResponseDto response = new ResponseDto();
@@ -127,7 +127,7 @@ public class CommentService {
 
         UserEntity loginedUser = authFacade.getUser();
 
-        if (comment.getUser().equals(loginedUser)) {
+        if (comment.getUser().getId().equals(loginedUser.getId())) {
             commentRepository.deleteById(commentId);
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
