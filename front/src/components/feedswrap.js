@@ -65,6 +65,7 @@ export default function Feedswrap() {
   const likes = 10;
   const [data, setData] = useState([]);
   const [rerender, setRerender] = useState();
+  const [hashtag, setHashtag] = useState([]);
   // const navToDetail = (id) => {
   //   navigate("/feeddetail/" + id);
   // };
@@ -159,7 +160,11 @@ export default function Feedswrap() {
                     </LCwrap>
                     <Title>{i.title}</Title>
                     <Contents>{i.content}</Contents>
-                    <HashTag>{i.hashtag}</HashTag>
+                    <HashTag>
+                      {i.hashtag.map((a, b) => {
+                        return <div>{a.tagName}</div>;
+                      })}
+                    </HashTag>
                     {commentIndex.includes(b) ? (
                       <>
                         <Comments
