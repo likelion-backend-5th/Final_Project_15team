@@ -17,9 +17,9 @@ public class Comment extends CommentDto {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private UserEntity user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     private String content;
 

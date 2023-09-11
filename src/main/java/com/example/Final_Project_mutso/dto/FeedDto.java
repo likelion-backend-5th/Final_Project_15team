@@ -16,16 +16,16 @@ public class FeedDto {
     private String content;
     private LocalDateTime dateTime;
     private List<FeedHashtagDto> hashtag;
-//    private String file;
     private List<CommentDto> comments;
     private String fileUrl;
 //    private List<FeedImage> image;
 //    private List<FeedVideo> video;
-//    private UserEntity user;
+    private String user;
 
 
     public static FeedDto fromEntity(Feed feed) {
         FeedDto feedDto = new FeedDto();
+        feedDto.setUser(feed.getUser().getNickname());
         feedDto.setId(feed.getId());
         feedDto.setTitle(feed.getTitle());
         feedDto.setContent(feed.getContent());
