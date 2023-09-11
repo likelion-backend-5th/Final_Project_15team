@@ -30,22 +30,22 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         authHttp -> authHttp
-                                .requestMatchers(
-                                        HttpMethod.GET,
-                                        "/",
-                                        "/chat",
-                                        "/users",
-                                        "/feed/*",
-                                        "/feed/*/comments",
-                                        "/youtube"
-                                )
-                                .permitAll()
+//                                .requestMatchers(
+//                                        HttpMethod.GET,
+//                                        "/",
+//                                        "/chat",
+//                                        "/users",
+//                                        "/feed/*",
+//                                        "/feed/*/comments",
+//                                        "/youtube"
+//                                )
+//                                .permitAll()
                                 .requestMatchers(
                                         "/users/login",
                                         "/users/register",
                                         "/static/**",
                                         "/error"
-//                                        ,"/**"
+                                        ,"/**"
                                 )
                                 .permitAll()
                                 .anyRequest()
