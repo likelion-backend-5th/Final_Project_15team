@@ -118,7 +118,7 @@ function Appbars(props) {
                 onClick={() => {
                   navigate("/login");
                 }}>
-                Login
+                로그인
               </Button>
             </div>
           )}
