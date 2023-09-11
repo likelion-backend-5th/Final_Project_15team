@@ -8,7 +8,8 @@ import { Button, Grid, TextField, Box, Paper } from "@mui/material";
 import Appbars from "../components/appbars";
 
 let WholeWrap = styled.div`
-  margin: 2rem;
+  margin: auto;
+  max-width: 1000px;
 `;
 
 let TopWrap = styled.div`
@@ -111,10 +112,13 @@ function MypageSet(props) {
         username={props.username}
         setUsername={props.setUsername}></Appbars>
       <WholeWrap>
-        <Box style={{ display: "flex" }}>
+        <Box style={{ marginTop: "1.2rem", display: "flex" }}>
           <Paper
             elevation={3}
-            style={{ width: "50%", margin: "1.2rem", marginRight: "0.4rem" }}>
+            style={{
+              marginRight: "0.4rem",
+              margin: "auto",
+            }}>
             <TopWrap>프로필 편집</TopWrap>
             <ProfileWrap>
               <ProfileImg>

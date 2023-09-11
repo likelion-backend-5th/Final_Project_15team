@@ -115,6 +115,7 @@ function CreateFeed(props) {
                   variant="standard"
                   value={title}
                   onChange={OCTitle}
+                  sx={{ width: 400 }}
                 />
               </TitleWrap>
               <ContentWrap>
@@ -126,6 +127,7 @@ function CreateFeed(props) {
                   variant="standard"
                   value={content}
                   onChange={OCContent}
+                  sx={{ width: 400 }}
                 />
               </ContentWrap>
               <TitleWrap>
@@ -137,6 +139,7 @@ function CreateFeed(props) {
                   variant="standard"
                   value={hashtag}
                   onChange={OCHashtag}
+                  sx={{ width: 400 }}
                 />
               </TitleWrap>
               <BottomWrap>

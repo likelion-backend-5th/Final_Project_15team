@@ -26,6 +26,17 @@ function Music() {
   const [loop, setLoop] = useState(false);
   const [previous, setPrevious] = useState();
   const [next, setNext] = useState();
+  const [modal, setModal] = useState();
+
+  const _onEnd = (event) => {
+    // 음악이 종료되면 반복 재생 상태를 확인하고 다시 재생
+    if (loop) {
+      event.target.playVideo();
+    } else {
+      // 반복 재생 상태가 아니면 다음 비디오를 재생하거나 종료
+      _playNext(next);
+    }
+  };
 
   const _playNext = (player) => {
     player.nextVideo();
@@ -78,6 +89,14 @@ function Music() {
     playerVars: { autoplay: 1 },
   };
 
+  const searchModal = () => {
+    if (modal) {
+      setModal(false);
+    } else {
+      setModal(true);
+    }
+  };
+
   return (
     <>
       <YouTube
@@ -98,19 +117,23 @@ function Music() {
           setOnStateChange(e);
           setVolumeControl(e.target);
         }}
+        onEnd={(e) => {
+          _onEnd(e);
+        }}
       />
       <Card
         sx={{
           display: "flex",
           background: "transparent",
           color: "white",
-          backgroundColor: "#003a88",
+          backgroundColor: "#6C85BD",
           borderRadius: "1rem",
           padding: "0.8rem",
           margin: "auto",
           marginBottom: "0.4rem",
-          width: 500,
+          width: 1300,
         }}>
+        <button onClick={searchModal}>검색</button>
         <Box
           sx={{
             display: "flex",
@@ -155,7 +178,7 @@ function Music() {
               {loop ? (
                 <AllInclusiveIcon sx={{ color: "white" }} />
               ) : (
-                <AllInclusiveIcon sx={{ color: "grey" }} />
+                <AllInclusiveIcon sx={{ color: " #AED3E3" }} />
               )}
             </IconButton>
           </Box>
@@ -188,18 +211,21 @@ function Music() {
         <CardMedia
           component="img"
           sx={{
-            width: 210,
-            height: 210,
+            width: 150,
+            height: 150,
             background: "black",
             borderRadius: "1rem",
             margin: "auto",
           }}
           image={coverImg ? coverImg : null}
-          alt="앨범커버"
+          alt=""
         />
       </Card>
-
-      <MusicSearch setVideoId={setVideoId} setCoverImg={setCoverImg} />
+      {modal ? (
+        <div>
+          <MusicSearch setVideoId={setVideoId} setCoverImg={setCoverImg} />
+        </div>
+      ) : null}
     </>
   );
 }

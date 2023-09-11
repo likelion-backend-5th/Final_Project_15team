@@ -36,10 +36,9 @@ export default function Searchbox() {
           p: "2px 4px",
           display: "flex",
           alignItems: "center",
-          width: 800,
+          maxWidth: 700,
           margin: "auto",
-        }}
-      >
+        }}>
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           placeholder="검색어를 입력해주세요"
@@ -56,16 +55,14 @@ export default function Searchbox() {
           alignItems: "center",
           margin: "auto",
           marginTop: "0.4rem",
-        }}
-      >
+        }}>
         {search
           ? searched.map((i) => {
               return (
                 <Button
                   onClick={() => {
                     navigate("/feeddetail/" + i.id);
-                  }}
-                >
+                  }}>
                   <Paper
                     sx={{
                       p: "2px 4px",
@@ -73,8 +70,7 @@ export default function Searchbox() {
                       margin: "auto",
                       marginTop: "0.4rem",
                       padding: 1,
-                    }}
-                  >
+                    }}>
                     {i.title}
                   </Paper>
                 </Button>

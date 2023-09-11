@@ -9,15 +9,8 @@ import Searchbox from "../components/searchbox.js";
 import Feedswrap from "../components/feedswrap.js";
 import Music from "../components/music.js";
 
-let CenterBox = styled.div`
-  text-align: center;
-`;
-
 let MainWrap = styled.div`
-  // max-width: 1300px;
   margin: auto;
-  // background: #00457e;
-  // background: #bbd2ec;
   padding: 1rem;
 `;
 
@@ -51,12 +44,12 @@ function Mainpage(props) {
         username={props.username}
         setUsername={props.setUsername}></Appbars>
       <MainWrap>
-        <div style={{ maxWidth: 800 }}>
-          <CenterBox>
-            <Searchbox></Searchbox>
-            <Music />
-          </CenterBox>
-          <Feedswrap></Feedswrap>
+        <div style={{ margin: "auto" }}>
+          <Searchbox />
+          <Feedswrap />
+        </div>
+        <div style={{ margin: "auto", textAlign: "center" }}>
+          <Music />
         </div>
       </MainWrap>
     </>

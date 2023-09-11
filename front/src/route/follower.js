@@ -39,14 +39,14 @@ function Follows(props) {
   return (
     <>
       <Appbars username={props.username} setUsername={props.setUsername} />
-      <Box style={{ display: "flex" }}>
+      <Box style={{ display: "flex", marginTop: "1.2rem" }}>
         <Paper
           elevation={3}
           style={{
-            margin: "0.8rem",
             padding: "0.8rem",
             width: "100%",
             maxWidth: "50rem",
+            margin: "auto",
           }}>
           <Title>팔로워</Title>
           <List sx={{ width: "100%", bgcolor: "background.paper" }}>

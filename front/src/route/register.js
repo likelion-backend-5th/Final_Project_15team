@@ -137,12 +137,12 @@ export default function Register() {
                   value={id}
                   onChange={OCId}
                 />
-                <Button
+                {/* <Button
                   variant="contained"
                   type="button"
                   style={{ float: "right", marginTop: "0.4rem" }}>
                   중복확인
-                </Button>
+                </Button> */}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -155,12 +155,12 @@ export default function Register() {
                   value={nickname}
                   onChange={OCNickname}
                 />
-                <Button
+                {/* <Button
                   variant="contained"
                   type="button"
                   style={{ float: "right", marginTop: "0.4rem" }}>
                   중복확인
-                </Button>
+                </Button> */}
               </Grid>
               <Grid item xs={12}>
                 <TextField
