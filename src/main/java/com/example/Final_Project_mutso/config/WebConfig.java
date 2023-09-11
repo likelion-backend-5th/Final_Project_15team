@@ -18,8 +18,8 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     // js 파일 연결
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
+    }
 }
