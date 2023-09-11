@@ -68,8 +68,8 @@ public class FeedController {
     public void update(
             @PathVariable("feedId") Long feedId,  // URL의 ID
             @RequestPart("dto") FeedDto dto,  // HTTP Request Body
-            @RequestPart("file") MultipartFile file,
-            Authentication authentication
+            @RequestPart("file") MultipartFile file
+//            Authentication authentication
     ) {
 //        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 //        UserEntity loginedUser = userService.readUser(userDetails.getName());
