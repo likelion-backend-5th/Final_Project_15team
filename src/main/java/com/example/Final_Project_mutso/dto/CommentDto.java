@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class CommentDto {
-//    private UserEntity user;
+    private UserEntity user;
     private Long id;
     private String content;
 

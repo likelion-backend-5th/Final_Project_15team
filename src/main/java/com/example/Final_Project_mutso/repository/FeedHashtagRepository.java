@@ -12,4 +12,6 @@ public interface FeedHashtagRepository
         extends JpaRepository<FeedHashtag, Long> {
 
     List<FeedHashtag> findAllByHashtag(Hashtag hashtag);
+
+    FeedHashtag deleteFeedHashtagsByFeed_Id(Long id);
 }

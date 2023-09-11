@@ -3,22 +3,26 @@ package com.example.Final_Project_mutso.controller;
 
 import com.example.Final_Project_mutso.dto.FeedDto;
 import com.example.Final_Project_mutso.dto.FeedListDto;
+import com.example.Final_Project_mutso.entity.CustomUserDetails;
+import com.example.Final_Project_mutso.entity.Feed;
+import com.example.Final_Project_mutso.entity.UserEntity;
+import com.example.Final_Project_mutso.jwt.AuthenticationFacade;
 import com.example.Final_Project_mutso.repository.FeedRepository;
+import com.example.Final_Project_mutso.repository.UserRepository;
 import com.example.Final_Project_mutso.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @Slf4j
@@ -32,6 +36,9 @@ public class FeedController {
     private final FeedService feedService;
     private final FileService fileService;
     private final HashtagService hashtagService;
+    private final FeedHashtagService feedHashtagService;
+    private final AuthenticationFacade authFacade;
+    private final FeedRepository feedRepository;
 
 
     @GetMapping
@@ -45,12 +52,9 @@ public class FeedController {
     public void create(
             @RequestPart(value = "dto") FeedDto dto,
             @RequestPart(value = "tags") String tags,
-            @RequestPart(value = "file") MultipartFile file,
-            Authentication authentication
+            @RequestPart(value = "file") MultipartFile file
     ){
-//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-//        UserEntity loginedUser = userService.readUser(userDetails.getName());
-        feedService.createFeed(dto, tags, file/*, loginedUser*/);
+        feedService.createFeed(dto, tags, file);
     }
 
 
@@ -68,41 +72,46 @@ public class FeedController {
     public void update(
             @PathVariable("feedId") Long feedId,  // URL의 ID
             @RequestPart("dto") FeedDto dto,  // HTTP Request Body
-            @RequestPart("file") MultipartFile file,
-            Authentication authentication
+            @RequestPart(value = "tags") String tags,
+            @RequestPart("file") MultipartFile file
     ) {
-//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-//        UserEntity loginedUser = userService.readUser(userDetails.getName());
-//        Feed feed = feedRepository.findByFeedId(feedId);
-//        if(loginedUser.equals(feed.getUser()))
-        feedService.updateFeed(feedId, dto);
-        fileService.updateFile(feedId, file);
+        UserEntity loginedUser = authFacade.getUser();
+        Optional<Feed> feed = feedRepository.findById(feedId);
+        if(loginedUser.getId().equals(feed.get().getUser().getId())){
+//            feedHashtagService.deleteFeedHashtag(feedId);
+//            feedHashtagService.createFeedHashtag(feed.get(), tags);
+            fileService.deleteFile(feedId);
+//            fileService.updateFile(feedId, file);
+            feedService.updateFeed(feedId, dto);
+
+        }
+
     }
 
 
 
     @DeleteMapping("/{feedId}")//삭제
     public void delete(
-            @PathVariable("feedId") Long feedId,
-            Authentication authentication
+            @PathVariable("feedId") Long feedId
     ) {
-//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-//        UserEntity loginedUser = userService.readUser(userDetails.getName());
-//        Feed feed = feedRepository.findByFeedId(feedId);
-//        if(loginedUser.equals(feed.getUser()))
-        fileService.deleteFile(feedId);
-        feedService.deleteFeed(feedId);
-//        return "redirect:/feed";
+        UserEntity loginedUser = authFacade.getUser();
+        Optional<Feed> feed = feedRepository.findById(feedId);
+        System.out.println(loginedUser.getName());
+        System.out.println(feed.get().getUser().getName());
+        if(loginedUser.getId().equals(feed.get().getUser().getId())){
+            fileService.deleteFile(feedId);
+            feedService.deleteFeed(feedId);
+//            feedHashtagService.deleteFeedHashtag(feedId);
+        }
+
     }
 
     @PostMapping("/{feedId}/like")// 좋아요 클릭
     public ResponseEntity<String> likeFeed(
-            @PathVariable("feedId") Long feedId,
-            Authentication authentication
+            @PathVariable("feedId") Long feedId
     ) {
-//        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-//        UserEntity loginedUser = userService.readUser(userDetails.getName());
-        feedService.likeFeed(feedId/*,loginedUser*/);
+        UserEntity loginedUser = authFacade.getUser();
+        feedService.likeFeed(feedId,loginedUser);
         return ResponseEntity.ok("좋아요가 반영되었습니다.");
     }
 
