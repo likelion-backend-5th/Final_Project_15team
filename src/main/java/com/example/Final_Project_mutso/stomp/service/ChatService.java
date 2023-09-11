@@ -50,7 +50,8 @@ public class ChatService {
 
     // 채팅방 생성하기
     public ChatRoomDto createChatRoom(ChatRoomDto chatRoomDto, MultipartFile file) throws IOException {
-        UserEntity user = authFacade.getUser();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findAllByUsername(username);
 
         String profileDir = "back/chatRoom/";
         try {
@@ -72,11 +73,15 @@ public class ChatService {
         ChattingRoom chattingRoom = new ChattingRoom();
         chattingRoom.setRoomName(chatRoomDto.getRoomName());
         chattingRoom.setImageUrl(imageUrl);
+        chattingRoom.setUser(user);
         return ChatRoomDto.fromEntity(chatRoomRepository.save(chattingRoom));
     }
 
     // 파일 업로드 (받아오 저장 후 url 생성)
     public ChatMessageDto uploadFile(MultipartFile file, ChatMessageDto dto) throws IOException {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findAllByUsername(username);
+
         String profileDir = "back/message/";
         try {
             Files.createDirectories(Path.of(profileDir));
@@ -95,6 +100,7 @@ public class ChatService {
 
         ChatMessage message = new ChatMessage();
         message.setFileUrl(imageUrl);
+        message.setUser(user);
         return ChatMessageDto.fromEntity(message);
     }
 

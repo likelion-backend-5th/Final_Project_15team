@@ -29,7 +29,8 @@ public class WebSecurityConfig {
                                         "/users/login",
                                         "/users/register",
                                         "/static/**",
-                                        "/**"
+                                        "/error"
+//                                        ,"/**"
                                 )
                                 .permitAll()
                                 .anyRequest()

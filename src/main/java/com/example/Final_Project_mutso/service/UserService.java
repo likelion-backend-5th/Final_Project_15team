@@ -2,10 +2,7 @@ package com.example.Final_Project_mutso.service;
 
 
 import com.example.Final_Project_mutso.dto.*;
-import com.example.Final_Project_mutso.entity.Feed;
-import com.example.Final_Project_mutso.entity.Follow;
-import com.example.Final_Project_mutso.entity.Scrap;
-import com.example.Final_Project_mutso.entity.UserEntity;
+import com.example.Final_Project_mutso.entity.*;
 
 import com.example.Final_Project_mutso.jwt.AuthenticationFacade;
 import com.example.Final_Project_mutso.jwt.JwtTokenUtils;
