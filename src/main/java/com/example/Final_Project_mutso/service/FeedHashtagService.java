@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -53,8 +54,9 @@ public class FeedHashtagService {
 
     public void deleteFeedHashtag(Long feedId) {
         Optional<Feed> optionalFeed = feedRepository.findById(feedId);
-        if (optionalFeed.isPresent()) {
-            feedHashtagRepository.deleteFeedHashtagsByFeed_Id(feedId);
+        List<FeedHashtag> list = feedHashtagRepository.findAllByFeed_Id(feedId);
+        for (FeedHashtag feedHashtag : list) {
+            feedHashtagRepository.deleteById(feedHashtag.getId());
         }
     }
 }

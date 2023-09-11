@@ -5,6 +5,8 @@ import com.example.Final_Project_mutso.dto.CommentDto;
 import com.example.Final_Project_mutso.dto.ResponseDto;
 import com.example.Final_Project_mutso.entity.Comment;
 import com.example.Final_Project_mutso.entity.Feed;
+import com.example.Final_Project_mutso.entity.UserEntity;
+import com.example.Final_Project_mutso.jwt.AuthenticationFacade;
 import com.example.Final_Project_mutso.repository.CommentRepository;
 import com.example.Final_Project_mutso.repository.FeedRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ import java.util.Optional;
 public class CommentService {
     private final FeedRepository feedRepository;
     private final CommentRepository commentRepository;
+    private final AuthenticationFacade authFacade;
 
 
     public void createComment(Long feedId, CommentDto dto) {
@@ -36,8 +39,10 @@ public class CommentService {
 
         Optional<Feed> optionalFeed
                 = feedRepository.findById(feedId);
+        UserEntity loginedUser = authFacade.getUser();
         Feed feed = optionalFeed.get();
         Comment comment = new Comment();
+        comment.setUser(loginedUser);
         comment.setFeed(feed);
         comment.setContent(dto.getContent());
         commentRepository.save(comment);
@@ -90,11 +95,16 @@ public class CommentService {
         if (!feedId.equals(comment.getFeed().getId()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
-        comment.setContent(dto.getContent());
-        CommentDto.fromEntity(commentRepository.save(comment));
-        ResponseDto response = new ResponseDto();
-        response.setMessage("댓글이 수정되었습니다.");
-        return response;
+        UserEntity loginedUser = authFacade.getUser();
+
+        if (comment.getUser().equals(loginedUser)) {
+            comment.setContent(dto.getContent());
+            CommentDto.fromEntity(commentRepository.save(comment));
+            ResponseDto response = new ResponseDto();
+            response.setMessage("댓글이 수정되었습니다.");
+            return response;
+        } else throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+
     }
 
     public void deleteComment(Long feedId, Long commentId) {
@@ -115,7 +125,11 @@ public class CommentService {
         if (!feedId.equals(comment.getFeed().getId()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 
-        commentRepository.deleteById(commentId);
+        UserEntity loginedUser = authFacade.getUser();
+
+        if (comment.getUser().equals(loginedUser)) {
+            commentRepository.deleteById(commentId);
+        } else throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
     }
 

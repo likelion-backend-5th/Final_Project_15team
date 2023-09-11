@@ -102,9 +102,11 @@ public class FeedService {
     }
 
     //좋아요 기능
-    public void likeFeed(Long feedId, UserEntity loginedUser) {
+    public void likeFeed(Long feedId) {
         Feed feed = feedRepository.findById(feedId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
+
+        UserEntity loginedUser = authFacade.getUser();
 
         if(feedLikeRepository.findByUserId(loginedUser.getId()) == null){
             FeedLike likes = FeedLike.builder()
