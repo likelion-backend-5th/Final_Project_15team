@@ -138,12 +138,7 @@ public class UserController {
             @RequestParam("introduction") String introduction
     ) throws IOException {
 
-        jpaUserDetailsManager.ImageUpload(avatarImage);
-        UserEntity userEntity = new UserEntity();
-        userEntity.setNickname(nickname);
-        userEntity.setIntroduction(introduction);
-        userRepository.save(userEntity);
-
+        jpaUserDetailsManager.ImageUpload(avatarImage, nickname, introduction);
         Map<String, String> responseBody = new HashMap<>();
         responseBody.put("message", "이미지가 등록되었습니다.");
 
