@@ -37,7 +37,7 @@ public class FeedController {
     private final FeedRepository feedRepository;
 
     @GetMapping
-    public List<FeedListDto> getFeed() {
+    public List<FeedDto> getFeed() {
         return feedService.readFeedAll();
     }
     @PostMapping(value = "/add",
