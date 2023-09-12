@@ -13,6 +13,7 @@ public class FollowDto {
     private List<String> followingList;
     private String profileImage;
     private String nickname;
+    private String introduction;
 
     public static FollowDto fromEntity(Follow entity, UserEntity userEntity) {
         FollowDto dto = new FollowDto();
@@ -28,6 +29,7 @@ public class FollowDto {
         dto.setFollowingList(followingList);
         dto.setProfileImage(userEntity.getProfileImage());
         dto.setNickname(userEntity.getNickname());
+        dto.setIntroduction(userEntity.getIntroduction());
 
         return dto;
     }
