@@ -133,10 +133,17 @@ public class UserController {
 
     @PutMapping(value = "/mypage/profile/imgupload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, String>> updateImage(
-            @RequestParam("image") MultipartFile avatarImage
+            @RequestParam("image") MultipartFile avatarImage,
+            @RequestParam("nickname") String nickname,
+            @RequestParam("introduction") String introduction
     ) throws IOException {
 
         jpaUserDetailsManager.ImageUpload(avatarImage);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setNickname(nickname);
+        userEntity.setIntroduction(introduction);
+        userRepository.save(userEntity);
+
         Map<String, String> responseBody = new HashMap<>();
         responseBody.put("message", "이미지가 등록되었습니다.");
 

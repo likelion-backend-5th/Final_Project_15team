@@ -24,6 +24,7 @@ public class UserEntity {
     private String phonenumber;
     private String email;
     private String profileImage;
+    private String introduction;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles")
