@@ -111,13 +111,16 @@ public class JpaUserDetailsManager implements UserDetailsManager {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        String originalFilename = avatarImage.getOriginalFilename();
+        String originalFilename = System.currentTimeMillis() + "_" + avatarImage.getOriginalFilename();
         String[] fileNameSplit = originalFilename.split("\\.");
         String extension = fileNameSplit[fileNameSplit.length - 1];
+
         String profileFilename = "profile." + extension;
+
         String profilePath = profileDir + profileFilename;
         try {
             avatarImage.transferTo(Path.of(profilePath));
+
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
