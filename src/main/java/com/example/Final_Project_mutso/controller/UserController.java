@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -133,7 +134,7 @@ public class UserController {
     @PutMapping(value = "/mypage/profile/imgupload" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, String>> updateImage(
             @RequestParam("image") MultipartFile avatarImage
-    ) {
+    ) throws IOException {
 
         jpaUserDetailsManager.ImageUpload(avatarImage);
         Map<String, String> responseBody = new HashMap<>();

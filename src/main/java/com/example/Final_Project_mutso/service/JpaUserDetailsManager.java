@@ -90,7 +90,7 @@ public class JpaUserDetailsManager implements UserDetailsManager {
         throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public void ImageUpload(MultipartFile avatarImage){
+    public void ImageUpload(MultipartFile avatarImage) throws IOException {
         String username = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -103,8 +103,8 @@ public class JpaUserDetailsManager implements UserDetailsManager {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
         UserEntity userEntity = optionalUser.get();
-
-        String profileDir = String.format("media/%s/",username);
+        String profileDir = "back/profile/";
+//        String profileDir = String.format("media/%s/",username);
         try {
             Files.createDirectories(Path.of(profileDir));
         } catch (IOException e) {
@@ -112,23 +112,26 @@ public class JpaUserDetailsManager implements UserDetailsManager {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         String originalFilename = System.currentTimeMillis() + "_" + avatarImage.getOriginalFilename();
-        String[] fileNameSplit = originalFilename.split("\\.");
-        String extension = fileNameSplit[fileNameSplit.length - 1];
-
-        String profileFilename = "profile." + extension;
-
-        String profilePath = profileDir + profileFilename;
-        try {
-            avatarImage.transferTo(Path.of(profilePath));
-
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        avatarImage.transferTo(Path.of(profileDir + originalFilename));
+//        String[] fileNameSplit = originalFilename.split("\\.");
+//        String extension = fileNameSplit[fileNameSplit.length - 1];
+//
+//        String profileFilename = "profile." + extension;
+//
+//        String profilePath = profileDir + profileFilename;
+//        try {
+//            avatarImage.transferTo(Path.of(profilePath));
+//
+//        } catch (IOException e) {
+//            log.error(e.getMessage());
+//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
 
         String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/static/{username}/{profileFilename}")
-                .buildAndExpand(username, profileFilename)
+                .path("static/profile/")
+                .path(originalFilename)
+//                .path("/static/{username}/{profileFilename}")
+//                .buildAndExpand(username, profileFilename)
                 .toUriString();
         userEntity.setProfileImage(imageUrl);
         userRepository.save(userEntity);
