@@ -52,7 +52,7 @@ public class FeedController {
             feedService.createFeed(dto, tags, file);
         }
 
-    @GetMapping
+    @GetMapping("/{feedId}")
         public FeedDto read(
                 @PathVariable("feedId") Long feedId)
         {

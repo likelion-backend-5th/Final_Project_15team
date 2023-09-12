@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class FeedService {
     private final AuthenticationFacade authFacade;
     private final UserRepository userRepository;
 
-    public void createFeed(FeedDto dto, String tags, MultipartFile file) {
+    public void createFeed(FeedDto dto, String tags, MultipartFile file) throws IOException {
 
         UserEntity loginedUser = authFacade.getUser();
 
