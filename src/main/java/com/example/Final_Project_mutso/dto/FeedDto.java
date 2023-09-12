@@ -18,8 +18,6 @@ public class FeedDto {
     private List<FeedHashtagDto> hashtag;
     private List<CommentDto> comments;
     private String fileUrl;
-//    private List<FeedImage> image;
-//    private List<FeedVideo> video;
     private String user;
 
 
