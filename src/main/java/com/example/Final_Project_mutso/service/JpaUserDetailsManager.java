@@ -90,7 +90,7 @@ public class JpaUserDetailsManager implements UserDetailsManager {
         throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public void ImageUpload(MultipartFile avatarImage) throws IOException {
+    public void ImageUpload(MultipartFile avatarImage, String nickname, String introduction) throws IOException {
         String username = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -134,6 +134,8 @@ public class JpaUserDetailsManager implements UserDetailsManager {
 //                .buildAndExpand(username, profileFilename)
                 .toUriString();
         userEntity.setProfileImage(imageUrl);
+        userEntity.setNickname(nickname);
+        userEntity.setIntroduction(introduction);
         userRepository.save(userEntity);
 //        userEntity.setProfileImage(String.format("/static/%s/%s",username,profileFilename));
 //        userRepository.save(userEntity);
