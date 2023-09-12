@@ -167,5 +167,7 @@ auth bearer token 에서 토큰 입력
 - 프로필 이미지
 - Put http://localhost:8080/users/mypage/profile/imgupload
 
-auth bearer token 에서 토큰 입력 후 body form-data key: image (file) value: 파일찾기
+Params key: nickname, introduction value: 입력, auth bearer token 에서 토큰 입력, body form-data key: image (file) value: 파일찾기
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/47e32cf8-4394-41cf-b504-813ddf1cd943)
+
 ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/281fad83-bf83-4ffd-9289-43d7319b87b5)
