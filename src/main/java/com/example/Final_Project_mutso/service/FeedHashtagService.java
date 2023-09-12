@@ -4,10 +4,12 @@ import com.example.Final_Project_mutso.entity.Feed;
 import com.example.Final_Project_mutso.entity.FeedHashtag;
 import com.example.Final_Project_mutso.entity.Hashtag;
 import com.example.Final_Project_mutso.repository.FeedHashtagRepository;
+import com.example.Final_Project_mutso.repository.FeedRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -17,7 +19,7 @@ import java.util.Optional;
 public class FeedHashtagService {
 
     private final HashtagService hashtagService;
-
+    private final FeedRepository feedRepository;
     private final FeedHashtagRepository feedHashtagRepository;
 
     public void createFeedHashtag(Feed feed, String tags) {
@@ -49,4 +51,12 @@ public class FeedHashtagService {
 //        }
 //
 //    }
+
+    public void deleteFeedHashtag(Long feedId) {
+        Optional<Feed> optionalFeed = feedRepository.findById(feedId);
+        List<FeedHashtag> list = feedHashtagRepository.findAllByFeed_Id(feedId);
+        for (FeedHashtag feedHashtag : list) {
+            feedHashtagRepository.deleteById(feedHashtag.getId());
+        }
+    }
 }

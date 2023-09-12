@@ -13,10 +13,12 @@ public class FeedListDto {
     private String content;
     private List<FeedHashtagDto> hashtag;
     private String fileUrl;
+    private String user;
 
 
     public static FeedListDto fromEntity(Feed feed) {
         FeedListDto feedDto = new FeedListDto();
+        feedDto.setUser(feed.getUser().getNickname());
         feedDto.setId(feed.getId());
         feedDto.setTitle(feed.getTitle());
         feedDto.setContent(feed.getContent());

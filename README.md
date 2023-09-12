@@ -57,7 +57,7 @@
 - 해시태그 검색 : `GET/feed/hashSearch`
 - ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/72905123/7de720ee-2a05-4d0c-8885-181cbd20d5b4)
 
-- 좋아요 : `POST/{feedId}/like`
+- 좋아요/좋아요 취소 : `POST/{feedId}/like`
 - 좋아요 개수 : `GET/{feedId}/like`
 
 

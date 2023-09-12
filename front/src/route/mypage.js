@@ -20,7 +20,8 @@ import {
 import SettingsIcon from "@mui/icons-material/Settings";
 
 let WholeWrap = styled.div`
-  margin: 0.8rem;
+  margin: auto;
+  max-width: 700px;
 `;
 let ProfileImg = styled.div`
   border-radius: 2rem;
@@ -29,19 +30,19 @@ let ProfileImg = styled.div`
   height: 4rem;
 `;
 let FFS = styled.div`
-  margin-left: 8rem;
-  flex: 1;
+  text-align: center;
 `;
 let TopWrap = styled.div`
   display: flex;
   padding: 1.2rem;
+  justify-content: space-between;
 `;
 
 function Mypage(props) {
   let navigate = useNavigate();
   const [follower] = useState(11);
-  const [following] = useState(9);
-  const [scrap] = useState(13);
+  const [following, setFollowing] = useState([]);
+  const [scrap, setScrap] = useState([]);
   const [data, setData] = useState([]);
   // useEffect로 피드 데이터 불러오기
   useEffect(() => {
@@ -50,9 +51,20 @@ function Mypage(props) {
       .then((res) => {
         console.log(res.data);
         setData(res.data);
+        setScrap(res.data.length);
       })
       .catch((error) => {
         console.log(error);
+      });
+    axios
+      .get("http://localhost:8080/users/mypage/" + props.username + "/follow")
+      .then((res) => {
+        console.log(res.data);
+        setFollowing(res.data.followingList.length);
+        console.log(following);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
@@ -64,7 +76,11 @@ function Mypage(props) {
           <TopWrap>
             <ProfileImg>프사</ProfileImg>
             <FFS>
-              <tr style={{ fontSize: "1.6rem", textAlign: "center" }}>
+              <tr
+                style={{
+                  fontSize: "1.6rem",
+                  textAlign: "center",
+                }}>
                 <th>
                   <IconButton
                     onClick={() => {

@@ -10,14 +10,13 @@ import lombok.Data;
 public class CommentDto {
 //    private UserEntity user;
     private Long id;
+    private String nickname;
     private String content;
-
-//    private String nickname;
 
     public static CommentDto fromEntity(Comment comment){
         CommentDto dto = new CommentDto();
         dto.setId(comment.getId());
-//        dto.setUser(comment.getUser());
+        dto.setNickname(comment.getUser().getNickname());
         dto.setContent(comment.getContent());
         return dto;
     }

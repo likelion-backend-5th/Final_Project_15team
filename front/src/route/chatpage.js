@@ -56,6 +56,15 @@ function ChatPage(props) {
   const [rerender, setRerender] = useState();
 
   useEffect(() => {
+    axios
+      .get("http://localhost:8080/chat/rooms")
+      .then((res) => {
+        console.log(res.data[0].roomName);
+        setData(res.data[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     connect();
   }, []);
 
@@ -145,16 +154,23 @@ function ChatPage(props) {
     <>
       <Appbars username={props.username} setUsername={props.setUsername} />
       <WholeWrap>
-        <Box style={{ display: "flex" }}>
+        <Box style={{ display: "flex", marginTop: "1.2rem" }}>
           <Paper
             elevation={3}
             style={{
-              width: "50%",
-              margin: "1.2rem",
-              marginRight: "0.4rem",
+              margin: "auto",
               padding: "1.2rem",
             }}>
-            <TopWrap>{data.roomName}</TopWrap>
+            <TopWrap>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  disconnect().then(navigate("/chatlist"));
+                }}>
+                나가기
+              </Button>
+              {data.roomName}
+            </TopWrap>
             <ContentWrap>
               <div id="chat-messages"></div>
               {/* {msg.map((i, b) => {
@@ -174,13 +190,6 @@ function ChatPage(props) {
               </Button>
               <Button variant="contained" onClick={connect}>
                 접속하기
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  disconnect().then(navigate("/chatlist"));
-                }}>
-                나가기
               </Button>
             </BottomWrap>
           </Paper>

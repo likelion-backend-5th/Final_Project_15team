@@ -42,8 +42,8 @@ function Appbars(props) {
 
   let navigate = useNavigate();
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ background: "#5B61A1" }}>
+    <Box sx={{ flexGrow: 1, maxWidth: 1500, margin: "auto" }}>
+      <AppBar position="static" sx={{ background: "#90B1DB" }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -103,9 +103,8 @@ function Appbars(props) {
                   onClick={() => {
                     navigate("/mypage");
                   }}>
-                  Profile
+                  MyPage
                 </MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
