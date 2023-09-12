@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -47,11 +48,11 @@ public class FeedController {
                 @RequestPart(value = "tags") String tags,
                 @RequestPart(value = "file") MultipartFile file,
                 Authentication authentication
-    ){
+    ) throws IOException {
             feedService.createFeed(dto, tags, file);
         }
 
-
+    @GetMapping
         public FeedDto read(
                 @PathVariable("feedId") Long feedId)
         {
@@ -64,7 +65,7 @@ public class FeedController {
                 @RequestPart("tags") String tags,
                 @RequestPart("file") MultipartFile file,
                 Authentication authentication
-    ) {
+    ) throws IOException {
         UserEntity loginedUser = authFacade.getUser();
         Optional<Feed> feed = feedRepository.findById(feedId);
         if(loginedUser.getId().equals(feed.get().getUser().getId())){
