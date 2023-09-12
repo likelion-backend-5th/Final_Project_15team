@@ -74,11 +74,12 @@ public class FeedService {
 
     }
 
-    public List<FeedListDto> readFeedAll() {
-        List<FeedListDto> feedList = new ArrayList<>();
+    public List<FeedDto> readFeedAll() {
+        List<FeedDto> feedList = new ArrayList<>();
         List<Feed> feeds = feedRepository.findAll();
         for (Feed feed: feeds) {
-            FeedListDto dto = FeedListDto.fromEntity(feed);
+            FeedDto dto = FeedDto.fromEntity(feed);
+            dto.setComments(commentService.readCommentAll(feed.getId()));
             dto.setFileUrl(fileService.readFile(feed.getId()));
             feedList.add(dto);
         }
