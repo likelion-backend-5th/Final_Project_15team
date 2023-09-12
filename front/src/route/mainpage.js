@@ -7,7 +7,6 @@ import axios from "axios";
 import Appbars from "../components/appbars.js";
 import Searchbox from "../components/searchbox.js";
 import Feedswrap from "../components/feedswrap.js";
-import Music from "../components/music.js";
 
 let MainWrap = styled.div`
   margin: auto;
@@ -46,10 +45,7 @@ function Mainpage(props) {
       <MainWrap>
         <div style={{ margin: "auto" }}>
           <Searchbox />
-          <Feedswrap />
-        </div>
-        <div style={{ margin: "auto", textAlign: "center" }}>
-          <Music />
+          <Feedswrap username={props.username} />
         </div>
       </MainWrap>
     </>

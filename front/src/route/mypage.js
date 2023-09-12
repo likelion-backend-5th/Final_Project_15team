@@ -40,10 +40,11 @@ let TopWrap = styled.div`
 
 function Mypage(props) {
   let navigate = useNavigate();
-  const [follower] = useState(11);
+  // const [follower] = useState(11);
   const [following, setFollowing] = useState([]);
   const [scrap, setScrap] = useState([]);
   const [data, setData] = useState([]);
+  const [nickname, setNickname] = useState();
   // useEffect로 피드 데이터 불러오기
   useEffect(() => {
     axios
@@ -61,6 +62,7 @@ function Mypage(props) {
       .then((res) => {
         console.log(res.data);
         setFollowing(res.data.followingList.length);
+        setNickname(res.data.nickname);
         console.log(following);
       })
       .catch((err) => {
@@ -74,14 +76,25 @@ function Mypage(props) {
       <WholeWrap>
         <Paper elevation={3} style={{ padding: "0.8rem", margin: "0.8rem" }}>
           <TopWrap>
-            <ProfileImg>프사</ProfileImg>
+            <div style={{ display: "block" }}>
+              <ProfileImg>프사</ProfileImg>
+              <div
+                style={{
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "1.2rem",
+                }}>
+                {nickname}
+              </div>
+            </div>
+
             <FFS>
               <tr
                 style={{
                   fontSize: "1.6rem",
                   textAlign: "center",
                 }}>
-                <th>
+                {/* <th>
                   <IconButton
                     onClick={() => {
                       navigate("/follower");
@@ -89,7 +102,7 @@ function Mypage(props) {
                     팔로워
                   </IconButton>
                 </th>
-                <th>|</th>
+                <th>|</th> */}
                 <th>
                   <IconButton
                     onClick={() => {
@@ -104,13 +117,13 @@ function Mypage(props) {
                     onClick={() => {
                       navigate("/scrap");
                     }}>
-                    스크랩
+                    작성글
                   </IconButton>
                 </th>
               </tr>
               <tr style={{ fontSize: "1.6rem", textAlign: "center" }}>
-                <td>{follower}</td>
-                <td>|</td>
+                {/* <td>{follower}</td>
+                <td>|</td> */}
                 <td>{following}</td>
                 <td>|</td>
                 <td>{scrap}</td>
@@ -125,7 +138,7 @@ function Mypage(props) {
                 navigate("/mypageset");
               }}
               color="inherit">
-              <SettingsIcon></SettingsIcon>
+              <SettingsIcon style={{ fontSize: "4rem" }} />
             </IconButton>
           </TopWrap>
           <Paper elevation={3} style={{ padding: "0.8rem", margin: "0.8rem" }}>

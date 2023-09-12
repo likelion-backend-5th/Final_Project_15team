@@ -96,7 +96,7 @@ function MypageSet(props) {
       intro: intro,
     };
     axios
-      .post("http://localhost:8080/feed", body)
+      .post("http://localhost:8080/feed", {}, { params: body })
       .then((res) => {
         console.log(res.data);
       })
@@ -160,11 +160,6 @@ function MypageSet(props) {
                         value={nickname}
                         onChange={OCNickname}
                       />
-                      <Button
-                        variant="contained"
-                        style={{ marginTop: "0.4rem" }}>
-                        중복확인
-                      </Button>
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
@@ -179,16 +174,16 @@ function MypageSet(props) {
                       />
                     </Grid>
                   </Grid>
-                  <Button
-                    variant="contained"
-                    style={{ marginTop: "0.4rem" }}
-                    type="submit"
-                    onClick={() => {
-                      navigate("/mypage");
-                    }}>
-                    확인/저장
-                  </Button>
                 </Paper>
+                <Button
+                  variant="contained"
+                  style={{ marginTop: "0.4rem" }}
+                  type="submit"
+                  onClick={() => {
+                    navigate("/mypage");
+                  }}>
+                  확인/저장
+                </Button>
               </Box>
             </BottomWrap>
           </Paper>

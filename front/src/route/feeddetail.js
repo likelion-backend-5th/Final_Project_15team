@@ -31,6 +31,8 @@ let LCwrap = styled.div`
 
 let HashTag = styled.div`
   padding: 0.5rem;
+  color: blue;
+  margin-right: 0.6rem;
 `;
 let Title = styled.div`
   padding: 0.5rem;
@@ -69,7 +71,7 @@ function Feeddetail(props) {
   const [date, setDate] = useState();
   const [time, setTime] = useState();
   const [content, setContent] = useState();
-  const [hashtag, setHashtag] = useState();
+  const [hashtag, setHashtag] = useState([]);
   const [comment, setComment] = useState([]);
   const [viewComment, setViewComment] = useState(true);
   const { id } = useParams();
@@ -80,7 +82,7 @@ function Feeddetail(props) {
       .then((res) => {
         console.log(res.data);
         setTitle(res.data.title);
-        setNickname(res.data.nickname);
+        setNickname(res.data.user);
         setContent(res.data.content);
         setDate(res.data.date);
         setTime(res.data.time);
@@ -129,12 +131,13 @@ function Feeddetail(props) {
               style={{
                 borderRadius: "1rem",
                 padding: "0.8rem",
+                display: "flex",
               }}>
               <ProfileImg>ㅁ</ProfileImg>
               <Username>{nickname}</Username>
-              <Time>
+              {/* <Time>
                 {date} {time}
-              </Time>
+              </Time> */}
               <IconButton>
                 <MoreHorizIcon
                   id="basic-button"
@@ -213,7 +216,11 @@ function Feeddetail(props) {
                 </LCwrap>
                 <Title>{title}</Title>
                 <Contents>{content}</Contents>
-                <HashTag>{hashtag}</HashTag>
+                <div style={{ display: "flex" }}>
+                  {hashtag.map((a, b) => {
+                    return <HashTag>{a.tagName}</HashTag>;
+                  })}
+                </div>
                 {viewComment ? (
                   <Comments props={comment} id={id} setRerender={setRerender} />
                 ) : null}

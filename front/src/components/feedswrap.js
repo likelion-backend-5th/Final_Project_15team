@@ -70,9 +70,9 @@ const clickFollow = (username) => {
     });
 };
 
-export default function Feedswrap() {
+function Feedswrap(props) {
   const navigate = useNavigate();
-  const [commentIndex, setCommentIndex] = useState([]);
+  // const [commentIndex, setCommentIndex] = useState([]);
   const [like, setLike] = useState(false);
   const likes = 10;
   const [data, setData] = useState([]);
@@ -117,12 +117,14 @@ export default function Feedswrap() {
                 <Time>
                   {i.date} {i.time}
                 </Time>
-                <Button
-                  onClick={() => {
-                    clickFollow(i.user);
-                  }}>
-                  팔로우
-                </Button>
+                {i.user === props.username ? null : (
+                  <Button
+                    onClick={() => {
+                      clickFollow(i.user);
+                    }}>
+                    팔로우
+                  </Button>
+                )}
               </Paper>
               <div
                 style={{
@@ -156,15 +158,20 @@ export default function Feedswrap() {
                       </IconButton>
                       <IconButton>
                         <AddCommentIcon
-                          onClick={() => {
-                            if (commentIndex.includes(b)) {
-                              setCommentIndex([
-                                ...commentIndex.filter((item) => item !== b),
-                              ]);
-                            } else {
-                              setCommentIndex([i.id, ...commentIndex]);
-                            }
-                          }}
+                        // onClick={() => {
+                        //   if (commentIndex.includes(b + 1)) {
+                        //     setCommentIndex([
+                        //       ...commentIndex.filter(
+                        //         (item) => item !== b + 1
+                        //       ),
+                        //     ]);
+                        //   } else {
+                        //     console.log("테스트");
+                        //     console.log(b + 1);
+                        //     setCommentIndex([i.id, ...commentIndex]);
+                        //     console.log(commentIndex);
+                        //   }
+                        // }}
                         />
                       </IconButton>
                       <IconButton>
@@ -188,14 +195,14 @@ export default function Feedswrap() {
                       );
                     })}
                   </HashTag>
-                  {commentIndex.includes(b) ? (
-                    <>
-                      <Comments
-                        props={i.comments}
-                        feed={i.id}
-                        setRerender={setRerender}></Comments>
-                    </>
-                  ) : null}
+                  {/* {commentIndex.includes(b + 1) ? ( */}
+                  <>
+                    <Comments
+                      props={i.comments}
+                      feed={i.id}
+                      setRerender={setRerender}></Comments>
+                  </>
+                  {/* ) : null} */}
                 </Paper>
               </BottomBox>
             </FeedWrap>
@@ -205,3 +212,4 @@ export default function Feedswrap() {
     </Box>
   );
 }
+export default Feedswrap;
