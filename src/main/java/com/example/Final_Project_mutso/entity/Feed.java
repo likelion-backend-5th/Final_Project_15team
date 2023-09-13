@@ -42,7 +42,7 @@ public class Feed {
 //    private List<Comment> comments = new ArrayList<>();
     private List<Comment> comments;
 
-    @OneToMany
+    @ManyToMany
     private List<UserEntity> userScrap;
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
