@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import YouTube from "react-youtube";
+import Playernull from "../playernull.png";
 
 import MusicSearch from "./musicsearch";
 
@@ -265,11 +266,11 @@ function Music() {
           sx={{
             width: 130,
             height: 130,
-            background: "black",
+            // background: "black",
             borderRadius: "1rem",
             margin: "auto",
           }}
-          image={coverImg ? coverImg : null}
+          image={coverImg ? coverImg : Playernull}
           alt=""
         />
       </Card>
