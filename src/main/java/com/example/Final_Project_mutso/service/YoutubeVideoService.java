@@ -1,5 +1,6 @@
 package com.example.Final_Project_mutso.service;
 
+import com.example.Final_Project_mutso.config.ApiKey;
 import com.example.Final_Project_mutso.dto.YoutubeVideoDto;
 import com.example.Final_Project_mutso.entity.MusicEntity;
 import com.example.Final_Project_mutso.entity.MusicPlayList;
@@ -39,7 +40,7 @@ public class YoutubeVideoService {
     private static final String GOOGLE_YOUTUBE_URL =  "https://www.youtube.com/watch?v=";
     private static final String YOUTUBE_SEARCH_FIELDS = "items(id/kind,id/videoId,snippet/title," +
             "snippet/description,snippet/channelTitle,snippet/thumbnails/default/url)";
-    private static final String YOUTUBE_APIKEY = "AIzaSyAj95x7jyV6YJCg1owyMqMoRTN-PHe15-E";
+    private final ApiKey YOUTUBE_APIKEY;
 
     private static YouTube youtube;
     private static List<MusicEntity> playList;
@@ -61,7 +62,7 @@ public class YoutubeVideoService {
         try{
             if(youtube != null){
                 YouTube.Search.List search = youtube.search().list("id,snippet");
-                String apiKey = YOUTUBE_APIKEY;
+                String apiKey = YOUTUBE_APIKEY.getApiKey();
                 search.setKey(apiKey);
                 search.setQ(searchQuery);
                 search.setType("video");

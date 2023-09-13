@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                                         "/users",
                                         "/feed/*",
                                         "/feed/*/comments",
-                                        "/youtube"
+                                        "/youtube/**"
                                 )
                                 .permitAll()
                                 .requestMatchers(
