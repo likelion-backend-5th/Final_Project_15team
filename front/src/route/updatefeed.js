@@ -26,7 +26,7 @@ function CreateFeed(props) {
   const navigate = useNavigate();
   const [PnV, setPnV] = useState("");
   const PnVRef = useRef();
-  const [musicFile, setMusicFile] = useState("");
+  // const [musicFile, setMusicFile] = useState("");
   const musicRef = useRef();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -36,22 +36,23 @@ function CreateFeed(props) {
   const { id } = useParams();
 
   const uploadPnV = () => {
-    const file = PnVRef.current.file[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPnV(reader.result);
-    };
+    const file = PnVRef.current.files[0];
+    setPnV(file);
+    // const reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // reader.onloadend = () => {
+    //   setPnV(reader.result);
+    // };
   };
 
-  const uploadMusic = () => {
-    const file = musicRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setMusicFile(reader.result);
-    };
-  };
+  // const uploadMusic = () => {
+  //   const file = musicRef.current.files[0];
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onloadend = () => {
+  //     setMusicFile(reader.result);
+  //   };
+  // };
 
   const OCTitle = (e) => {
     setTitle(e.target.value);
@@ -66,12 +67,15 @@ function CreateFeed(props) {
   const postFeed = (e) => {
     e.preventDefault();
     const formData = new FormData();
+
     const changedPnV = new Blob([PnV], { type: "multipart/form-data" });
     formData.append("file", changedPnV);
-    const changedMusicFile = new Blob([musicFile], {
-      type: "multipart/form-data",
-    });
-    formData.append("musicFile", changedMusicFile);
+
+    // const changedMusicFile = new Blob([musicFile], {
+    //   type: "multipart/form-data",
+    // });
+    // formData.append("musicFile", changedMusicFile);
+
     const dto = JSON.stringify({ title, content });
     const changedDto = new Blob([dto], { type: "application/json" });
     formData.append("dto", changedDto);
@@ -166,13 +170,13 @@ function CreateFeed(props) {
                         type="file"
                         onChange={uploadPnV}
                         ref={PnVRef}></input>
-                      <IconButton>
+                      {/* <IconButton>
                         <SendIcon />
-                      </IconButton>
+                      </IconButton> */}
                     </form>
                   ) : null}
                 </div>
-                <div>
+                {/* <div>
                   음원 추가 :{" "}
                   <IconButton>
                     <AddIcon
@@ -196,7 +200,7 @@ function CreateFeed(props) {
                       </IconButton>
                     </form>
                   ) : null}
-                </div>
+                </div> */}
                 <Button variant="contained" onClick={postFeed}>
                   게시하기
                 </Button>
