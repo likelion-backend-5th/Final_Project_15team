@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 
-public class FeedVideo {
+public class FeedFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,9 +17,8 @@ public class FeedVideo {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-    private String videoUrl;
-
-    public FeedVideo() {
+    private String imageUrl;
+    public FeedFile() {
 
     }
 }
