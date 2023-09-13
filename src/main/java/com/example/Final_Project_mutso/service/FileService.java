@@ -50,19 +50,8 @@ public class FileService {
         Optional<Feed> optionalFeed = feedRepository.findById(feedId);
         if (optionalFeed.isPresent()){
             // 저장되었던 이미지 불러오기
-            for (FeedFile feedFile :
-                    feedFileRepository.findAll()) {
 
-                if (feedFile.getImageUrl() != null){
-                    if (feedFile.getFeed().equals(feedId)){
-                        String imageUrl = feedFile.getImageUrl();
-                        return imageUrl;
-                    }
-                }
-            }
             if (!file.isEmpty()) { // 첨부 파일이 존재한다면
-                String fileName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
-                String fileExtension = fileName.substring(fileName.lastIndexOf("."),fileName.length());
 
                 String url = createFile(file);
                 FeedFile feedFile = new FeedFile();
