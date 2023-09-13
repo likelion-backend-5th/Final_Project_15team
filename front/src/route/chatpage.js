@@ -189,9 +189,9 @@ function ChatPage(props) {
               <Button variant="contained" onClick={sendMessage}>
                 보내기
               </Button>
-              <Button variant="contained" onClick={connect}>
+              {/* <Button variant="contained" onClick={connect}>
                 접속하기
-              </Button>
+              </Button> */}
             </BottomWrap>
           </Paper>
         </Box>
