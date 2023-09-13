@@ -46,8 +46,7 @@ public class FeedController {
         public void create(
                 @RequestPart(value = "dto") FeedDto dto,
                 @RequestPart(value = "tags") String tags,
-                @RequestPart(value = "file") MultipartFile file,
-                Authentication authentication
+                @RequestPart(value = "file") MultipartFile file
     ) throws IOException {
             feedService.createFeed(dto, tags, file);
         }
