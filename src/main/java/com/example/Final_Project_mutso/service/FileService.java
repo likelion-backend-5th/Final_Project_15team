@@ -61,8 +61,6 @@ public class FileService {
                 }
             }
             if (!file.isEmpty()) { // 첨부 파일이 존재한다면
-                String fileName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
-                String fileExtension = fileName.substring(fileName.lastIndexOf("."),fileName.length());
 
                 String url = createFile(file);
                 FeedFile feedFile = new FeedFile();
