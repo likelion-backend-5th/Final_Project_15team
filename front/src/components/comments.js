@@ -65,7 +65,6 @@ function Comments(commentData) {
         console.log("댓글 생성");
         console.log(res);
         commentData.setRerender(Math.random());
-        window.location.reload();
         setReply("");
       })
       .catch((err) => {
@@ -79,13 +78,15 @@ function Comments(commentData) {
           ? data.map(function (i, b) {
               return (
                 <>
-                  <Paper
+                  <div
                     key={b}
                     elevation={3}
                     style={{
-                      marginTop: "0.4rem",
+                      marginTop: "0.2rem",
                       borderRadius: "1rem",
-                      padding: "0.8rem",
+                      display: "flex",
+                      fontSize: "1.2rem",
+                      paddingLeft: "0.8rem",
                     }}>
                     <span
                       style={{
@@ -94,7 +95,7 @@ function Comments(commentData) {
                       }}>
                       {i.nickname}
                     </span>
-                    {i.content}
+                    <div style={{ flex: "2" }}>{i.content}</div>
                     <IconButton>
                       <CreateIcon
                         onClick={() => {
@@ -131,7 +132,7 @@ function Comments(commentData) {
                       }}>
                       <CloseIcon onClick={deleteComment} />
                     </IconButton>
-                  </Paper>
+                  </div>
                 </>
               );
             })

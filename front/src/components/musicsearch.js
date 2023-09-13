@@ -99,6 +99,7 @@ export default function MusicSearch(props) {
                       margin: "auto",
                       marginTop: "0.4rem",
                       padding: 1,
+                      background: "#dfe9f5",
                     }}>
                     {i.title}
                   </Paper>
