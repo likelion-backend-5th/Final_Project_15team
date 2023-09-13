@@ -40,10 +40,14 @@ let TopWrap = styled.div`
 
 function Mypage(props) {
   let navigate = useNavigate();
-  const [follower] = useState(11);
+  // const [follower] = useState(11);
   const [following, setFollowing] = useState([]);
+  const [follower, setFollower] = useState([]);
   const [scrap, setScrap] = useState([]);
   const [data, setData] = useState([]);
+  const [nickname, setNickname] = useState();
+  const [introduction, setIntroduction] = useState();
+  const [profileImage, setProfileImg] = useState();
   // useEffect로 피드 데이터 불러오기
   useEffect(() => {
     axios
@@ -61,6 +65,10 @@ function Mypage(props) {
       .then((res) => {
         console.log(res.data);
         setFollowing(res.data.followingList.length);
+        setNickname(res.data.nickname);
+        setIntroduction(res.data.introduction);
+        setProfileImg(res.data.profileImage);
+        setFollower(res.data.followerList.length);
         console.log(following);
       })
       .catch((err) => {
@@ -74,7 +82,23 @@ function Mypage(props) {
       <WholeWrap>
         <Paper elevation={3} style={{ padding: "0.8rem", margin: "0.8rem" }}>
           <TopWrap>
-            <ProfileImg>프사</ProfileImg>
+            <div style={{ display: "block" }}>
+              <ProfileImg>
+                <img
+                  src={profileImage}
+                  style={{ width: "4rem", borderRadius: "4rem" }}
+                />
+              </ProfileImg>
+              <div
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1.2rem",
+                }}>
+                {nickname}
+              </div>
+              <div>{introduction}</div>
+            </div>
+
             <FFS>
               <tr
                 style={{
@@ -125,7 +149,7 @@ function Mypage(props) {
                 navigate("/mypageset");
               }}
               color="inherit">
-              <SettingsIcon></SettingsIcon>
+              <SettingsIcon style={{ fontSize: "4rem" }} />
             </IconButton>
           </TopWrap>
           <Paper elevation={3} style={{ padding: "0.8rem", margin: "0.8rem" }}>

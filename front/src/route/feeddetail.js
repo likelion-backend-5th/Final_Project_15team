@@ -31,15 +31,18 @@ let LCwrap = styled.div`
 
 let HashTag = styled.div`
   padding: 0.5rem;
+  color: blue;
+  margin-right: 0.6rem;
 `;
 let Title = styled.div`
   padding: 0.5rem;
   font-size: 1.5rem;
 `;
-let ProfileImg = styled.div`
+let ProfileImg = styled.img`
   border-radius: 10rem;
   background: black;
   width: 2rem;
+  height: 2rem;
   float: left;
   font-size: 1.5rem;
   margin-right: 1rem;
@@ -69,26 +72,38 @@ function Feeddetail(props) {
   const [date, setDate] = useState();
   const [time, setTime] = useState();
   const [content, setContent] = useState();
-  const [hashtag, setHashtag] = useState();
+  const [hashtag, setHashtag] = useState([]);
   const [comment, setComment] = useState([]);
   const [viewComment, setViewComment] = useState(true);
   const { id } = useParams();
   const [rerender, setRerender] = useState();
+  const [img, setImg] = useState();
+  const [profileImg, setProfileImg] = useState();
   useEffect(() => {
     axios
       .get("http://localhost:8080/feed/" + id)
       .then((res) => {
         console.log(res.data);
         setTitle(res.data.title);
-        setNickname(res.data.nickname);
+        setNickname(res.data.user);
         setContent(res.data.content);
         setDate(res.data.date);
         setTime(res.data.time);
         setComment(res.data.comments);
         setHashtag(res.data.hashtag);
+        setImg(res.data.fileUrl);
       })
       .catch((error) => {
         console.log(error);
+      });
+    axios
+      .get("http://localhost:8080/users/mypage/" + props.username + "/follow")
+      .then((res) => {
+        console.log(res.data);
+        setProfileImg(res.data.profileImage);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, [rerender]);
 
@@ -129,12 +144,14 @@ function Feeddetail(props) {
               style={{
                 borderRadius: "1rem",
                 padding: "0.8rem",
+                display: "flex",
+                justifyContent: "space-between",
               }}>
-              <ProfileImg>ㅁ</ProfileImg>
-              <Username>{nickname}</Username>
-              <Time>
+              <ProfileImg src={profileImg} />
+              <Username style={{ flex: "2" }}>{nickname}</Username>
+              {/* <Time>
                 {date} {time}
-              </Time>
+              </Time> */}
               <IconButton>
                 <MoreHorizIcon
                   id="basic-button"
@@ -163,16 +180,11 @@ function Feeddetail(props) {
             </Paper>
             <div
               style={{
-                background: "lightgrey",
-                // width: "30rem",
-                // height: "30rem",
                 margin: "auto",
                 borderRadius: "1rem",
-                height: "10rem",
                 marginTop: "0.8rem",
-                marginBottom: "0.8rem",
               }}>
-              a
+              <img src={img} style={{ width: "100%" }} />
             </div>
             <BottomBox>
               <Paper
@@ -213,7 +225,11 @@ function Feeddetail(props) {
                 </LCwrap>
                 <Title>{title}</Title>
                 <Contents>{content}</Contents>
-                <HashTag>{hashtag}</HashTag>
+                <div style={{ display: "flex" }}>
+                  {hashtag.map((a, b) => {
+                    return <HashTag>{a.tagName}</HashTag>;
+                  })}
+                </div>
                 {viewComment ? (
                   <Comments props={comment} id={id} setRerender={setRerender} />
                 ) : null}

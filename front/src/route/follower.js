@@ -27,10 +27,10 @@ function Follows(props) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/feed")
+      .get("http://localhost:8080/users/mypage/" + props.username + "/follow")
       .then((res) => {
         console.log(res.data);
-        setFollow(res.data);
+        setFollow(res.data.followerList);
       })
       .catch((error) => {
         console.log(error);
@@ -60,7 +60,7 @@ function Follows(props) {
                         src="/static/images/avatar/1.jpg"
                       />
                     </ListItemAvatar>
-                    <ListItemText primary={i.nickname} />
+                    <ListItemText primary={i} />
                   </ListItem>
                   <Divider
                     variant="inset"

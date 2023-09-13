@@ -189,6 +189,7 @@ function CreateFeed(props) {
                   </form>
                 ) : null}
               </div>
+
               <Button variant="contained" onClick={postFeed}>
                 게시하기
               </Button>
