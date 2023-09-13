@@ -72,9 +72,12 @@ function CreateFeed(props) {
       type: "multipart/form-data",
     });
     formData.append("musicFile", changedMusicFile);
-    const dto = JSON.stringify({ title, content, hashtag });
+    const dto = JSON.stringify({ title, content });
     const changedDto = new Blob([dto], { type: "application/json" });
     formData.append("dto", changedDto);
+
+    const changedTags = new Blob([hashtag]);
+    formData.append("tags", changedTags);
     // const changedTitle = new Blob([title], { type: "application/json" });
     // formData.append("title", changedTitle);
     // const changedContent = new Blob([content], { type: "application/json" });
@@ -96,16 +99,17 @@ function CreateFeed(props) {
         username={props.username}
         setUsername={props.setUsername}></Appbars>
       <WholeWrap>
-        <Box style={{ display: "flex" }}>
+        <Box style={{ margin: "1.2rem", display: "flex" }}>
           <Paper
             elevation={3}
             style={{
               width: "50rem",
-              margin: "1.2rem",
+
               padding: "0.8rem",
+              margin: "auto",
             }}>
             <TopWrap>피드수정</TopWrap>
-            <Paper elevation={3} style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center" }}>
               <TitleWrap>
                 <TextField
                   id="standard-multiline-flexible"
@@ -197,7 +201,7 @@ function CreateFeed(props) {
                   게시하기
                 </Button>
               </BottomWrap>
-            </Paper>
+            </div>
           </Paper>
         </Box>
       </WholeWrap>

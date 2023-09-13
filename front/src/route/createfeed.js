@@ -37,11 +37,12 @@ function CreateFeed(props) {
 
   const uploadPnV = () => {
     const file = PnVRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPnV(reader.result);
-    };
+    setPnV(file);
+    // const reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // reader.onloadend = () => {
+    //   setPnV(reader.result);
+    // };
   };
 
   const uploadMusic = () => {
@@ -69,6 +70,7 @@ function CreateFeed(props) {
 
     const changedPnV = new Blob([PnV], { type: "multipart/form-data" });
     formData.append("file", changedPnV);
+
     const changedMusicFile = new Blob([musicFile], {
       type: "multipart/form-data",
     });
