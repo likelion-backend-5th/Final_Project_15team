@@ -16,6 +16,7 @@ let MainWrap = styled.div`
 function Mainpage(props) {
   const cookies = new Cookies();
   const [JWT, setJWT] = useState();
+  const [profileImg, setProfileImg] = useState();
   //쿠키에 있는 값을 꺼낼때
   const getCookie = (name) => {
     return cookies.get(name);
@@ -23,14 +24,23 @@ function Mainpage(props) {
   useEffect(() => {
     setJWT(getCookie("is_login"));
     check();
-  }, []);
+    axios
+      .get("http://localhost:8080/users/mypage/" + props.username + "/follow")
+      .then((res) => {
+        console.log(res.data);
+        setProfileImg(res.data.profileImage);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [props.username]);
   const check = () => {
     axios
       .post("http://localhost:8080/users/secure-resource", {
         headers: { Authorization: `Bearer ${JWT}` },
       })
       .then((res) => {
-        console.log(res.data.username);
+        console.log(res.data);
         props.setUsername(res.data.username);
       })
       .catch((err) => {
@@ -45,7 +55,7 @@ function Mainpage(props) {
       <MainWrap>
         <div style={{ margin: "auto" }}>
           <Searchbox />
-          <Feedswrap username={props.username} />
+          <Feedswrap username={props.username} profileImg={profileImg} />
         </div>
       </MainWrap>
     </>

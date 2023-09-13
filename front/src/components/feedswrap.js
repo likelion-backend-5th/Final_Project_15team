@@ -34,10 +34,11 @@ let Title = styled.div`
   padding: 0.5rem;
   font-size: 1.5rem;
 `;
-let ProfileImg = styled.div`
+let ProfileImg = styled.img`
   border-radius: 10rem;
   background: black;
   width: 2rem;
+  height: 2rem;
   float: left;
   font-size: 1.5rem;
   margin-right: 1rem;
@@ -110,9 +111,7 @@ function Feedswrap(props) {
                   padding: "0.8rem",
                   display: "flex",
                 }}>
-                <ProfileImg>
-                  <img />
-                </ProfileImg>
+                <ProfileImg src={props.profileImg} />
                 <Username>{i.user}</Username>
                 <Time>
                   {i.date} {i.time}
@@ -126,16 +125,19 @@ function Feedswrap(props) {
                   </Button>
                 )}
               </Paper>
-              <div
-                style={{
-                  background: "lightgrey",
-                  margin: "auto",
-                  borderRadius: "1rem",
-                  height: "10rem",
-                  marginTop: "0.8rem",
-                  marginBottom: "0.8rem",
-                }}>
-                <img src={i.fileUrl} />a
+              <div style={{ marginTop: "0.4rem" }}>
+                {i.fileUrl ? (
+                  <div
+                    style={{
+                      background: "lightgrey",
+                      margin: "auto",
+                      borderRadius: "1rem",
+                      marginTop: "0.8rem",
+                      marginBottom: "0.8rem",
+                    }}>
+                    <img src={i.fileUrl} style={{ width: "100%" }} />
+                  </div>
+                ) : null}
               </div>
               <BottomBox>
                 <Paper

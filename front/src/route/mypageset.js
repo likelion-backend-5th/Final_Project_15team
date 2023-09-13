@@ -74,31 +74,39 @@ function MypageSet(props) {
     }
   };
 
-  const setProfileImg = () => {
+  // const setProfileImg = () => {
+  //   const formData = new FormData();
+  //   const changedImgData = new Blob([imgUrl], { type: "multipart/form-data" });
+  //   formData.append("image", changedImgData);
+  //   axios
+  //     .put("http://localhost:8080/users/mypage/profile/imgupload", formData)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setRerender(Math.random());
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+  const handleSubmit = (e) => {
+    console.log("제출");
+    e.preventDefault();
     const formData = new FormData();
     const changedImgData = new Blob([imgUrl], { type: "multipart/form-data" });
     formData.append("image", changedImgData);
-    axios
-      .put("http://localhost:8080/users/mypage/profile/imgupload", formData)
-      .then((res) => {
-        console.log(res.data);
-        setRerender(Math.random());
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
     let body = {
       nickname: nickname,
-      intro: intro,
+      introduction: intro,
     };
+    console.log(body, formData);
     axios
-      .post("http://localhost:8080/feed", {}, { params: body })
+      .put("http://localhost:8080/users/mypage/profile/imgupload", formData, {
+        params: body,
+      })
       .then((res) => {
         console.log(res.data);
+        navigate("/mypage");
       })
       .catch((e) => {
         console.log(e.res);
@@ -122,9 +130,20 @@ function MypageSet(props) {
             <TopWrap>프로필 편집</TopWrap>
             <ProfileWrap>
               <ProfileImg>
-                {data ? <img src={data.profileImage} /> : null}
+                {data ? (
+                  <img
+                    src={data.profileImage}
+                    style={{
+                      width: "10rem",
+                      height: "10rem",
+                      borderRadius: "10rem",
+                    }}
+                  />
+                ) : null}
               </ProfileImg>
-              <Button onClick={OCImgEdit}>대표이미지 수정</Button>
+              <Button type="submit" onClick={OCImgEdit}>
+                대표이미지 수정
+              </Button>
 
               {viewImgEdit ? (
                 <>
@@ -133,7 +152,6 @@ function MypageSet(props) {
                       type="file"
                       onChange={uploadImg}
                       ref={imgUrlRef}></input>
-                    <Button onClick={setProfileImg}>변경</Button>
                   </form>
                 </>
               ) : null}
@@ -175,15 +193,14 @@ function MypageSet(props) {
                     </Grid>
                   </Grid>
                 </Paper>
-                <Button
-                  variant="contained"
-                  style={{ marginTop: "0.4rem" }}
-                  type="submit"
-                  onClick={() => {
-                    navigate("/mypage");
-                  }}>
-                  확인/저장
-                </Button>
+                <div style={{ margin: "1.2rem", textAlign: "center" }}>
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    onClick={handleSubmit}>
+                    확인/저장
+                  </Button>
+                </div>
               </Box>
             </BottomWrap>
           </Paper>

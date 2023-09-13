@@ -38,10 +38,11 @@ let Title = styled.div`
   padding: 0.5rem;
   font-size: 1.5rem;
 `;
-let ProfileImg = styled.div`
+let ProfileImg = styled.img`
   border-radius: 10rem;
   background: black;
   width: 2rem;
+  height: 2rem;
   float: left;
   font-size: 1.5rem;
   margin-right: 1rem;
@@ -76,6 +77,8 @@ function Feeddetail(props) {
   const [viewComment, setViewComment] = useState(true);
   const { id } = useParams();
   const [rerender, setRerender] = useState();
+  const [img, setImg] = useState();
+  const [profileImg, setProfileImg] = useState();
   useEffect(() => {
     axios
       .get("http://localhost:8080/feed/" + id)
@@ -88,9 +91,19 @@ function Feeddetail(props) {
         setTime(res.data.time);
         setComment(res.data.comments);
         setHashtag(res.data.hashtag);
+        setImg(res.data.fileUrl);
       })
       .catch((error) => {
         console.log(error);
+      });
+    axios
+      .get("http://localhost:8080/users/mypage/" + props.username + "/follow")
+      .then((res) => {
+        console.log(res.data);
+        setProfileImg(res.data.profileImage);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, [rerender]);
 
@@ -132,9 +145,10 @@ function Feeddetail(props) {
                 borderRadius: "1rem",
                 padding: "0.8rem",
                 display: "flex",
+                justifyContent: "space-between",
               }}>
-              <ProfileImg>ㅁ</ProfileImg>
-              <Username>{nickname}</Username>
+              <ProfileImg src={profileImg} />
+              <Username style={{ flex: "2" }}>{nickname}</Username>
               {/* <Time>
                 {date} {time}
               </Time> */}
@@ -166,16 +180,11 @@ function Feeddetail(props) {
             </Paper>
             <div
               style={{
-                background: "lightgrey",
-                // width: "30rem",
-                // height: "30rem",
                 margin: "auto",
                 borderRadius: "1rem",
-                height: "10rem",
                 marginTop: "0.8rem",
-                marginBottom: "0.8rem",
               }}>
-              a
+              <img src={img} style={{ width: "100%" }} />
             </div>
             <BottomBox>
               <Paper
