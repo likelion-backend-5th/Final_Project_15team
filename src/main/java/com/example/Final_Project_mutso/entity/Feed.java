@@ -33,10 +33,8 @@ public class Feed {
     private List<FeedHashtag> feedHashtag;
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
-    private List<FeedImage> image;
+    private List<FeedFile> file;
 
-    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
-    private List<FeedVideo> video;
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
 //    private List<Comment> comments = new ArrayList<>();

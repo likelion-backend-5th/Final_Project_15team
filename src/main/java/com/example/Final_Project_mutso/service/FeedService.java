@@ -1,7 +1,6 @@
 package com.example.Final_Project_mutso.service;
 
 import com.example.Final_Project_mutso.dto.FeedDto;
-import com.example.Final_Project_mutso.dto.FeedListDto;
 import com.example.Final_Project_mutso.entity.*;
 import com.example.Final_Project_mutso.jwt.AuthenticationFacade;
 import com.example.Final_Project_mutso.repository.*;
@@ -9,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,8 +27,7 @@ public class FeedService {
 
     private final FeedRepository feedRepository;
     private final FileService fileService;
-    private final FeedImageRepository feedImageRepository;
-    private final FeedVideoRepository feedVideoRepository;
+    private final FeedFileRepository feedFileRepository;
     private final CommentService commentService;
     private final FeedLikeRepository feedLikeRepository;
     private final FeedHashtagService feedHashtagService;
@@ -37,7 +36,10 @@ public class FeedService {
 
     public void createFeed(FeedDto dto, String tags, MultipartFile file) throws IOException {
 
-        UserEntity loginedUser = authFacade.getUser();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity loginedUser = userRepository.findAllByUsername(username);
+
+//        UserEntity loginedUser = authFacade.getUser();
 
         Feed feed = new Feed();
         feed.setTitle(dto.getTitle());
@@ -51,25 +53,12 @@ public class FeedService {
         }
 
         if (!file.isEmpty()) { // 첨부 파일이 존재한다면
-            String fileName = file.getOriginalFilename(); //파일명을 얻어낼 수 있는 메서드!
-            String fileExtension = fileName.substring(fileName.lastIndexOf("."),fileName.length());
 
-            if (fileExtension.equals(".jpg")||fileExtension.equals(".png")){// 확장자가 이미지일 때
-                String url = fileService.createFile(file);
-                FeedImage feedImage = new FeedImage();
-                feedImage.setFeed(feed);
-                feedImage.setImageUrl(url);
-                feedImageRepository.save(feedImage);
-            } else if (fileExtension.equals(".mp4")||fileExtension.equals(".avi")){ //영상 확장자일 때
-                String url = fileService.createFile(file);
-                FeedVideo feedVideo = new FeedVideo();
-                feedVideo.setFeed(feed);
-                feedVideo.setVideoUrl(url);
-                feedVideoRepository.save(feedVideo);
-            }
-            else{
-                System.out.println(".jpg, .png, .mp4, .avi 확장자 파일을 선택해주세요");
-            }
+            String url = fileService.createFile(file);
+            FeedFile feedFile = new FeedFile();
+            feedFile.setFeed(feed);
+            feedFile.setImageUrl(url);
+            feedFileRepository.save(feedFile);
         }
 
     }
