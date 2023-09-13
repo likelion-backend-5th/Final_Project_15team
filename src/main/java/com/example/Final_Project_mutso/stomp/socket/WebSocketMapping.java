@@ -49,7 +49,7 @@ public class WebSocketMapping {
             SimpMessageHeaderAccessor headerAccessor
     ){
         // 입장하는 순간 채팅방 유저 +1
-//        chatService.increaseUser(message.getRoomId());
+        chatService.increaseUser(message.getRoomId());
 
         // 반환 결과를 socket session에 저장
         headerAccessor.getSessionAttributes().put("roomId",message.getRoomId());
@@ -94,7 +94,7 @@ public class WebSocketMapping {
         log.info("headAccessor : {}",headerAccessor);
 
         // 채팅방 유저 -1
-//        chatService.decreaseUser(roomId);
+        chatService.decreaseUser(roomId);
     }
 
     // 채팅 이미지 보내기
