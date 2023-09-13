@@ -103,7 +103,7 @@ public class FileService {
 
                 if (feedFile.getImageUrl() != null) {
                     if (feedFile.getFeed().getId().equals(feedId)) {
-                        feedFileRepository.deleteById(feedFile.getFeed().getId());
+                        feedFileRepository.deleteById(feedFile.getId());
                     }
                 }
             }

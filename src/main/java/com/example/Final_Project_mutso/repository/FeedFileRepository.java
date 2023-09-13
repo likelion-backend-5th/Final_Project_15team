@@ -8,4 +8,6 @@ import java.util.List;
 public interface FeedFileRepository
         extends JpaRepository<FeedFile, Long> {
     List<FeedFile> findAllByFeedId(Long id);
+
+
 }
