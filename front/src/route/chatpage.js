@@ -66,7 +66,7 @@ function ChatPage(props) {
         console.log(err);
       });
     connect();
-  }, []);
+  }, [rerender]);
 
   const disconnect = async () => {
     socket.close(1000, "사용자가 나감");
@@ -100,6 +100,7 @@ function ChatPage(props) {
         type: "ENTER",
       })
     );
+    setRerender(3);
   };
 
   let chatMessages = document.getElementById("chat-messages");
@@ -173,9 +174,9 @@ function ChatPage(props) {
             </TopWrap>
             <ContentWrap>
               <div id="chat-messages"></div>
-              {/* {msg.map((i, b) => {
+              {msg.map((i, b) => {
                 return <div>{i.message}</div>;
-              })} */}
+              })}
             </ContentWrap>
             <BottomWrap>
               <AddIcon></AddIcon>

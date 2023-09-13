@@ -60,6 +60,7 @@ export default function Searchbox() {
           ? searched.map((i) => {
               return (
                 <Button
+                  style={{ display: "block", margin: "auto" }}
                   onClick={() => {
                     navigate("/feeddetail/" + i.id);
                   }}>
