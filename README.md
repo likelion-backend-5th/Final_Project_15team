@@ -1,23 +1,27 @@
-# Music SNS Platform
-이때까지 학습한 Spring boot CRUD 구현과 Security를 활용하고
-부가적으로 넣고 싶은 기능을 따로 학습해 만든 SNS (+음원서비스)
+# 🎼 Music SNS Platform 📱
+음악 애호가들을 대상으로 한 음악 SNS 서비스
 
 ## 📂   프로젝트 소개
 - 해당 프로젝트는 기본적으로 CRUD를 구현
-- 기존 프로젝트에서 Jwt 토큰을 이용하여 사용자 인증, 권한 부여
-- 기존 프로젝트보다 좀 더 심화된 관계매핑을 주로 다루었음
-- 로그인, 회원가입, 마이페이지, 팔로우, 스크랩 기능 구현
-- 피드 댓글, 해시태그, 좋아요 기능 구현
-- 웹소켓을 활용한 채팅 기능 구현
-- 유튜브 api를 활용한 뮤직플레이 기능 구현
+- 로그인, 회원가입, 마이페이지, 팔로우 & 팔로잉 관리, 스크랩 기능 구현
+- 자신만의 개성을 나타낼 수 있는 피드 생성 / 수정 / 삭제 기능
+- 각 피드에 대한 댓글 기능 및 좋아요 기능 구현
+- 관련 게시물을 나타내는 해시태그 기능 및 해시태그 검색 기능
+- WebSocket + Stomp를 활용한 실시간 채팅 기능 구현
+- Youtube api를 활용한 음원 스트리밍 (음악 플레이어) 기능 구현
+- WebSecurity를 적용하여 Jwt 토큰을 이용한 사용자 인증, 권한 부여
 - 리액트를 활용한 웹 페이지 구현
 
-### 🗒️  테스트 방법
+## 🗒️  테스트 방법
 
-테스트 파일 다운로드 하기
+1. Final_Project_15Team의 Repository Clone
 
-해당 레포지토리에 있는 (main branch) 자바 프로젝트 파일과 함께 첨부된 POSTMAN COLLECTION 파일을 다운로드
+2. POSTMAN_COLLECTION.json 파일을 다운로드 한다.
 
+3. MySql 연결 후 테스트
+
+
+## 📓 각 API 및 반환값
 <details>
   
 <summary> Postman </summary>  
@@ -191,21 +195,75 @@ Params key: nickname, introduction value: 입력, auth bearer token 에서 토�
 </details>
 
 
-### ⏲️  개발 기간
+##  🏁 프로젝트 개발 과정
+
+
+### ⏲️ 개발 기간
 - 2023.08.09 ~ 2023.09.15 ( 총 38일 )
 
 
 ### ⚙️  개발 환경 
 - JDK 1.7
 - Java 8
-- IntelliJ IDE
-- Postman
-- Spring Boot
-- MySQL
-- Amazon RDS
-- React
-- HTML, CSS, JS
-- git
-  
+- Gradle
 
--------------
+
+### 🔨 개발 도구
+
+#### [BackEnd]
+- Language : java
+- Framework : Spring boot
+- IDE : IntelliJ IDEA
+- DataBase : MySQL
+- API Platform : Postman
+
+
+#### [FrontEnd]
+- Language : Html, JS, CSS
+- Library : React
+
+  
+#### [협업 Tools]
+- Git
+- Notion
+- Discord
+
+  
+## 🗂️ 프로젝트 설계도
+
+### ERD
+![image](https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/2b17b732-bd3a-4f04-902c-93dd5c21815a)
+
+
+
+### IA (Information Architecture)
+![image](https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/ed00a068-6de3-4c85-aa7e-ac412ee179da)
+
+
+
+## 🎤 시스템 구현
+
+- [ 로그인 및 회원가입 ]   
+  웹에서 입력 받은 값을 서버에서 저장, 로그인 시 JWT 토큰이 발급되며, 웹과 서버 간 검증을 거쳐 결과적으로 유저 정보를 웹에게 전달하도록 구현
+
+- [ 팔로우 및 팔로잉 ]   
+  팔로우 할 유저 네임과 로그인 한 유저 네임을 비교하여 팔로우 버튼의 활성화/ 비활성화를 구분. 팔로우 시 마이페이지에서 팔로워/ 팔로잉 상세보기를 보게되면 프로필이미지, 닉네임, 소개가 보이도록 구현
+
+- [ 피드 관리 ]   
+  피드 생성/수정/삭제 기능 구현 및 해시태그를 이용한 검색 기능
+
+- [ 음원 플레이어 ]    
+  Youtube api의 search() 를 통해서 검색하고자 하는 music의 아이디 , 업로드 채널, 재생 시간 등의 정보를 받아 프론트에 전달하고,   
+  youtube iframe api의 플레이어 기능을 통해 받아온 id값을 통해 music을 재생하는 player를 구현
+
+- [ 실시간 채팅 ]   
+  Stomp와 WebSocket을 이용하여 실시간 오픈채팅방 구현. 메시지 브로커를 통해 특정 구독한 쪽에만 메시지를 전송하도록 설정하여 입장한 채팅방의 roomId를 구독하도록 설정 후 해당 채팅방에서만 채팅이 가능하도록 구현
+
+- [ 권한설정 ]   
+  GET으로 들어온 요청들은 모두 허용(permitAll)으로설정. 그 외 편집기능들은 .authenticated() 설정하여 인증 절차를 거치도록 설정,
+  인증 절차가 필요한 각 기능에 user 정보 추가 및 연결,   
+  채팅같은 경우 메세지를 발행하기 전, 메세지에 대한 전처리를 수행하는 PreHandler 설정 후 InBoundChannel을 가로채서 JWT 검증 수행
+
+
+
+
