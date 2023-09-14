@@ -9,17 +9,17 @@ import java.util.List;
 
 @Data
 public class ScrapDto {
-    private List<Long> scrapList;
+    private List<String> scrapList;
     private String title;
 
     public static ScrapDto fromEntity(Scrap entity, Feed feed) {
         ScrapDto dto = new ScrapDto();
-        List<Long> scrapList = new ArrayList<>();
+        List<String> scrapList = new ArrayList<>();
         for(Feed e : entity.getScrapList())
-            scrapList.add(e.getId());
+            scrapList.add(e.getTitle());
 
         dto.setScrapList(scrapList);
-        dto.setTitle(feed.getTitle());
+//        dto.setTitle(feed.getTitle());
 
         return dto;
     }

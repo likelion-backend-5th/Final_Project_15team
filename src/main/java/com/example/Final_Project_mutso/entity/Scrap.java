@@ -24,6 +24,6 @@ public class Scrap {
 
     @ManyToMany
     @JoinColumn(name="scrap")
-    private List<Feed> scrapList;
+    private List<Feed> scrapList = new ArrayList<>();
 
 }
