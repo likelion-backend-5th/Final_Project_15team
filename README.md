@@ -1,4 +1,4 @@
-# MutsaSNS Project
+# Music SNS Platform (TECHIT BACK-END SCHOOL 5TH 최종 프로젝트)
 이때까지 학습한 Spring boot CRUD 구현과 Security를 활용해 SNS 만들기
 
 ## 📂   프로젝트 소개
@@ -63,7 +63,7 @@
 
 
 ### ⏲️  개발 기간
-- 2023.08.03 ~ 2023.08.08 ( 총 6일 )
+- 2023.08.09 ~ 2023.09.15 ( 총 38일 )
 
 
 ### ⚙️  개발 환경 
@@ -72,7 +72,10 @@
 - IntelliJ IDE
 - Postman
 - Spring Boot
-- SQLite
+- MySQL
+- Amazon RDS
+- React
+- HTML, CSS, JS
   
 
 -------------
