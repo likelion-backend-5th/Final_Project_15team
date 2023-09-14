@@ -1,3 +1,90 @@
+# MutsaSNS Project
+이때까지 학습한 Spring boot CRUD 구현과 Security를 활용해 SNS 만들기
+
+## 📂   프로젝트 소개
+- 해당 프로젝트는 기본적으로 CRUD를 구현
+- 기존 프로젝트에서 Jwt 토큰을 이용하여 사용자 인증, 권한 부여
+- 기존 프로젝트보다 좀 더 심화된 관계매핑을 주로 다루었음 (사용자, 피드, 좋아요, 이미지 등)
+
+
+
+
+### 🗒️  테스트 방법
+<details>
+<summary>1. 테스트 파일 다운로드하기</summary>  
+ 
+- 해당 레포지토리에 있는 자바 프로젝트 파일 ( mutsaSNS )과 함께 첨부된 POSTMAN COLLECTION 파일을 다운로드
+
+<img width="920" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/ab612667-9940-4bf3-8476-9cfba97cba51">
+</details>
+
+
+<details>
+<summary>2. Intellij에서 sqlite 설정</summary>
+
+<img width="538" alt="image" src="https://github.com/likelion-backend-5th/Project_1_KimHyeonJeong/assets/128394219/9dff8ab9-7935-44b8-9442-5ee9d0fccd2b">
+
+
+<img width="795" alt="image" src="https://github.com/likelion-backend-5th/Project_1_KimHyeonJeong/assets/128394219/a44a76d0-96a3-4eaf-a4db-cec87e879e78">
+
+</details>
+
+<details>
+<summary>3. Postman </summary>  
+
+  
+### <div> - 권한 테스트 시아래와 같이 설정된 토큰을 따로 발급 받아야 함 </div> ###
+- 모든 테스트는 Jwt를 먼저 발급 받은 후 진행되어야 한다. (/token/issue)
+- CRUD 같은 경우 모든 테스트는 Jwt 발급 후 Article 생성 후 진행되어야 한다.
+
+
+### <div> - Jwt 발급 및 사용 </div> ###
+<img width="886" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/64f14d3e-74e4-45b3-a5c6-6c91dddb62ac">
+
+
+### <div> - Postman EndPoint 설명 </div> ###
+`POST /users/register` : 회원가입 기능  
+`POST /token/issue` : JWT 발급 기능  
+`GET /users` : DB에 저장되어 있는 사용자 조회  
+`PUT /users/image` : 사용자 프로필 이미지 업로드  
+`POST /article` : 피드 생성  
+`PUT /article/{articleId}/images` : 피드 이미지 업로드 (여러장)  
+`GET /article` : 모든 피드 목록 조회   
+`GET /article/{articleId}` : 특정 피드 조회   
+
+
+
+
+### <div> - 유저명 / 권한</div>
+<div>user : USER (read)</div>
+<div>admin : ADMIN (read, write)</div>
+
+</details>
+
+
+### ⏲️  개발 기간
+- 2023.08.03 ~ 2023.08.08 ( 총 6일 )
+
+
+### ⚙️  개발 환경 
+- JDK 1.7
+- Java 8
+- IntelliJ IDE
+- Postman
+- Spring Boot
+- SQLite
+  
+
+-------------
+## 📍 주요 기능 및 요구사항
+### Day 1
+#### 사용자 인증하기
+- 사용자는 회원가입을 진행할 수 있다.
+- 아이디 비밀번호를 통해 로그인을 할 수 있어야 한다. (부수적으로 이메일, 전화번호를 기입할 수 있음)
+- 인증 방식은 JWT를 이용한 토큰 인증 방식을 택한다. (로그인 기능)
+- 로그인 한 상태에서 자신을 태표하는 프로필 사진을 업로드 할 수 있다.
+
+
 # 채팅
 - 채팅방 생성 : `POST/chat/rooms` / response: `{"id": 3,"roomName": "room1","userCount": 0,"imageUrl": "이미지 url"}`
 <img width="853" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/602119ec-5cc5-4fec-b268-96ac1a5a0002">
