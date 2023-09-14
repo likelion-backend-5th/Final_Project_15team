@@ -166,11 +166,11 @@ public class UserController {
         return userService.userScrap(id);
     }
 
-    @GetMapping("/mypage/{id}/scrap")
+    @GetMapping("/mypage/{username}/scrap")
     public ScrapDto getUserScraps(
-            @PathVariable("id") Long id
+            @PathVariable("username") String username
     ) {
-        return userService.getUserScraps(id);
+        return userService.getUserScraps(username);
     }
 
 }

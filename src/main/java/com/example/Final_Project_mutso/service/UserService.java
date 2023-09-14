@@ -184,8 +184,13 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok(responseBody);
     }
 
-    public ScrapDto getUserScraps(Long id) {
-        Optional<Feed> optionalFeed = feedRepository.findById(id);
+    public ScrapDto getUserScraps(String username) {
+        Optional<UserEntity> testUser = userRepository.findByUsername(username);
+        if(testUser.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        UserEntity user = testUser.get();
+
+        Optional<Feed> optionalFeed = feedRepository.findByUser(user);
         if(optionalFeed.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         Feed feed = optionalFeed.get();
