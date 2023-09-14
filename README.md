@@ -1,3 +1,16 @@
+# Mutso
+- 음악 애호가들을 위한 SNS와 Music의 결합 플랫폼
+
+
+
+# 개발 기간
+2023 - 08 -20 ~ 2023 - 09 -14
+
+
+
+
+
+
 # 채팅
 - 채팅방 생성 : `POST/chat/rooms` / response: `{"id": 3,"roomName": "room1","userCount": 0,"imageUrl": "이미지 url"}`
 <img width="853" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/602119ec-5cc5-4fec-b268-96ac1a5a0002">
