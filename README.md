@@ -1,21 +1,26 @@
 # Music SNS Platform
-이때까지 학습한 Spring boot CRUD 구현과 Security를 활용해 SNS 만들기
+이때까지 학습한 Spring boot CRUD 구현과 Security를 활용하고
+부가적으로 넣고 싶은 기능을 따로 학습해 만든 SNS (+음원서비스)
 
 ## 📂   프로젝트 소개
 - 해당 프로젝트는 기본적으로 CRUD를 구현
 - 기존 프로젝트에서 Jwt 토큰을 이용하여 사용자 인증, 권한 부여
-- 기존 프로젝트보다 좀 더 심화된 관계매핑을 주로 다루었음 (사용자, 피드, 좋아요, 이미지 등)
+- 기존 프로젝트보다 좀 더 심화된 관계매핑을 주로 다루었음
+- 로그인, 회원가입, 마이페이지, 팔로우, 스크랩 기능 구현
+- 피드 댓글, 해시태그, 좋아요 기능 구현
+- 웹소켓을 활용한 채팅 기능 구현
+- 유튜브 api를 활용한 뮤직플레이 기능 구현
+- 리액트를 활용한 웹 페이지 구현
 
 ### 🗒️  테스트 방법
-<details>
-<summary>1. 테스트 파일 다운로드 하기</summary>  
 
-- 해당 레포지토리에 있는 자바 프로젝트 파일 ( main branch )과 함께 첨부된 POSTMAN COLLECTION 파일을 다운로드
+테스트 파일 다운로드 하기
 
-</details>
+해당 레포지토리에 있는 (main branch) 자바 프로젝트 파일과 함께 첨부된 POSTMAN COLLECTION 파일을 다운로드
 
 <details>
-<summary>2. Postman </summary>  
+  
+<summary> Postman </summary>  
 
 # 채팅
 - 채팅방 생성 : `POST/chat/rooms` / response: `{"id": 3,"roomName": "room1","userCount": 0,"imageUrl": "이미지 url"}`
@@ -39,9 +44,6 @@
 - 소켓 연결 끊기 (채팅방 나가기) : `app/chat/eixt` (@MessageMapping("/chat/exit"))
 - 채팅방 입장 : `/chat/room/enter/{roomId}`
 - 채팅방 입장 메세지 : `/app/chat/enter`(@MessageMapping("/chat/enter"))
-
-
-
 
 
 # 피드
@@ -135,11 +137,6 @@
   playlistname에 조회하고자 하는 플레이리스트의 이름을 넣으면 됩니다.
 
 
-  
-
-  
-
-
 # 마이페이지
 - 회원가입
 - Post http://localhost:8080/users/register
@@ -190,7 +187,6 @@ Params key: nickname, introduction value: 입력, auth bearer token 에서 토�
 ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/47e32cf8-4394-41cf-b504-813ddf1cd943)
 
 ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/281fad83-bf83-4ffd-9289-43d7319b87b5)
-
 
 </details>
 
