@@ -44,67 +44,67 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/app");
     }
 
-//    @Override
-//    public void configureClientInboundChannel(ChannelRegistration registration) {
-//        registration.interceptors(new ChannelInterceptor() {
-//            @Override
-//            public Message<?> preSend(Message<?> message, MessageChannel channel) {
-//                log.info("1");
-//                // STOMP 메시지의 헤더 정보를 읽거나 수정
-//                StompHeaderAccessor accessor
-//                        = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-//                // StompCommand.CONNECT 명령은 클라이언트가 웹 소켓에 연결을 시도할 때 사용
-//                if (accessor != null && StompCommand.CONNECT.equals(accessor.getCommand())) {
-//                    log.info("2");
-//                    // "token"이라는 이름의 헤더에서 토큰 정보를 가져옵니다.
-//                    List<String> authToken = accessor.getNativeHeader("Authorization");
-//                    // 토큰 정보가 존재하고 하나의 토큰만 전달된 경우(authToken.size() == 1) 해당 토큰 값을 가져온다.
-//                    log.info("authToken : "+authToken);
-//                    if (authToken != null && authToken.size() == 1) {
-//                        String tokenValue = authToken.get(0); // 토큰 값 가져오기
-//                        log.info(tokenValue);
-//                        log.info("토큰 받음");
-//                        // JWT 토큰을 파싱하여 토큰의 subject(주체)를 추출, 이 값은 사용자의 정보를 검색하기 위해 사용
-//                        // 주어진 JWT 토큰(tokenValue)을 파싱하여 그 안에 포함된 클레임(claim)들을 추출
-//                        String username = jwtTokenUtils.parseClaims(tokenValue)
-//                                .getSubject();
-//                        // UserDetails 객체를 사용하여 사용자 정보를 가져옵
-//                        UserDetails userDetails = userService.loadUserByUsername(username);
-//                        log.info("여기까지 왔다 3 - tokenValue 지나침");
-//                        // UsernamePasswordAuthenticationToken을 사용하여 사용자 정보와 권한을 포함한 인증 객체를 생성
-//                        Authentication authentication = new UsernamePasswordAuthenticationToken(
-//                                // 사용자 정보 객체
-//                                userDetails,
-//                                // 인증에 사용된 자격 증명으로 인증 토큰과 같은 정보를 나타냄
-//                                authToken,
-//                                // 사용자의 권한 목록을 나타내는 컬렉션
-//                                userDetails.getAuthorities()
-//                        );
-//                        // accessor.setUser(authentication)을 사용하여 STOMP 메시지의 사용자를 설정합니다.
-//                        // 이를 통해 클라이언트가 웹 소켓 연결을 통해 인증된 사용자로 간주
-//                        accessor.setUser(authentication);
-//                    } else throw new AccessDeniedException("잘못된 토큰!");
-//                    // STOMP(스트리밍 전송 프로토콜) 메시지의 명령(command)가 SUBSCRIBE인 경우
-//                } else if (accessor != null && StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
-//                    try {
-//                        Authentication authentication = (Authentication) accessor.getUser();
-//                        if (authentication != null) {
-//                            CustomUserDetails jwtUserDetails = (CustomUserDetails) ((Authentication) accessor.getUser()).getPrincipal();
-//                            if (!accessor.getDestination().endsWith(String.format("/%d", jwtUserDetails.getId())))
-//                                throw new AccessDeniedException("forbidden");
-//                        }
-//                        else {
-//                            throw new AccessDeniedException("invalid credentials");
-//                        }
-//                    } catch (ClassCastException | NullPointerException e) {
-//                        log.error(e.getMessage());
-//                        throw new AccessDeniedException("invalid credentials");
-//                    }
-//                }
-//                return message;
-//            }
-//        });
-//    }
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(new ChannelInterceptor() {
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                log.info("1");
+                // STOMP 메시지의 헤더 정보를 읽거나 수정
+                StompHeaderAccessor accessor
+                        = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+                // StompCommand.CONNECT 명령은 클라이언트가 웹 소켓에 연결을 시도할 때 사용
+                if (accessor != null && StompCommand.CONNECT.equals(accessor.getCommand())) {
+                    log.info("2");
+                    // "token"이라는 이름의 헤더에서 토큰 정보를 가져옵니다.
+                    List<String> authToken = accessor.getNativeHeader("Authorization");
+                    // 토큰 정보가 존재하고 하나의 토큰만 전달된 경우(authToken.size() == 1) 해당 토큰 값을 가져온다.
+                    log.info("authToken : "+authToken);
+                    if (authToken != null && authToken.size() == 1) {
+                        String tokenValue = authToken.get(0); // 토큰 값 가져오기
+                        log.info(tokenValue);
+                        log.info("토큰 받음");
+                        // JWT 토큰을 파싱하여 토큰의 subject(주체)를 추출, 이 값은 사용자의 정보를 검색하기 위해 사용
+                        // 주어진 JWT 토큰(tokenValue)을 파싱하여 그 안에 포함된 클레임(claim)들을 추출
+                        String username = jwtTokenUtils.parseClaims(tokenValue)
+                                .getSubject();
+                        // UserDetails 객체를 사용하여 사용자 정보를 가져옵
+                        UserDetails userDetails = userService.loadUserByUsername(username);
+                        log.info("여기까지 왔다 3 - tokenValue 지나침");
+                        // UsernamePasswordAuthenticationToken을 사용하여 사용자 정보와 권한을 포함한 인증 객체를 생성
+                        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                                // 사용자 정보 객체
+                                userDetails,
+                                // 인증에 사용된 자격 증명으로 인증 토큰과 같은 정보를 나타냄
+                                authToken,
+                                // 사용자의 권한 목록을 나타내는 컬렉션
+                                userDetails.getAuthorities()
+                        );
+                        // accessor.setUser(authentication)을 사용하여 STOMP 메시지의 사용자를 설정합니다.
+                        // 이를 통해 클라이언트가 웹 소켓 연결을 통해 인증된 사용자로 간주
+                        accessor.setUser(authentication);
+                    } else throw new AccessDeniedException("잘못된 토큰!");
+                    // STOMP(스트리밍 전송 프로토콜) 메시지의 명령(command)가 SUBSCRIBE인 경우
+                } else if (accessor != null && StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
+                    try {
+                        Authentication authentication = (Authentication) accessor.getUser();
+                        if (authentication != null) {
+                            CustomUserDetails jwtUserDetails = (CustomUserDetails) ((Authentication) accessor.getUser()).getPrincipal();
+                            if (!accessor.getDestination().endsWith(String.format("/%d", jwtUserDetails.getId())))
+                                throw new AccessDeniedException("forbidden");
+                        }
+                        else {
+                            throw new AccessDeniedException("invalid credentials");
+                        }
+                    } catch (ClassCastException | NullPointerException e) {
+                        log.error(e.getMessage());
+                        throw new AccessDeniedException("invalid credentials");
+                    }
+                }
+                return message;
+            }
+        });
+    }
 }
 
 
