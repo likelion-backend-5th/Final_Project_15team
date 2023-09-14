@@ -112,9 +112,6 @@ public class CommentService {
         if (!commentRepository.existsById(commentId))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);  // 자유롭게 상황대처
 
-//        Optional<Feed> optionalFeed
-//                = feedRepository.findById(feedId);
-//        Feed feed = optionalFeed.get();
 
         Optional<Comment> optionalComment
                 = commentRepository.findById(commentId);
@@ -133,7 +130,13 @@ public class CommentService {
 
     }
 
+    public void deleteFeedComment(Long feedId) {
+        List<Comment> comments = commentRepository.findAllByFeedId(feedId);
 
+        for (Comment e : comments) {
+            commentRepository.delete(e);
+        }
+    }
 
 //    public ResponseDto addReply(
 //            Long feedId,
