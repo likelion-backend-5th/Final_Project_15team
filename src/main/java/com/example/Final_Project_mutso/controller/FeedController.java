@@ -11,13 +11,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,7 +94,7 @@ public class FeedController {
         }
 
         @PostMapping("/{feedId}/like")// 좋아요 클릭
-        public ResponseEntity<String> likeFeed(
+        public String likeFeed(
                 @PathVariable("feedId") Long feedId,
                 Authentication authentication
     ) {
@@ -109,6 +107,14 @@ public class FeedController {
     ) {
         return feedService.getCntFeedLikes(feedId);
     }
+
+    @GetMapping("/{feedId}/likeUsers")// 좋아요한 유저 목록
+    public List<String> likeUsers(
+            @PathVariable("feedId") Long feedId
+    ) {
+        return feedService.getFeedLikeUsers(feedId);
+    }
+
     @GetMapping("/hashSearch")
     public List<FeedListDto> searchHash(
             @RequestPart String keyword
