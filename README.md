@@ -9,6 +9,14 @@
 
 # 개발 환경
 - Java Spring
+  - gson /
+    security, jwt /
+    jpa /
+    thymeleaf /
+    validation /
+    websocket /
+    devtools /
+    lombok 
 - Intellij
 - React
 - MySql
