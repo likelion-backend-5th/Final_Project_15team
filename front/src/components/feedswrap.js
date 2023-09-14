@@ -74,8 +74,9 @@ const clickFollow = (username) => {
 function Feedswrap(props) {
   const navigate = useNavigate();
   // const [commentIndex, setCommentIndex] = useState([]);
-  const [like, setLike] = useState(false);
-  const likes = 10;
+  const [like, setLike] = useState();
+  const [viewLike, setViewLike] = useState(false);
+  const [likeUser, setLikeUser] = useState();
   const [data, setData] = useState([]);
   const [rerender, setRerender] = useState();
   const [hashtag, setHashtag] = useState([]);
@@ -89,11 +90,36 @@ function Feedswrap(props) {
         console.log(res.data);
         const reverse = res.data.reverse();
         setData(reverse);
+        console.log(typeof res.data[0].id);
       })
       .catch((error) => {
         console.log(error);
       });
+    data.map((a, b) => {
+      axios
+        .get("http://localhost:8080/feed/" + a.id + "/like")
+        .then((res) => {
+          console.log("좋아요불러오기");
+          console.log(like);
+          setLike([...like, res.data]);
+        })
+        .catch((err) => {
+          console.log(err.data);
+        });
+    });
   }, [rerender]);
+
+  const likeFeed = (id) => {
+    axios
+      .post("http://localhost:8080/feed/" + id + "/like")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.data);
+      });
+  };
+
   return (
     <Box
       sx={{
@@ -150,13 +176,14 @@ function Feedswrap(props) {
                     <Icons>
                       <IconButton
                         onClick={() => {
-                          if (like) {
-                            setLike(false);
-                          } else {
-                            setLike(true);
+                          if (viewLike) {
+                            setViewLike(false);
+                          } else if (likeUser === i.username) {
+                            setViewLike(true);
                           }
+                          likeFeed(i.id);
                         }}>
-                        {like ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+                        {viewLike ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
                       </IconButton>
                       <IconButton>
                         <AddCommentIcon
@@ -180,7 +207,7 @@ function Feedswrap(props) {
                         <BookmarkAddIcon />
                       </IconButton>
                     </Icons>
-                    <LikeText>{likes}명이 좋아합니다.</LikeText>
+                    <LikeText>{like}명이 좋아합니다.</LikeText>
                   </LCwrap>
                   <Title>{i.title}</Title>
                   <Contents>{i.content}</Contents>

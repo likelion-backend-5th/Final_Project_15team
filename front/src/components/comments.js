@@ -12,16 +12,27 @@ import CreateIcon from "@mui/icons-material/Create";
 let CommentBox = styled.div``;
 
 function Comments(commentData) {
-  const [data, setData] = useState(commentData.props);
+  // const [data, setData] = useState(commentData.props);
   const [reply, setReply] = useState();
   const [feedId, setFeedId] = useState();
   const [commentId, setCommentId] = useState();
   const [putComment, setPutComment] = useState();
   const [viewPutComment, setViewPutComment] = useState(false);
+  const [rerender, setRerender] = useState();
+  const [comment, setComment] = useState([]);
 
   useEffect(() => {
-    setFeedId(commentData.id);
-  }, []);
+    setFeedId(commentData.feed);
+    axios
+      .get("http://localhost:8080/feed")
+      .then((res) => {
+        console.log(res.data);
+        setComment(res.data[feedId - 1].comments);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [rerender]);
   const updateComment = () => {
     const formData = new FormData();
     formData.append("content", putComment);
@@ -33,6 +44,8 @@ function Comments(commentData) {
       .then((res) => {
         console.log(res);
         commentData.setRerender(Math.random());
+        setRerender(Math.random());
+        setPutComment("");
       })
       .catch((err) => {
         console.log(err);
@@ -48,6 +61,7 @@ function Comments(commentData) {
       .then((res) => {
         console.log(res);
         commentData.setRerender(Math.random());
+        setRerender(Math.random());
       })
       .catch((err) => {
         console.log(err.message);
@@ -65,6 +79,7 @@ function Comments(commentData) {
         console.log("댓글 생성");
         console.log(res);
         commentData.setRerender(Math.random());
+        setRerender(Math.random());
         setReply("");
       })
       .catch((err) => {
@@ -74,8 +89,8 @@ function Comments(commentData) {
   return (
     <>
       <CommentBox>
-        {data
-          ? data.map(function (i, b) {
+        {comment
+          ? comment.map(function (i, b) {
               return (
                 <>
                   <div
@@ -113,7 +128,7 @@ function Comments(commentData) {
                         <TextField
                           fullwidth
                           id="fullwidth"
-                          label="댓글수정"
+                          label=""
                           variant="standard"
                           value={putComment}
                           onChange={putCommentHandler}
