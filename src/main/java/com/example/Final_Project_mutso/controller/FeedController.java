@@ -33,6 +33,8 @@ public class FeedController {
     private final FeedHashtagService feedHashtagService;
     private final AuthenticationFacade authFacade;
     private final FeedRepository feedRepository;
+    private final CommentService commentService;
+    private final FeedLikeService feedLikeService;
 
     @GetMapping
     public List<FeedDto> getFeed() {
@@ -86,34 +88,17 @@ public class FeedController {
             Optional<Feed> feed = feedRepository.findById(feedId);
             if(loginedUser.getId().equals(feed.get().getUser().getId())){
                 fileService.deleteFile(feedId);
-                feedService.deleteFeed(feedId);
                 feedHashtagService.deleteFeedHashtag(feedId);
+                commentService.deleteFeedComment(feedId);
+                feedLikeService.deleteFeedLikes(feedId);
+                feedService.deleteFeedScrap(feedId);
+                feedService.deleteFeed(feedId);
             }
 
 //        return "redirect:/feed";
         }
 
-        @PostMapping("/{feedId}/like")// 좋아요 클릭
-        public String likeFeed(
-                @PathVariable("feedId") Long feedId,
-                Authentication authentication
-    ) {
-            return feedService.likeFeed(feedId);
-        }
 
-    @GetMapping("/{feedId}/like")// 좋아요 개수
-    public int likeCnt(
-            @PathVariable("feedId") Long feedId
-    ) {
-        return feedService.getCntFeedLikes(feedId);
-    }
-
-    @GetMapping("/{feedId}/likeUsers")// 좋아요한 유저 목록
-    public List<String> likeUsers(
-            @PathVariable("feedId") Long feedId
-    ) {
-        return feedService.getFeedLikeUsers(feedId);
-    }
 
     @GetMapping("/hashSearch")
     public List<FeedListDto> searchHash(

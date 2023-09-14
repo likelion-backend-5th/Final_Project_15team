@@ -28,10 +28,9 @@ public class FeedService {
     private final FileService fileService;
     private final FeedFileRepository feedFileRepository;
     private final CommentService commentService;
-    private final FeedLikeRepository feedLikeRepository;
     private final FeedHashtagService feedHashtagService;
-    private final AuthenticationFacade authFacade;
     private final UserRepository userRepository;
+    private final ScrapRepository scrapRepository;
 
     public void createFeed(FeedDto dto, String tags, MultipartFile file) throws IOException {
 
@@ -113,47 +112,12 @@ public class FeedService {
         }
     }
 
-    //좋아요 기능
-    public String likeFeed(Long feedId) {
-        Feed feed = feedRepository.findById(feedId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Feed not found with id: " + feedId));
-
-        UserEntity loginedUser = authFacade.getUser();
-
-        if (loginedUser.getUsername().isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-        Optional<FeedLike> feedLike = feedLikeRepository.findByUserId(loginedUser.getId());
-        if(feedLike.isEmpty()){
-            FeedLike likes = FeedLike.builder()
-                    .user(loginedUser)
-                    .feed(feed)
-                    .build();
-
-            feed.addLikes(likes);
-            feedRepository.save(feed);
-//            return ResponseEntity.ok("좋아요가 반영되었습니다.");
+    public void deleteFeedScrap(Long feedId) {
+        Optional<Feed> optionalFeed = feedRepository.findById(feedId);
+        List<Scrap> scraps = scrapRepository.findByFeed(optionalFeed.get());
+        for (Scrap e : scraps) {
+            scrapRepository.delete(e);
         }
-        else {
-            feedLikeRepository.delete(feedLike.get());
-//            return ResponseEntity.ok("좋아요가 취소되었습니다.");
-        }
-
-        return loginedUser.getUsername();
-
     }
 
-    //좋아요 개수
-    public int getCntFeedLikes(Long feedId) {
-        return feedLikeRepository.countFeedLikeByFeed_Id(feedId);
-    }
-
-    public List<String> getFeedLikeUsers(Long feedId) {
-        List<FeedLike> feedLike = feedLikeRepository.findByFeedId(feedId);
-        List<String> likeUsers = new ArrayList<>();
-        for (FeedLike e: feedLike) {
-             likeUsers.add(e.getUser().getUsername());
-        }
-        return likeUsers;
-    }
 }
