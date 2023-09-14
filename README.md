@@ -11,26 +11,14 @@
 
 ### 🗒️  테스트 방법
 <details>
-<summary>1. 테스트 파일 다운로드하기</summary>  
- 
+<summary>1. 테스트 파일 다운로드 하기</summary>  
+
 - 해당 레포지토리에 있는 자바 프로젝트 파일 ( main branch )과 함께 첨부된 POSTMAN COLLECTION 파일을 다운로드
 
-<img width="920" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/ab612667-9940-4bf3-8476-9cfba97cba51">
-</details>
-
-
-<details>
-<summary>2. Intellij에서 sqlite 설정</summary>
-
-<img width="538" alt="image" src="https://github.com/likelion-backend-5th/Project_1_KimHyeonJeong/assets/128394219/9dff8ab9-7935-44b8-9442-5ee9d0fccd2b">
-
-
-<img width="795" alt="image" src="https://github.com/likelion-backend-5th/Project_1_KimHyeonJeong/assets/128394219/a44a76d0-96a3-4eaf-a4db-cec87e879e78">
-
 </details>
 
 <details>
-<summary>3. Postman </summary>  
+<summary>2. Postman </summary>  
 
   
 ### <div> - 권한 테스트 시아래와 같이 설정된 토큰을 따로 발급 받아야 함 </div> ###
