@@ -39,7 +39,7 @@ public class YoutubeVideoService {
     private static final String GOOGLE_YOUTUBE_URL =  "https://www.youtube.com/watch?v=";
     private static final String YOUTUBE_SEARCH_FIELDS = "items(id/kind,id/videoId,snippet/title," +
             "snippet/description,snippet/channelTitle,snippet/thumbnails/default/url)";
-    private static final String YOUTUBE_APIKEY = "AIzaSyAj95x7jyV6YJCg1owyMqMoRTN-PHe15-E";
+    private static final String YOUTUBE_APIKEY = "";
 
     private static YouTube youtube;
     private static List<MusicEntity> playList;
