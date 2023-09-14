@@ -230,6 +230,7 @@ Params key: nickname, introduction value: 입력, auth bearer token 에서 토�
 - Amazon RDS
 - React
 - HTML, CSS, JS
+- git
   
 
 -------------
@@ -237,7 +238,4 @@ Params key: nickname, introduction value: 입력, auth bearer token 에서 토�
 ### Day 1
 #### 사용자 인증하기
 - 사용자는 회원가입을 진행할 수 있다.
-- 아이디 비밀번호를 통해 로그인을 할 수 있어야 한다. (부수적으로 이메일, 전화번호를 기입할 수 있음)
-- 인증 방식은 JWT를 이용한 토큰 인증 방식을 택한다. (로그인 기능)
-- 로그인 한 상태에서 자신을 태표하는 프로필 사진을 업로드 할 수 있다.
 
