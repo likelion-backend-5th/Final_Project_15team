@@ -4,10 +4,20 @@
 
 
 # 개발 기간
-2023 - 08 -20 ~ 2023 - 09 -14
+- 2023 - 08 -20 ~ 2023 - 09 -14
 
 
+# 개발 환경
+- Java Spring
+- Intellij
+- React
+- MySql
+- Youtube data api
+- Youtube iframe api
 
+
+# 테스트 방법
+- YoutubeVideoService.java
 
 
 
