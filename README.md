@@ -1,4 +1,4 @@
-# Music SNS Platform (TECHIT BACK-END SCHOOL 5TH 최종 프로젝트)
+# Music SNS Platform
 이때까지 학습한 Spring boot CRUD 구현과 Security를 활용해 SNS 만들기
 
 ## 📂   프로젝트 소개
