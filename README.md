@@ -6,9 +6,6 @@
 - 기존 프로젝트에서 Jwt 토큰을 이용하여 사용자 인증, 권한 부여
 - 기존 프로젝트보다 좀 더 심화된 관계매핑을 주로 다루었음 (사용자, 피드, 좋아요, 이미지 등)
 
-
-
-
 ### 🗒️  테스트 방법
 <details>
 <summary>1. 테스트 파일 다운로드 하기</summary>  
@@ -19,12 +16,6 @@
 
 <details>
 <summary>2. Postman </summary>  
-
-  
-### <div> - 권한 테스트 시아래와 같이 설정된 토큰을 따로 발급 받아야 함 </div> ###
-- 모든 테스트는 Jwt를 먼저 발급 받은 후 진행되어야 한다. (/token/issue)
-- CRUD 같은 경우 모든 테스트는 Jwt 발급 후 Article 생성 후 진행되어야 한다.
-
 
 # 채팅
 - 채팅방 생성 : `POST/chat/rooms` / response: `{"id": 3,"roomName": "room1","userCount": 0,"imageUrl": "이미지 url"}`
