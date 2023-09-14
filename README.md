@@ -13,7 +13,7 @@
 <details>
 <summary>1. 테스트 파일 다운로드하기</summary>  
  
-- 해당 레포지토리에 있는 자바 프로젝트 파일 ( mutsaSNS )과 함께 첨부된 POSTMAN COLLECTION 파일을 다운로드
+- 해당 레포지토리에 있는 자바 프로젝트 파일 ( main branch )과 함께 첨부된 POSTMAN COLLECTION 파일을 다운로드
 
 <img width="920" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/ab612667-9940-4bf3-8476-9cfba97cba51">
 </details>
