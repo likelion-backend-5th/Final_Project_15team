@@ -38,56 +38,6 @@
 - CRUD 같은 경우 모든 테스트는 Jwt 발급 후 Article 생성 후 진행되어야 한다.
 
 
-### <div> - Jwt 발급 및 사용 </div> ###
-<img width="886" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/64f14d3e-74e4-45b3-a5c6-6c91dddb62ac">
-
-
-### <div> - Postman EndPoint 설명 </div> ###
-`POST /users/register` : 회원가입 기능  
-`POST /token/issue` : JWT 발급 기능  
-`GET /users` : DB에 저장되어 있는 사용자 조회  
-`PUT /users/image` : 사용자 프로필 이미지 업로드  
-`POST /article` : 피드 생성  
-`PUT /article/{articleId}/images` : 피드 이미지 업로드 (여러장)  
-`GET /article` : 모든 피드 목록 조회   
-`GET /article/{articleId}` : 특정 피드 조회   
-
-
-
-
-### <div> - 유저명 / 권한</div>
-<div>user : USER (read)</div>
-<div>admin : ADMIN (read, write)</div>
-
-</details>
-
-
-### ⏲️  개발 기간
-- 2023.08.09 ~ 2023.09.15 ( 총 38일 )
-
-
-### ⚙️  개발 환경 
-- JDK 1.7
-- Java 8
-- IntelliJ IDE
-- Postman
-- Spring Boot
-- MySQL
-- Amazon RDS
-- React
-- HTML, CSS, JS
-  
-
--------------
-## 📍 주요 기능 및 요구사항
-### Day 1
-#### 사용자 인증하기
-- 사용자는 회원가입을 진행할 수 있다.
-- 아이디 비밀번호를 통해 로그인을 할 수 있어야 한다. (부수적으로 이메일, 전화번호를 기입할 수 있음)
-- 인증 방식은 JWT를 이용한 토큰 인증 방식을 택한다. (로그인 기능)
-- 로그인 한 상태에서 자신을 태표하는 프로필 사진을 업로드 할 수 있다.
-
-
 # 채팅
 - 채팅방 생성 : `POST/chat/rooms` / response: `{"id": 3,"roomName": "room1","userCount": 0,"imageUrl": "이미지 url"}`
 <img width="853" alt="image" src="https://github.com/likelion-backend-5th/MiniProject_Basic_kimhyeonjeong/assets/128394219/602119ec-5cc5-4fec-b268-96ac1a5a0002">
@@ -261,3 +211,33 @@ Params key: nickname, introduction value: 입력, auth bearer token 에서 토�
 ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/47e32cf8-4394-41cf-b504-813ddf1cd943)
 
 ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/281fad83-bf83-4ffd-9289-43d7319b87b5)
+
+
+</details>
+
+
+### ⏲️  개발 기간
+- 2023.08.09 ~ 2023.09.15 ( 총 38일 )
+
+
+### ⚙️  개발 환경 
+- JDK 1.7
+- Java 8
+- IntelliJ IDE
+- Postman
+- Spring Boot
+- MySQL
+- Amazon RDS
+- React
+- HTML, CSS, JS
+  
+
+-------------
+## 📍 주요 기능 및 요구사항
+### Day 1
+#### 사용자 인증하기
+- 사용자는 회원가입을 진행할 수 있다.
+- 아이디 비밀번호를 통해 로그인을 할 수 있어야 한다. (부수적으로 이메일, 전화번호를 기입할 수 있음)
+- 인증 방식은 JWT를 이용한 토큰 인증 방식을 택한다. (로그인 기능)
+- 로그인 한 상태에서 자신을 태표하는 프로필 사진을 업로드 할 수 있다.
+
