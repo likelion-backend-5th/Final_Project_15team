@@ -34,4 +34,7 @@ public class UserEntity {
     @JoinTable(name = "user_chattings")
     private List<ChattingRoom> rooms = new ArrayList<>();
 
+    @OneToMany
+    private List<Feed> feeds;
+
 }

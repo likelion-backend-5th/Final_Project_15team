@@ -151,21 +151,34 @@ public class UserService implements UserDetailsService {
 
         Feed feed = findFeedOr404(id);
 
-        UserEntity userEntity = authFacade.getUser();
+//        UserEntity userEntity = authFacade.getUser();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity userEntity = userRepository.findAllByUsername(username);
+
+        List<Scrap> optionalScrap = scrapRepository.findByFeed(feed);
+        if (optionalScrap.isEmpty()) {
+            Scrap userScrapList = new Scrap();
+            userScrapList.setUser(userEntity);
+            userScrapList.setFeed(feed);
+            optionalScrap = List.of(userScrapList);
+        }
+
+        Scrap userScrapList = optionalScrap.get(0);
 
         if (feed.getUserScrap().contains(userEntity))
         {
             feed.getUserScrap().remove(userEntity);
             responseBody.put(userEntity.getUsername(), "님이 스크랩을 취소했습니다.");
+            userScrapList.getScrapList().remove(feed);
         }
         else
         {
             feed.getUserScrap().add(userEntity);
             responseBody.put(userEntity.getUsername(), "님이 스크랩을 추가했습니다.");
-            Scrap userScrapList = new Scrap();
+            //Scrap userScrapList = new Scrap();
             userScrapList.getScrapList().add(feed);
-            scrapRepository.save(userScrapList);
         }
+        scrapRepository.save(userScrapList);
         feedRepository.save(feed);
 
         return ResponseEntity.ok(responseBody);
