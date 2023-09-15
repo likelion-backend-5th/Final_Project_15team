@@ -1,0 +1,1164 @@
+{
+	"info": {
+		"_postman_id": "47659bd5-083a-4c02-a843-3b22b3fcb946",
+		"name": "mutso",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28127299"
+	},
+	"item": [
+		{
+			"name": "유저",
+			"item": [
+				{
+					"name": "회원가입",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "nickname",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "password-check",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "phonenumber",
+									"value": "1234",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "user@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "회원가입2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "nickname",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "password-check",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "phonenumber",
+									"value": "1234",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "로그인",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "test@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "test",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "토큰 검증 후 유저 데이터 전달",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NjU0ODEyLCJleHAiOjE2OTQ2NTg0MTJ9.iyOYy-SlBF2HJEGKkT8HvzBKcLLnwiv8p1QlcruSdGgCwP0llk5MoNqE7hOntndGePuug93Z_h8DfpNWVdWceQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/secure-resource",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"secure-resource"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "팔로우",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NjU0ODEyLCJleHAiOjE2OTQ2NTg0MTJ9.iyOYy-SlBF2HJEGKkT8HvzBKcLLnwiv8p1QlcruSdGgCwP0llk5MoNqE7hOntndGePuug93Z_h8DfpNWVdWceQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/mypage/{username}/follow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"mypage",
+								"{username}",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "팔로우 목록",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NjU0ODEyLCJleHAiOjE2OTQ2NTg0MTJ9.iyOYy-SlBF2HJEGKkT8HvzBKcLLnwiv8p1QlcruSdGgCwP0llk5MoNqE7hOntndGePuug93Z_h8DfpNWVdWceQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/mypage/user/follow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"mypage",
+								"user",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "마이페이지",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NjU0ODEyLCJleHAiOjE2OTQ2NTg0MTJ9.iyOYy-SlBF2HJEGKkT8HvzBKcLLnwiv8p1QlcruSdGgCwP0llk5MoNqE7hOntndGePuug93Z_h8DfpNWVdWceQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/mypage/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"mypage",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "프로필 정보",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NjU0ODEyLCJleHAiOjE2OTQ2NTg0MTJ9.iyOYy-SlBF2HJEGKkT8HvzBKcLLnwiv8p1QlcruSdGgCwP0llk5MoNqE7hOntndGePuug93Z_h8DfpNWVdWceQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/users/mypage/user/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"mypage",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "프로필 이미지 등록",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/mypage/profile/imgupload?nickname=nick&introduction=안녕하세요",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"mypage",
+								"profile",
+								"imgupload"
+							],
+							"query": [
+								{
+									"key": "nickname",
+									"value": "nick"
+								},
+								{
+									"key": "introduction",
+									"value": "안녕하세요"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "피드",
+			"item": [
+				{
+					"name": "피드 생성",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "dto",
+									"value": "{\"title\": \"title\", \"content\": \"test\", \"hashtag\": \"#hash\"}",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/msk99/Videos/175.mp4"
+								},
+								{
+									"key": "title",
+									"value": "title",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "content",
+									"value": "test",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "hashtag",
+									"value": "#hash",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/feed/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"feed",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "피드 생성2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "dto",
+									"value": "{\"title\": \"title\", \"content\": \"test\", \"hashtag\": \"#hash\"}",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/msk99/Videos/175.mp4"
+								},
+								{
+									"key": "title",
+									"value": "title",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "content",
+									"value": "test",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "hashtag",
+									"value": "#hash",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/feed/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"feed",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "피드 생성3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "dto",
+									"value": "{\"title\": \"title\", \"content\": \"test\", \"hashtag\": \"#hash\"}",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/msk99/Videos/175.mp4"
+								},
+								{
+									"key": "title",
+									"value": "title",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "content",
+									"value": "test",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "hashtag",
+									"value": "#hash",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/feed/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"feed",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "피드 목록",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/feed",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"feed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "피드 상세",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/feed/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"feed",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "피드 수정",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "dto",
+									"value": "{\"title\": \"titlEdit\", \"content\": \"editTest\", \"hashtag\": \"#edit\"}",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/msk99/Pictures/0.jpg"
+								},
+								{
+									"key": "title",
+									"value": "editTitle",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "content",
+									"value": "editContent",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "hashtag",
+									"value": "#0",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/feed/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"feed",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "피드 삭제",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/feed/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"feed",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "피드 좋아요/좋아요 취소",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/feed/1/like",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"feed",
+								"1",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "피드 좋아요 개수",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/feed/1/like",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"feed",
+								"1",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "피드 해시태그 검색",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "피드 댓글",
+			"item": [
+				{
+					"name": "댓글 추가",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NjUyMDAzLCJleHAiOjE2OTQ2NTU2MDN9.Y4apbehmIbkUh0rzAOVbc5cNsP8df3_ZtHkhwAo_J20ExB6TzzPahXebQBUHJ_fAQPkybg_ORUyvd5U3SHYAPQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "test",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/comment/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comment",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 추가2",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NjUyMDAzLCJleHAiOjE2OTQ2NTU2MDN9.Y4apbehmIbkUh0rzAOVbc5cNsP8df3_ZtHkhwAo_J20ExB6TzzPahXebQBUHJ_fAQPkybg_ORUyvd5U3SHYAPQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "test2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/comment/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 추가3",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NjUyMDAzLCJleHAiOjE2OTQ2NTU2MDN9.Y4apbehmIbkUh0rzAOVbc5cNsP8df3_ZtHkhwAo_J20ExB6TzzPahXebQBUHJ_fAQPkybg_ORUyvd5U3SHYAPQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "test3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/comment/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 불러오기",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/comment/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comment",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 수정",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "edit",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/comment/1/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comment",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 삭제",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/comment/1/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comment",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "채팅",
+			"item": [
+				{
+					"name": "채팅방 생성",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NjU0ODEyLCJleHAiOjE2OTQ2NTg0MTJ9.iyOYy-SlBF2HJEGKkT8HvzBKcLLnwiv8p1QlcruSdGgCwP0llk5MoNqE7hOntndGePuug93Z_h8DfpNWVdWceQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "chatRoomDto",
+									"value": "{\"roomName\":\"room1\"}",
+									"contentType": "application/json",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/chat/rooms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"chat",
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "채팅방 목록",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "유저 정보 불러오기",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNjk0NjU0ODEyLCJleHAiOjE2OTQ2NTg0MTJ9.iyOYy-SlBF2HJEGKkT8HvzBKcLLnwiv8p1QlcruSdGgCwP0llk5MoNqE7hOntndGePuug93Z_h8DfpNWVdWceQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/chat/userInfo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"chat",
+								"userInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "채팅방 단독 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/chat/room/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"chat",
+								"room",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "채팅 파일 추가",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/chat/image",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"chat",
+								"image"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "뮤직플레이어",
+			"item": [
+				{
+					"name": "음악 검색",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "word",
+									"value": "DK디셈버",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/youtube/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"youtube",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "검색한 음악 재생",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/search/1/playmusic",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"search",
+								"1",
+								"playmusic"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "플레이리스트",
+			"item": [
+				{
+					"name": "검색한 음악 플레이리스트 추가",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/youtube/search/1/dkdecember/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"youtube",
+								"search",
+								"1",
+								"dkdecember",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "내 플레이리스트 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/youtube/myplaylist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"youtube",
+								"myplaylist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "내 특정 플레이리스트 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/youtube/myplaylist/newjeans2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"youtube",
+								"myplaylist",
+								"newjeans2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
