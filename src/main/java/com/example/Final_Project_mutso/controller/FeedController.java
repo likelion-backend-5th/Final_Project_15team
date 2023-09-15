@@ -11,13 +11,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +33,8 @@ public class FeedController {
     private final FeedHashtagService feedHashtagService;
     private final AuthenticationFacade authFacade;
     private final FeedRepository feedRepository;
+    private final CommentService commentService;
+    private final FeedLikeService feedLikeService;
 
     @GetMapping
     public List<FeedDto> getFeed() {
@@ -88,27 +88,18 @@ public class FeedController {
             Optional<Feed> feed = feedRepository.findById(feedId);
             if(loginedUser.getId().equals(feed.get().getUser().getId())){
                 fileService.deleteFile(feedId);
-                feedService.deleteFeed(feedId);
                 feedHashtagService.deleteFeedHashtag(feedId);
+                commentService.deleteFeedComment(feedId);
+                feedLikeService.deleteFeedLikes(feedId);
+                feedService.deleteFeedScrap(feedId);
+                feedService.deleteFeed(feedId);
             }
 
 //        return "redirect:/feed";
         }
 
-        @PostMapping("/{feedId}/like")// 좋아요 클릭
-        public ResponseEntity<String> likeFeed(
-                @PathVariable("feedId") Long feedId,
-                Authentication authentication
-    ) {
-            return feedService.likeFeed(feedId);
-        }
 
-    @GetMapping("/{feedId}/like")// 좋아요 개수
-    public int likeCnt(
-            @PathVariable("feedId") Long feedId
-    ) {
-        return feedService.getCntFeedLikes(feedId);
-    }
+
     @GetMapping("/hashSearch")
     public List<FeedListDto> searchHash(
             @RequestPart String keyword

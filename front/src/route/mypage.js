@@ -55,7 +55,6 @@ function Mypage(props) {
       .then((res) => {
         console.log(res.data);
         setData(res.data);
-        setScrap(res.data.length);
       })
       .catch((error) => {
         console.log(error);
@@ -70,6 +69,17 @@ function Mypage(props) {
         setProfileImg(res.data.profileImage);
         setFollower(res.data.followerList.length);
         console.log(following);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios
+      .get("http://localhost:8080/users/mypage/" + props.username + "/scrap")
+      .then((res) => {
+        console.log("스크랩");
+        console.log(res.data.scrapList);
+        setScrap(res.data.scrapList.length);
+        console.log(scrap);
       })
       .catch((err) => {
         console.log(err);
@@ -137,7 +147,7 @@ function Mypage(props) {
                 <td>|</td>
                 <td>{following}</td>
                 <td>|</td>
-                <td>{scrap}</td>
+                <td>{scrap ? scrap : "0"}</td>
               </tr>
             </FFS>
             <IconButton

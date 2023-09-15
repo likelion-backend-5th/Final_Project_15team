@@ -90,10 +90,13 @@ function CreateFeed(props) {
       .put("http://localhost:8080/feed/" + id, formData)
       .then((res) => {
         console.log(res.data);
+
         navigate("/feeddetail/" + id);
       })
       .catch((error) => {
         console.log(error);
+        console.log(changedPnV);
+        console.log(formData);
       });
   };
 

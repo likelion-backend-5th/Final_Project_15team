@@ -8,6 +8,7 @@ export default function Searchbox() {
   let navigate = useNavigate();
   const [search, setSearch] = useState();
   const [data, setData] = useState([]);
+  const [hash, setHash] = useState([]);
 
   useEffect(() => {
     axios

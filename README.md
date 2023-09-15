@@ -192,6 +192,17 @@ Params key: nickname, introduction value: 입력, auth bearer token 에서 토�
 
 ![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/281fad83-bf83-4ffd-9289-43d7319b87b5)
 
+  
+- 스크랩
+- Put http://localhost:8080/users/1/scrap
+users 다음에 오는 값은 피드 아이디, auth bearer token 에서 토큰 입력
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/1eda96b8-f79b-4dac-a421-f1829c5b4a5a)
+
+- 스크랩 리스트
+- Get http://localhost:8080/users/mypage/1/scrap
+mypage 다음에 오는 값은 피드 아이디, 그래서 피드 아이디에 대해 있으면 피드 타이틀이 뜨고 없으면 null
+![image](https://github.com/likelion-backend-5th/Final_Project_15team/assets/103910358/fcc61223-0fa0-4351-91b0-f311c5f2e466)
+=======
 </details>
 
 
@@ -263,7 +274,4 @@ Params key: nickname, introduction value: 입력, auth bearer token 에서 토�
   GET으로 들어온 요청들은 모두 허용(permitAll)으로설정. 그 외 편집기능들은 .authenticated() 설정하여 인증 절차를 거치도록 설정,
   인증 절차가 필요한 각 기능에 user 정보 추가 및 연결,   
   채팅같은 경우 메세지를 발행하기 전, 메세지에 대한 전처리를 수행하는 PreHandler 설정 후 InBoundChannel을 가로채서 JWT 검증 수행
-
-
-
 

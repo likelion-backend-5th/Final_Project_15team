@@ -15,11 +15,11 @@ public class Scrap {
 
 
     @ManyToOne
-    //@JoinColumn(name = "user_id")
+//    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @ManyToOne
-    //@JoinColumn(name = "feed_id")
+//    @JoinColumn(name = "feed_id")
     private Feed feed;
 
     @ManyToMany

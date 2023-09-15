@@ -11,4 +11,5 @@ public interface CommentRepository
     // CommentEntity 중 articleId가
     // id인 CommentEntity 만 반환하는 메소드
     List<Comment> findAllByFeedId(Long id);
+
 }
