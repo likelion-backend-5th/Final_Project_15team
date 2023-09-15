@@ -65,8 +65,7 @@ let Contents = styled.div`
 
 function Feeddetail(props) {
   let navigate = useNavigate();
-  const [like, setLike] = useState(false);
-  const likes = 10;
+  const [viewlike, setViewLike] = useState(false);
   const [title, setTitle] = useState();
   const [nickname, setNickname] = useState();
   const [date, setDate] = useState();
@@ -79,10 +78,13 @@ function Feeddetail(props) {
   const [rerender, setRerender] = useState();
   const [img, setImg] = useState();
   const [profileImg, setProfileImg] = useState();
+  const [like, setLike] = useState();
+  const [likeUsers, setLikeUsers] = useState([]);
   useEffect(() => {
     axios
       .get("http://localhost:8080/feed/" + id)
       .then((res) => {
+        console.log("feeddetail데이터로딩");
         console.log(res.data);
         setTitle(res.data.title);
         setNickname(res.data.user);
@@ -105,7 +107,42 @@ function Feeddetail(props) {
       .catch((err) => {
         console.log(err);
       });
+    axios
+      .get("http://localhost:8080/feed/" + id + "/like")
+      .then((res) => {
+        console.log(res.data);
+        setLike(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios
+      .get("http://localhost:8080/feed/" + id + "/likeUsers")
+      .then((res) => {
+        console.log(res.data);
+        setLikeUsers(res.data);
+        if (likeUsers.includes(props.username)) {
+          setViewLike(true);
+          console.log("좋아요된 상태");
+          console.log(viewlike);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [rerender]);
+
+  const likeFeed = () => {
+    axios
+      .post("http://localhost:8080/feed/" + id + "/like")
+      .then((res) => {
+        console.log(res);
+        setRerender(Math.random());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const deleteFeed = () => {
     axios
@@ -118,6 +155,17 @@ function Feeddetail(props) {
         console.log(error);
       });
     setAnchorEl(null);
+  };
+
+  const scrapFeed = () => {
+    axios
+      .put("http://localhost:8080/users/" + id + "/scrap")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.data);
+      });
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -197,13 +245,14 @@ function Feeddetail(props) {
                   <Icons>
                     <IconButton
                       onClick={() => {
-                        if (like) {
-                          setLike(false);
+                        if (viewlike) {
+                          setViewLike(false);
                         } else {
-                          setLike(true);
+                          setViewLike(true);
                         }
+                        likeFeed();
                       }}>
-                      {like ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
+                      {viewlike ? <ThumbUpAltIcon /> : <ThumbUpOffAltIcon />}
                     </IconButton>
                     <IconButton>
                       <AddCommentIcon
@@ -218,10 +267,10 @@ function Feeddetail(props) {
                       />
                     </IconButton>
                     <IconButton>
-                      <BookmarkAddIcon />
+                      <BookmarkAddIcon onClick={scrapFeed} />
                     </IconButton>
                   </Icons>
-                  <LikeText>{likes}명이 좋아합니다.</LikeText>
+                  <LikeText>{like}명이 좋아합니다.</LikeText>
                 </LCwrap>
                 <Title>{title}</Title>
                 <Contents>{content}</Contents>
@@ -231,7 +280,11 @@ function Feeddetail(props) {
                   })}
                 </div>
                 {viewComment ? (
-                  <Comments props={comment} id={id} setRerender={setRerender} />
+                  <Comments
+                    props={comment}
+                    feed={id}
+                    setRerender={setRerender}
+                  />
                 ) : null}
               </Paper>
             </BottomBox>
