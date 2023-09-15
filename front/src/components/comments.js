@@ -26,13 +26,16 @@ function Comments(commentData) {
     axios
       .get("http://localhost:8080/feed")
       .then((res) => {
+        console.log("코멘트 불러오기 성공");
         console.log(res.data);
         setComment(res.data[feedId - 1].comments);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("코멘트 불러오기 실패");
+        console.log(err.data);
       });
   }, [rerender]);
+
   const updateComment = () => {
     const formData = new FormData();
     formData.append("content", putComment);
@@ -42,48 +45,55 @@ function Comments(commentData) {
         formData
       )
       .then((res) => {
-        console.log(res);
+        console.log("코멘트 수정 성공");
+        console.log(res.data);
         commentData.setRerender(Math.random());
         setRerender(Math.random());
         setPutComment("");
       })
       .catch((err) => {
-        console.log(err);
+        console.log("코멘트 수정 실패");
+        console.log(err.data);
       });
-  };
-  const putCommentHandler = (e) => {
-    setPutComment(e.target.value);
   };
 
   const deleteComment = () => {
     axios
       .delete("http://localhost:8080/comment/" + feedId + "/" + commentId)
       .then((res) => {
-        console.log(res);
+        console.log("코멘트 삭제 성공");
+        console.log(res.data);
         commentData.setRerender(Math.random());
         setRerender(Math.random());
       })
       .catch((err) => {
-        console.log(err.message);
+        console.log("코멘트 삭제 실패");
+        console.log(err.data);
       });
+  };
+
+  const putCommentHandler = (e) => {
+    setPutComment(e.target.value);
   };
   const replyHandler = (e) => {
     setReply(e.target.value);
   };
+
   const sendReply = () => {
     const formData = new FormData();
     formData.append("content", reply);
     axios
       .post("http://localhost:8080/comment/" + feedId, formData)
       .then((res) => {
-        console.log("댓글 생성");
-        console.log(res);
+        console.log("댓글 생성 성공");
+        console.log(res.data);
         commentData.setRerender(Math.random());
         setRerender(Math.random());
         setReply("");
       })
       .catch((err) => {
-        console.log(err);
+        console.log("댓글 생성 실패");
+        console.log(err.data);
       });
   };
   return (
